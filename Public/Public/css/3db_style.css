@@ -165,7 +165,7 @@ input,select,a{border:0;outline:none;/*去除蓝色边框*/}
 a{color: #333333;}
 
 /*头部*/
-.fxm_header{width: 100%;height: 13vmin;background: #ff7a01;background-size: 100% 100%;position: fixed;top: 0;z-index: 1111;max-width: 640px;}
+.fxm_header{width: 100%;height: 13vmin;background: #000000;background-size: 100% 100%;position: fixed;top: 0;z-index: 1111;max-width: 640px;}
 .fxm_header .fxm_left{width: 10%;float: left;text-align: center}
 .fxm_header .fxm_left img{width: 74%;margin-top: 3vmin;}
 .fxm_header .fxm_center {width: 80%;font-size: 5vmin;color: #FFFFFF;line-height: 13vmin;text-align: center;float: left;}
