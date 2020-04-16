@@ -43,7 +43,7 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
             case Constants::STORE_TYPE_CURRENT_ASSETS : //流动资产
                 $list = self::getCurrentAssetsItems($list);
                 break;
-            case Constants::STORE_TYPE_PRODUCT_INTEGRAL : //产品积分
+            case Constants::STORE_TYPE_PRODUCT_INTEGRAL : //我的仓库
                 $list = self::getProductIntegralItems($list);
                 break;
             case Constants::STORE_TYPE_TURNOVER : //营业款账户
@@ -285,7 +285,7 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
     }
 
     /**
-     * 获取产品积分类型
+     * 获取我的仓库类型
      * @param $list
      * @return mixed
      */

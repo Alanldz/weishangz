@@ -113,7 +113,7 @@ class Constants
             self::PAY_TYPE_TWO => '可用余额',
             self::PAY_TYPE_THREE => '可用余额+流动通证',
             self::PAY_TYPE_FOUR => '可用余额+流动资产',
-            self::PAY_TYPE_FIVE => '产品积分',
+            self::PAY_TYPE_FIVE => '我的仓库',
         );
         return self::getItems($items, $key);
     }
@@ -186,7 +186,7 @@ class Constants
             self::STORE_TYPE_FEEDBACK => '回馈',
             self::STORE_TYPE_CAN_FLOW => '可用流动通证',
             self::STORE_TYPE_CURRENT_ASSETS => '流动资产',
-            self::STORE_TYPE_PRODUCT_INTEGRAL => '产品积分',
+            self::STORE_TYPE_PRODUCT_INTEGRAL => '我的仓库',
             self::STORE_TYPE_TURNOVER => '营业款账户',
         );
         return self::getItems($items, $key);

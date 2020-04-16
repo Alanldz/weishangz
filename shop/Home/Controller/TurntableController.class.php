@@ -16,7 +16,7 @@ class TurntableController extends CommonController
             $coindets[] = D('coindets')->where("cid=" . $i)->order('coin_addtime desc')->find();
         }
 
-        //当前我的资产
+        //当前我的钱包
         $moneyinfo = M('store')->where(array('uid' => $uid))->field('cangku_num,fengmi_num')->find();
 
         //我的钱包地址 没有则自动生成
@@ -768,7 +768,7 @@ class TurntableController extends CommonController
         //查询当前币对应价格名称信息
         $coindets = M('coindets')->order('coin_addtime desc,cid asc')->where(array("cid" => $cid))->find();
 
-        //当前我的资产
+        //当前我的钱包
         $minecoins = M('ucoins')->where(array('c_uid' => $uid, 'cid' => $cid))->order('id asc')->find();
         $my_yue = M('store')->where(array('uid' => $uid))->getField('cangku_num');
 
@@ -908,7 +908,7 @@ class TurntableController extends CommonController
         $coindets = M('coindets')->order('coin_addtime desc,cid asc')->where(array("cid" => $cid))->find();
 
 
-        //当前我的资产
+        //当前我的钱包
         $minecoins = M('ucoins')->where(array('c_uid' => $uid, 'cid' => $cid))->order('id asc')->find();
         $my_yue = M('store')->where(array('uid' => $uid))->getField('cangku_num');
 

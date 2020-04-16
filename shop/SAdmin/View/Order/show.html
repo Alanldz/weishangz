@@ -69,7 +69,7 @@
                                 <elseif condition="$order.pay_type eq 4"/>
                                 可用余额：{$order.ecological_total_assets} + 流动资产：{$order.flow_amount}
                                 <elseif condition="$order.pay_type eq 5"/>
-                                产品积分：{$order.product_integral}
+                                我的仓库：{$order.product_integral}
                             </if>
                         </if>
                     </td>
@@ -185,7 +185,7 @@
                                 <br/>
                                 可用余额：{$product.com_ecological_total_assets_two} + 流动资产：{$product.com_flow_amount}
                                 <br/>
-                                产品积分：{$product.com_product_integral}
+                                我的仓库：{$product.com_product_integral}
                             </if>
                         </td>
                         <td class="right">{$product['com_num']}</td>
@@ -201,7 +201,7 @@
                                 <br/>
                                 可用余额：{$product['com_ecological_total_assets_two'] * $product['com_num']} + 流动资产：{$product['com_flow_amount'] * $product['com_num']}
                                 <br/>
-                                产品积分：{$product['com_product_integral'] * $product['com_num']}
+                                我的仓库：{$product['com_product_integral'] * $product['com_num']}
                             </if>
                         </td>
                     </tr>

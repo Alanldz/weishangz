@@ -568,11 +568,11 @@ class GoodsModel extends Model
             return $error;
         }
         if (empty($data['product_integral'])) {
-            $error['message'] = '产品积分不能为空';
+            $error['message'] = '我的仓库不能为空';
             return $error;
         }
         if ($data['product_integral'] <= 0) {
-            $error['message'] = '产品积分不能小于零';
+            $error['message'] = '我的仓库不能小于零';
             return $error;
         }
 

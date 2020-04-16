@@ -195,7 +195,7 @@ class OrderModel extends Model
                 $ecological_total_assets = 0;//可用余额
                 $flow_pass_card = 0;//流动通证
                 $flow_amount = 0;//流动资产
-                $product_integral = 0;//产品积分
+                $product_integral = 0;//我的仓库
                 $freight = 0;  //运费
                 $is_duo_bao = 1;
                 $shop_type = 0; //
@@ -469,7 +469,7 @@ class OrderModel extends Model
         $ecological_total_assets = 0;//可用余额
         $flow_pass_card = 0;//流动通证
         $flow_amount = 0;//流动资产
-        $product_integral = 0;//产品积分
+        $product_integral = 0;//我的仓库
         foreach ($orderDetail as $item) {
             switch ($pay_type) {
                 case  Constants::PAY_TYPE_TWO :
@@ -521,9 +521,9 @@ class OrderModel extends Model
             StoreRecordModel::addRecord($uid, 'current_assets', -$flow_amount, Constants::STORE_TYPE_CURRENT_ASSETS, 1);
         } else {
             if ($product_integral > $storeInfo['product_integral']) {
-                throw new Exception('您的产品积分不足');
+                throw new Exception('您的我的仓库不足');
             }
-            //扣除产品积分
+            //扣除我的仓库
             StoreRecordModel::addRecord($uid, 'product_integral', -$product_integral, Constants::STORE_TYPE_PRODUCT_INTEGRAL, 1);
         }
 

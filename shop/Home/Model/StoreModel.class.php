@@ -503,7 +503,7 @@ class StoreModel extends \Common\Model\StoreModel
                 StoreRecordModel::addRecord($uid, 'flow_amount', -$release_amount, Constants::STORE_TYPE_FLOW, 1);
 
                 if ($bai_bao_flow_release_from == 1) {
-                    //增加产品积分
+                    //增加我的仓库
                     StoreRecordModel::addRecord($uid, 'product_integral', $release_amount, Constants::STORE_TYPE_PRODUCT_INTEGRAL, 0);
                 } else {
                     //增加可用余额
