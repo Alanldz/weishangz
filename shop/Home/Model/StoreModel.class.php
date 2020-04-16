@@ -506,7 +506,7 @@ class StoreModel extends \Common\Model\StoreModel
                     //增加产品积分
                     StoreRecordModel::addRecord($uid, 'product_integral', $release_amount, Constants::STORE_TYPE_PRODUCT_INTEGRAL, 0);
                 } else {
-                    //增加生态总资产
+                    //增加可用余额
                     $this->changStore($uid, 'cangku_num', $release_amount, 8);
                 }
             }
@@ -577,7 +577,7 @@ class StoreModel extends \Common\Model\StoreModel
                 //扣除百宝箱分享奖
                 StoreRecordModel::addRecord($uid, 'share_amount', -$release_amount, Constants::STORE_TYPE_SHARE_REWARD, 2);
 
-                //增加生态总资产
+                //增加可用余额
                 $this->changStore($uid, 'cangku_num', $release_amount, 22);
             }
 
@@ -615,7 +615,7 @@ class StoreModel extends \Common\Model\StoreModel
                 //扣除百宝箱绩效奖
                 StoreRecordModel::addRecord($item['uid'], 'merits_amount', -$release_amount, Constants::STORE_TYPE_MERITS_REWARD, 1);
 
-                //增加生态总资产
+                //增加可用余额
                 $this->changStore($item['uid'], 'cangku_num', $release_amount, 24);
             }
 
@@ -653,7 +653,7 @@ class StoreModel extends \Common\Model\StoreModel
                 //扣除百宝箱绩效奖
                 StoreRecordModel::addRecord($item['uid'], 'thankful_amount', -$release_amount, Constants::STORE_TYPE_THANKFUL_REWARD, 1);
 
-                //增加生态总资产
+                //增加可用余额
                 $this->changStore($item['uid'], 'cangku_num', $release_amount, 26);
             }
 

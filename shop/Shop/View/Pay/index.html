@@ -48,24 +48,24 @@
     <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">消费通证+生态总资产</br><span style="font-size: 3.5vmin;">消费通证：{$orderPrice['price']|formatNum2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生态总资产：{$orderPrice['ecological_total_assets']|formatNum2}</span></label>
+            <label style="margin-left: 10px">消费通证+可用余额</br><span style="font-size: 3.5vmin;">消费通证：{$orderPrice['price']|formatNum2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可用余额：{$orderPrice['ecological_total_assets']|formatNum2}</span></label>
             <input type="radio" name="payway" value="1" checked>
         </p>
     </if>
     <if condition="$order['shop_type'] eq 3">
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">生态总资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
+            <label style="margin-left: 10px">可用余额</br><span style="font-size: 3.5vmin;">（可用余额：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
             <input type="radio" name="payway" value="2" checked>
         </p>
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">生态总资产+流动通证</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_one'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动通证：{$orderPrice['flow_pass_card'] | formatNum2})</span></label>
+            <label style="margin-left: 10px">可用余额+流动通证</br><span style="font-size: 3.5vmin;">（可用余额：{$orderPrice['ecological_total_assets_one'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动通证：{$orderPrice['flow_pass_card'] | formatNum2})</span></label>
             <input type="radio" name="payway" value="3">
         </p>
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">生态总资产+流动资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_two'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动资产：{$orderPrice['flow_amount'] | formatNum2})</span></label>
+            <label style="margin-left: 10px">可用余额+流动资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_two'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动资产：{$orderPrice['flow_amount'] | formatNum2})</span></label>
             <input type="radio" name="payway" value="4">
         </p>
         <p>

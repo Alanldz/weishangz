@@ -763,7 +763,7 @@ class UserModel extends \Common\Model\UserModel
 
         $cangku_num = M('store')->where(['uid' => $uid])->getField('cangku_num');
         if ($cangku_num < $money) {
-            $this->error = '您的生态总资产不足，不能激活';
+            $this->error = '您的可用余额不足，不能激活';
             return false;
         }
 
@@ -772,7 +772,7 @@ class UserModel extends \Common\Model\UserModel
 
         M()->startTrans();
         try {
-            //扣除用户生态总资产
+            //扣除用户可用余额
             StoreModel::changStore($uid, 'cangku_num', -$money, 6);
 
             if ($user_info['pid']) {//给上级

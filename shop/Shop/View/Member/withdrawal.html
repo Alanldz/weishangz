@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>生态总资产提现  </title>
+    <title>可用余额提现  </title>
     <link rel="stylesheet" href="__WCSS__/style.css">
     <link rel="stylesheet" href="__WCSS__/meCen.css">
 </head>
@@ -12,7 +12,7 @@
     <div class="header_l">
         <a href="{:U('Home/User/found')}"><img src="__WIMG__/jiant.png" alt=""></a>
     </div>
-    <div class="header_c"><h2>生态总资产提现  </h2></div>
+    <div class="header_c"><h2>可用余额提现  </h2></div>
     <div class="header_r"><a href="javascript:void(0)" id="hide"><img src="__WIMG__/moer_icon.png" alt=""></a>
         <div id="p1">
             <div class="down"></div>
@@ -47,7 +47,7 @@
     <div class="pad9"></div>
     <div class="buy_aminy br-b">
         <div class="fill_sty fill_sty_bor">
-            <p style="margin-left: 0%;width: 35%;">当前生态总资产：</p>
+            <p style="margin-left: 0%;width: 35%;">当前可用余额：</p>
             <input type="text" readonly class="dhnums ecological_total_assets"  autocomplete="off" value="{$storeInfo.cangku_num}">
         </div>
         <div class="fill_sty fill_sty_bor">
@@ -112,7 +112,7 @@
         }
         var ecological_total_assets = $('.ecological_total_assets').val();
         if(amount > ecological_total_assets){
-            msg_alert('您暂时没那么多生态总资产可提现~');
+            msg_alert('您暂时没那么多可用余额可提现~');
             return;
         }
 

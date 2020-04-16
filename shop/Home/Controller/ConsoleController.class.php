@@ -14,7 +14,7 @@ class ConsoleController extends Controller
 {
 
     /**
-     * 用户激活二维码，上级，上上级获得生态总资产释放(每天晚上12点释放)
+     * 用户激活二维码，上级，上上级获得可用余额释放(每天晚上12点释放)
      * @author ldz
      * @time 2020/2/11 17:47
      */
@@ -29,7 +29,7 @@ class ConsoleController extends Controller
                 $now_nums = M('store')->where(['uid' => $tran['pay_id']])->getField('cangku_num');
                 $res = M('store')->where(['uid' => $tran['pay_id']])->setInc('cangku_num', $tran['get_nums']);
                 if (!$res) {
-                    throw new Exception('扣除生态总资产失败');
+                    throw new Exception('扣除可用余额失败');
                 }
 
                 $changeData['now_nums'] = $now_nums;
@@ -38,7 +38,7 @@ class ConsoleController extends Controller
                 $changeData['get_time'] = time();
                 $res = M('tranmoney')->where(['id' => $tran['id']])->save($changeData);
                 if (!$res) {
-                    throw new Exception('扣除生态总资产失败');
+                    throw new Exception('扣除可用余额失败');
                 }
             }
             M()->commit();

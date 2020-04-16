@@ -746,7 +746,7 @@ class IndexController extends CommonController
     }
 
     /**
-     * 生态总资产流水记录
+     * 可用余额流水记录
      */
     public function Bancerecord()
     {

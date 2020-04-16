@@ -15,10 +15,7 @@
 <div class="head" style="z-index:9999999 !important;">
     <div style="height:50px;">
         <a href="{:U('Index/index')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
-        <div class="sous">
-            <input type="text" name="store_name" value="{$search.store_name}" placeholder="搜索商家名称">
-            <a onclick="load()"><img src="__NEWSHOP__/images/shop/sous1.png" style="width:50%;"></a>
-        </div>
+        <div>E城e家</div>
     </div>
 </div>
 <div class="whole">
@@ -47,17 +44,13 @@
         <if condition="$list">
             <foreach name="list" item="vo" key="k">
                 <div class="q-all">
-                    <div class="all-list1"><img src="{$vo.store_phone}"></div>
-                    <div class="all-list2">
+                     <div class="all-list2">
                         <h2>{$vo.store_name}
-                            <!--<em>大约365m</em>-->
-                        </h2>
+                         </h2>
                         <p>{$vo.province_id}{$vo['city_id']}{$vo['country_id']}{$vo['shore_address']}</p>
                         <p>营业时间：{$vo.business_hours}</p>
                         <p>{$vo.buy_num}人消费</p>
-                        <strong>
-                            <a href="{:U('Index/storeDetail',array('id'=>$vo['id']))}"><p style="width: 50%">详情</p></a>
-                        </strong></div>
+                        </div>
                 </div>
             </foreach>
             <else/>

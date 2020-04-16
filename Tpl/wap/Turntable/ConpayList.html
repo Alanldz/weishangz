@@ -57,7 +57,7 @@
                                 <p style="height: 110px;">微信二维码：<img style="width: 100px;height: 100px;float: right;" src="{$v['pay_img']}"></p>
                         </if>
                         <p>应付金额：<span>{$v['num']}RMB</span></p>
-                        <p>交易类型：<span><if condition="$v['sell_type'] eq 1">生态总资产交易<else/>消费通证交易</if></span></p>
+                        <p>交易类型：<span><if condition="$v['sell_type'] eq 1">可用余额交易<else/>消费通证交易</if></span></p>
                         <p>{$Think.lang.zt}：<span class="acco_con_spana">
 						<if condition="$v['status'] == 1">
                                 {$Think.lang.qrdk}

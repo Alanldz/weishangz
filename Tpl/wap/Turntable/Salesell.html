@@ -25,12 +25,12 @@
         <div class="fill_styaa">
             <p style="width: 36%">卖出类型：</p>
             <select id="sell_way" style="width: 55%;height: 46px; margin-left: -50px;appearance:none;-moz-appearance:none; -webkit-appearance:none; border: 0;">
-                <option value="1">生态总资产交易</option>
+                <option value="1">可用余额交易</option>
                 <option value="2">消费通证交易</option>
             </select>
         </div>
         <div class="fill_styaa">
-            <p style="width: 34%" class="now_sell_type_text">当前生态总资产：</p>
+            <p style="width: 34%" class="now_sell_type_text">当前可用余额：</p>
             <input type="text" id="other_account" name="other_account" readonly value="{$storeInfo[cangku_num]|default=" 0.00"}" class="lanse" >
         </div>
         <center>
@@ -146,7 +146,7 @@
         if(parseFloat(total_num) > parseFloat(other_account)){
             $('#num').focus();
             if(sell_way == 1){
-                msg_alert('您的生态总资产不足');
+                msg_alert('您的可用余额不足');
             }else {
                 msg_alert('您的消费通证不足');
             }
@@ -193,7 +193,7 @@
     $('#sell_way').change(function () {
         var type = $(this).val();
         if(type == 1){
-            $('.now_sell_type_text').html('当前生态总资产：');
+            $('.now_sell_type_text').html('当前可用余额：');
             $('#other_account').val("{$storeInfo['cangku_num']}");
         }else {
             $('.now_sell_type_text').html('当前消费通证：');

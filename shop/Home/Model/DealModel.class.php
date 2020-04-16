@@ -135,7 +135,7 @@ class DealModel extends ModelModel
         try {
             if ($sell_way == 1) {
                 $fields = 'cangku_num';
-                $fields_name = '生态总资产';
+                $fields_name = '可用余额';
                 $get_type = 0;
                 $now_nums = $storeInfo['cangku_num'];
                 $now_nums_get = $storeInfo['cangku_num'] - $total_num;
@@ -354,7 +354,7 @@ class DealModel extends ModelModel
             //卖家得到
             if ($deals_info['sell_type'] == 1) {
                 $fields = 'cangku_num';
-                $fields_name = '生态总资产';
+                $fields_name = '可用余额';
                 $get_type = 4;
                 $now_nums = $storeInfo['cangku_num'];
                 $now_nums_get = $storeInfo['cangku_num'] + $deals_info['num'];
@@ -384,7 +384,7 @@ class DealModel extends ModelModel
 
             $res = M('tranmoney')->add($sellTranRecord);
             if (!$res) {
-                throw new Exception('添加生态总资产记录');
+                throw new Exception('添加可用余额记录');
             }
 
             //修改订单状态

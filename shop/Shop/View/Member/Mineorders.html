@@ -52,19 +52,19 @@
                             <p>
                                 <if condition="$order['status'] eq 0">
                                     <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                        消费通证：{$detail.com_price}<br/> 生态总资产：{$detail.com_ecological_total_assets}
+                                        消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
                                         <else/>
-                                        生态总资产：{$detail.com_ecological_total_assets}
+                                        可用余额：{$detail.com_ecological_total_assets}
                                     </if>
                                     <else/>
                                     <if condition="$order.pay_type eq 1">
-                                        消费通证：{$detail.com_price}<br/> 生态总资产：{$detail.com_ecological_total_assets}
+                                        消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
                                         <elseif condition="$order.pay_type eq 2"/>
-                                        生态总资产：{$detail.com_ecological_total_assets}
+                                        可用余额：{$detail.com_ecological_total_assets}
                                         <elseif condition="$order.pay_type eq 3"/>
-                                        生态总资产：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
+                                        可用余额：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
                                         <elseif condition="$order.pay_type eq 4"/>
-                                        生态总资产：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
+                                        可用余额：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
                                         <elseif condition="$order.pay_type eq 5"/>
                                         产品积分：{$detail.com_product_integral}
                                     </if>
@@ -82,19 +82,19 @@
               <span>合计：
                  <if condition="$order['status'] eq 0">
                      <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                          消费通证：{$order.buy_price}<br/> 生态总资产：{$order.ecological_total_assets}
+                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
                          <else/>
-                         生态总资产：{$order.ecological_total_assets}
+                         可用余额：{$order.ecological_total_assets}
                      </if>
                      <else/>
                      <if condition="$order.pay_type eq 1">
-                          消费通证：{$order.buy_price}<br/> 生态总资产：{$order.ecological_total_assets}
+                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
                           <elseif condition="$order.pay_type eq 2"/>
-                          生态总资产：{$order.ecological_total_assets}
+                          可用余额：{$order.ecological_total_assets}
                           <elseif condition="$order.pay_type eq 3"/>
-                          生态总资产：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
+                          可用余额：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
                           <elseif condition="$order.pay_type eq 4"/>
-                          生态总资产：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
+                          可用余额：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
                           <elseif condition="$order.pay_type eq 5"/>
                           产品积分：{$order.product_integral}
                       </if>
