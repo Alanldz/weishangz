@@ -55,19 +55,19 @@
                     <td>
                         <if condition="$order['status'] eq 0">
                             <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$order.buy_price} + 生态总资产：{$order.ecological_total_assets}
+                                消费通证：{$order.buy_price} + 可用余额：{$order.ecological_total_assets}
                                 <else/>
-                                生态总资产：{$order.ecological_total_assets}
+                                可用余额：{$order.ecological_total_assets}
                             </if>
                             <else/>
                             <if condition="$order.pay_type eq 1">
-                                消费通证：{$order.buy_price} + 生态总资产：{$order.ecological_total_assets}
+                                消费通证：{$order.buy_price} + 可用余额：{$order.ecological_total_assets}
                                 <elseif condition="$order.pay_type eq 2 or $order.pay_type eq 6"/>
-                                生态总资产：{$order.ecological_total_assets}
+                                可用余额：{$order.ecological_total_assets}
                                 <elseif condition="$order.pay_type eq 3"/>
-                                生态总资产：{$order.ecological_total_assets} + 流动通证：{$order.flow_pass_card}
+                                可用余额：{$order.ecological_total_assets} + 流动通证：{$order.flow_pass_card}
                                 <elseif condition="$order.pay_type eq 4"/>
-                                生态总资产：{$order.ecological_total_assets} + 流动资产：{$order.flow_amount}
+                                可用余额：{$order.ecological_total_assets} + 流动资产：{$order.flow_amount}
                                 <elseif condition="$order.pay_type eq 5"/>
                                 产品积分：{$order.product_integral}
                             </if>
@@ -175,15 +175,15 @@
                         <!--<td class="right">{$product['size']}+{$product['color']}</td>-->
                         <td class="right">
                             <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$product.com_price} + 生态总资产：{$product.com_ecological_total_assets}
+                                消费通证：{$product.com_price} + 可用余额：{$product.com_ecological_total_assets}
                                 <elseif condition="$order['shop_type'] eq 6"/>
-                                生态总资产：{$product.com_ecological_total_assets}
+                                可用余额：{$product.com_ecological_total_assets}
                                 <else/>
-                                生态总资产：{$product.com_ecological_total_assets}
+                                可用余额：{$product.com_ecological_total_assets}
                                 <br/>
-                                生态总资产：{$product.com_ecological_total_assets_one} + 流动通证：{$product.com_flow_pass_card}
+                                可用余额：{$product.com_ecological_total_assets_one} + 流动通证：{$product.com_flow_pass_card}
                                 <br/>
-                                生态总资产：{$product.com_ecological_total_assets_two} + 流动资产：{$product.com_flow_amount}
+                                可用余额：{$product.com_ecological_total_assets_two} + 流动资产：{$product.com_flow_amount}
                                 <br/>
                                 产品积分：{$product.com_product_integral}
                             </if>
@@ -191,15 +191,15 @@
                         <td class="right">{$product['com_num']}</td>
                         <td class="right">
                             <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$product['com_price'] * $product['com_num']} + 生态总资产：{$product['com_ecological_total_assets'] * $product['com_num']}
+                                消费通证：{$product['com_price'] * $product['com_num']} + 可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
                                 <elseif condition="$order['shop_type'] eq 6"/>
-                                生态总资产：{$product['com_ecological_total_assets'] * $product['com_num']}
+                                可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
                             <else/>
-                                生态总资产：{$product['com_ecological_total_assets'] * $product['com_num']}
+                                可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
                                 <br/>
-                                生态总资产：{$product['com_ecological_total_assets_one'] * $product['com_num']} + 流动通证：{$product['com_flow_pass_card'] * $product['com_num']}
+                                可用余额：{$product['com_ecological_total_assets_one'] * $product['com_num']} + 流动通证：{$product['com_flow_pass_card'] * $product['com_num']}
                                 <br/>
-                                生态总资产：{$product['com_ecological_total_assets_two'] * $product['com_num']} + 流动资产：{$product['com_flow_amount'] * $product['com_num']}
+                                可用余额：{$product['com_ecological_total_assets_two'] * $product['com_num']} + 流动资产：{$product['com_flow_amount'] * $product['com_num']}
                                 <br/>
                                 产品积分：{$product['com_product_integral'] * $product['com_num']}
                             </if>

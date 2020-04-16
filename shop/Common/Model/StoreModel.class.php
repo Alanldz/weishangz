@@ -9,7 +9,7 @@ class StoreModel extends ModelModel
     protected $tableName = 'store';
 
     /**
-     * 修改钱包中的生态总资产，消费通证
+     * 修改钱包中的可用余额，消费通证
      * @param $uid
      * @param $fields
      * @param $num

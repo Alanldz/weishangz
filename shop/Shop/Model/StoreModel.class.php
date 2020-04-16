@@ -567,7 +567,7 @@ class StoreModel extends \Common\Model\StoreModel
     }
 
     /**
-     * 生态总资产提现
+     * 可用余额提现
      * @return bool
      */
     public function withdrawal()
@@ -607,13 +607,13 @@ class StoreModel extends \Common\Model\StoreModel
         }
         $storeInfo = M('store')->where(['uid' => $uid])->field('cangku_num')->find();
         if ($amount > $storeInfo['cangku_num']) {
-            $this->error = '您的生态总资产不足提现的金额';
+            $this->error = '您的可用余额不足提现的金额';
             return false;
         }
 
         try {
             M()->startTrans();
-            //扣除生态总资产
+            //扣除可用余额
             $this->changStore($uid, 'cangku_num', -$amount, 18);
             $fee_ratio = M('config')->where(['name' => 'withdrawal_ratio'])->getField('value');
             $poundage = formatNum2($fee_ratio * $amount);
@@ -712,7 +712,7 @@ class StoreModel extends \Common\Model\StoreModel
     }
 
     /**
-     * 兑换(生态总资产兑换消费通证)
+     * 兑换(可用余额兑换消费通证)
      * @return bool
      */
     public function exchange()
@@ -743,12 +743,12 @@ class StoreModel extends \Common\Model\StoreModel
         $fee_ratio = M('config')->where(['name' => 'ecology_to_bao_dan_fee_ratio'])->getField('value');
         $ecology_amount = $amount * (1 + $fee_ratio);
         if ($ecology_amount > $cangku_num) {
-            $this->error = '您的生态总资产不足';
+            $this->error = '您的可用余额不足';
             return false;
         }
         try {
             M()->startTrans();
-            //扣除生态总资产
+            //扣除可用余额
             StoreModel::changStore($uid, 'cangku_num', -$ecology_amount, 10);
             //添加消费通证
             StoreModel::changStore($uid, 'fengmi_num', $amount, 9);
@@ -762,7 +762,7 @@ class StoreModel extends \Common\Model\StoreModel
     }
 
     /**
-     * 兑换(生态通证兑换生态总资产)
+     * 兑换(生态通证兑换可用余额)
      * @return bool
      */
     public function exchangeTwo()
@@ -807,7 +807,7 @@ class StoreModel extends \Common\Model\StoreModel
             }
             //扣除生态通证
             UcoinsModel::addRecord($uid, -$amount, 2);
-            //添加生态总资产
+            //添加可用余额
             StoreModel::changStore($uid, 'cangku_num', $exchange_num, 14);
             M()->commit();
             return true;
@@ -883,9 +883,9 @@ class StoreModel extends \Common\Model\StoreModel
                 $fee_ratio = M('config')->where(['name' => 'transfer_accounts_fee_ratio'])->getField('value');
                 $deduct_amount = $amount * (1 + $fee_ratio);
                 if ($deduct_amount > $storeInfo['cangku_num']) {
-                    throw new Exception('您的生态总资产不足兑换数量，请重新输入');
+                    throw new Exception('您的可用余额不足兑换数量，请重新输入');
                 }
-                //用户扣除生态总资产
+                //用户扣除可用余额
                 StoreModel::changStore($uid, 'cangku_num', -$deduct_amount, 12, 1, $transfer_user_id);
                 //对方账户获得消费通证
                 StoreModel::changStore($transfer_user_id, 'cangku_num', $amount, 12, 1, $uid);

@@ -192,7 +192,7 @@ class OrderModel extends Model
                 $orderIDs[] = $order_id;
                 $relation_id = $relation_id . $order_id . "|";
                 $total_price = 0;  //总金额（默认price总金额）
-                $ecological_total_assets = 0;//生态总资产
+                $ecological_total_assets = 0;//可用余额
                 $flow_pass_card = 0;//流动通证
                 $flow_amount = 0;//流动资产
                 $product_integral = 0;//产品积分
@@ -370,12 +370,12 @@ class OrderModel extends Model
             throw new Exception('您的消费通证不足');
         }
         if ($order['ecological_total_assets'] > $storeInfo['cangku_num']) {
-            throw new Exception('您的生态总资产不足');
+            throw new Exception('您的可用余额不足');
         }
 
         //扣除消费通证
         StoreModel::changStore($uid, 'fengmi_num', -$order['buy_price'], 7);
-        //扣除生态总资产
+        //扣除可用余额
         StoreModel::changStore($uid, 'cangku_num', -$order['ecological_total_assets'], 16);
         //添加锁仓通证
         $this->addLockWarehouse($uid, $order['order_id']);
@@ -432,12 +432,12 @@ class OrderModel extends Model
             throw new Exception('您的消费通证不足');
         }
         if ($order['ecological_total_assets'] > $storeInfo['cangku_num']) {
-            throw new Exception('您的生态总资产不足');
+            throw new Exception('您的可用余额不足');
         }
 
         //扣除消费通证
         StoreModel::changStore($uid, 'fengmi_num', -$order['buy_price'], 7);
-        //扣除生态总资产
+        //扣除可用余额
         StoreModel::changStore($uid, 'cangku_num', -$order['ecological_total_assets'], 16);
         //减少用户兑换额
         $this->reduceMultipleRatio($uid, $total_price);
@@ -466,7 +466,7 @@ class OrderModel extends Model
             throw new Exception('您选择的支付方式不存在，请重选');
         }
 
-        $ecological_total_assets = 0;//生态总资产
+        $ecological_total_assets = 0;//可用余额
         $flow_pass_card = 0;//流动通证
         $flow_amount = 0;//流动资产
         $product_integral = 0;//产品积分
@@ -492,30 +492,30 @@ class OrderModel extends Model
         $storeInfo = M('store')->where(['uid' => $uid])->field('cangku_num,can_flow_amount,current_assets,product_integral')->find();
         if ($pay_type == Constants::PAY_TYPE_TWO) {
             if ($ecological_total_assets > $storeInfo['cangku_num']) {
-                throw new Exception('您的生态总资产不足');
+                throw new Exception('您的可用余额不足');
             }
-            //扣除生态总资产
+            //扣除可用余额
             StoreModel::changStore($uid, 'cangku_num', -$ecological_total_assets, 16);
         } elseif ($pay_type == Constants::PAY_TYPE_THREE) {
             if ($ecological_total_assets > $storeInfo['cangku_num']) {
-                throw new Exception('您的生态总资产不足');
+                throw new Exception('您的可用余额不足');
             }
             if ($flow_pass_card > $storeInfo['can_flow_amount']) {
                 throw new Exception('您的流动通证不足');
             }
 
-            //扣除生态总资产
+            //扣除可用余额
             StoreModel::changStore($uid, 'cangku_num', -$ecological_total_assets, 16);
             //扣除流动通证
             StoreRecordModel::addRecord($uid, 'can_flow_amount', -$flow_pass_card, Constants::STORE_TYPE_CAN_FLOW, 5);
         } elseif ($pay_type == Constants::PAY_TYPE_FOUR) {
             if ($ecological_total_assets > $storeInfo['cangku_num']) {
-                throw new Exception('您的生态总资产不足');
+                throw new Exception('您的可用余额不足');
             }
             if ($flow_amount > $storeInfo['current_assets']) {
                 throw new Exception('您的流动资产不足');
             }
-            //扣除生态总资产
+            //扣除可用余额
             StoreModel::changStore($uid, 'cangku_num', -$ecological_total_assets, 16);
             //扣除流动资产
             StoreRecordModel::addRecord($uid, 'current_assets', -$flow_amount, Constants::STORE_TYPE_CURRENT_ASSETS, 1);
@@ -556,10 +556,10 @@ class OrderModel extends Model
         $storeInfo = M('store')->where(['uid' => $uid])->field('cangku_num')->find();
 
         if ($order['ecological_total_assets'] > $storeInfo['cangku_num']) {
-            throw new Exception('您的生态总资产不足');
+            throw new Exception('您的可用余额不足');
         }
 
-        //扣除生态总资产
+        //扣除可用余额
         StoreModel::changStore($uid, 'cangku_num', -$order['ecological_total_assets'], 16);
     }
 

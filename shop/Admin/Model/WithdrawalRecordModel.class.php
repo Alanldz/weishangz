@@ -39,7 +39,7 @@ class WithdrawalRecordModel extends ModelModel
             if (!$res) {
                 throw new Exception('删除失败');
             }
-            //给用户加回生态总资产
+            //给用户加回可用余额
             StoreModel::changStore($withdrawal_record['uid'], 'cangku_num', $withdrawal_record['amount'], 20);
 
             M()->commit();

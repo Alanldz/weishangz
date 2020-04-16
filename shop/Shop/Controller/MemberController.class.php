@@ -463,7 +463,7 @@ class MemberController extends CommonController
     }
 
     /**
-     * 生态总资产提现
+     * 可用余额提现
      */
     public function withdrawal()
     {
@@ -579,7 +579,7 @@ class MemberController extends CommonController
     }
 
     /**
-     * 兑换(生态总资产兑换消费通证)
+     * 兑换(可用余额兑换消费通证)
      */
     public function exchange()
     {
@@ -602,7 +602,7 @@ class MemberController extends CommonController
     }
 
     /**
-     * 兑换(生态通证兑换生态总资产)
+     * 兑换(生态通证兑换可用余额)
      */
     public function exchangeTwo()
     {

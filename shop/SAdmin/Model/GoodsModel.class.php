@@ -502,11 +502,11 @@ class GoodsModel extends Model
         }
 
         if (empty($data['ecological_total_assets'])) {
-            $error['message'] = '生态总资产不能为空';
+            $error['message'] = '可用余额不能为空';
             return $error;
         }
         if ($data['ecological_total_assets'] <= 0) {
-            $error['message'] = '生态总资产不能小于零';
+            $error['message'] = '可用余额不能小于零';
             return $error;
         }
 
@@ -543,11 +543,11 @@ class GoodsModel extends Model
         }
 
         if (empty($data['ecological_total_assets']) || empty($data['ecological_total_assets_one']) || empty($data['ecological_total_assets_two'])) {
-            $error['message'] = '生态总资产不能为空';
+            $error['message'] = '可用余额不能为空';
             return $error;
         }
         if ($data['ecological_total_assets'] <= 0 || $data['ecological_total_assets_one'] <= 0 || $data['ecological_total_assets_two'] <= 0) {
-            $error['message'] = '生态总资产不能小于零';
+            $error['message'] = '可用余额不能小于零';
             return $error;
         }
 
@@ -593,11 +593,11 @@ class GoodsModel extends Model
 
         $error = array('status' => 'back');
         if (empty($data['ecological_total_assets'])) {
-            $error['message'] = '生态总资产不能为空';
+            $error['message'] = '可用余额不能为空';
             return $error;
         }
         if ($data['ecological_total_assets'] <= 0) {
-            $error['message'] = '生态总资产不能小于零';
+            $error['message'] = '可用余额不能小于零';
             return $error;
         }
         return [];

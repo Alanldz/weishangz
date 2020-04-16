@@ -159,7 +159,7 @@
                                                     <label>
                                                         <input type="radio" class="radio" name="config[bai_bao_flow_release_from]" value="0" <eq name="data['bai_bao_flow_release_from']" value='0' > checked="true"</eq> >
                                                         <span class="cui-control-indicator"></span>
-                                                        <span>生态总资产</span>
+                                                        <span>可用余额</span>
                                                     </label>
                                                 </div>
                                                 <div class="radio-inline cui-control cui-radio">
@@ -192,21 +192,21 @@
                                 <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setExchangeTransfer">
                                     <div class="form-type-list">
                                         <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">生态总资产兑换消费通证手续费比例：</label>
+                                            <label class="left control-label">可用余额兑换消费通证手续费比例：</label>
                                             <div style="width:310px" class="input-group">
                                                 <input type="number" style="width:200px" name="config[ecology_to_bao_dan_fee_ratio]" class="form-control" value="{$data['ecology_to_bao_dan_fee_ratio']}">
                                             </div>
                                         </div>
 
                                         <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">消费通证,生态总资产互转手续费比例：</label>
+                                            <label class="left control-label">消费通证,可用余额互转手续费比例：</label>
                                             <div style="width:310px" class="input-group">
                                                 <input type="number" style="width:200px" name="config[transfer_accounts_fee_ratio]" class="form-control" value="{$data['transfer_accounts_fee_ratio']}">
                                             </div>
                                         </div>
 
                                         <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">生态总资产提现手续费比例：</label>
+                                            <label class="left control-label">可用余额提现手续费比例：</label>
                                             <div style="width:310px" class="input-group">
                                                 <input type="number" style="width:200px" name="config[withdrawal_ratio]" class="form-control" value="{$data['withdrawal_ratio']}">
                                             </div>

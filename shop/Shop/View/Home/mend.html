@@ -35,9 +35,9 @@
                         <p class="yihang block center font12 c33 hidden">
                             <if condition="$product.shop_type eq 1 or $product.shop_type eq 2">
                                 <span class="left c_33"><font class="red">消费通证：{$product.price}</font></span>
-                                <span class="left c_33"><font class="red">生态总资产：{$product.ecological_total_assets}</font></span>
+                                <span class="left c_33"><font class="red">可用余额：{$product.ecological_total_assets}</font></span>
                                 <elseif condition="$product.shop_type eq 3 or $product.shop_type eq 6" />
-                                <span class="left c_33"><font class="red">生态总资产：{$product.ecological_total_assets}</font></span>
+                                <span class="left c_33"><font class="red">可用余额：{$product.ecological_total_assets}</font></span>
                             </if>
                             <span class="right c_33">
                                  <font class="font12 red"></font>

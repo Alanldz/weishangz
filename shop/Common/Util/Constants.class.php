@@ -109,10 +109,10 @@ class Constants
     {
         $items = array(
             self::PAY_TYPE_ZERO => '未选择',
-            self::PAY_TYPE_ONE => '消费通证+生态总资产',
-            self::PAY_TYPE_TWO => '生态总资产',
-            self::PAY_TYPE_THREE => '生态总资产+流动通证',
-            self::PAY_TYPE_FOUR => '生态总资产+流动资产',
+            self::PAY_TYPE_ONE => '消费通证+可用余额',
+            self::PAY_TYPE_TWO => '可用余额',
+            self::PAY_TYPE_THREE => '可用余额+流动通证',
+            self::PAY_TYPE_FOUR => '可用余额+流动资产',
             self::PAY_TYPE_FIVE => '产品积分',
         );
         return self::getItems($items, $key);
@@ -242,7 +242,7 @@ class Constants
     public static function getWithdrawalTypeItems($key = null)
     {
         $items = array(
-            self::WITHDRAWAL_TYPE_ECOLOGY => '生态总资产提现',
+            self::WITHDRAWAL_TYPE_ECOLOGY => '可用余额提现',
             self::WITHDRAWAL_TYPE_TURNOVER => '营业款提现',
         );
         return self::getItems($items, $key);

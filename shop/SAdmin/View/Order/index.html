@@ -54,19 +54,19 @@
 							<td>
 								<if condition="$v['status'] eq 0">
 									<if condition="$v['shop_type'] eq 1 or $v['shop_type'] eq 2">
-										消费通证：{$v.buy_price} + 生态总资产：{$v.ecological_total_assets}
+										消费通证：{$v.buy_price} + 可用余额：{$v.ecological_total_assets}
 										<else/>
-										生态总资产：{$v.ecological_total_assets}
+										可用余额：{$v.ecological_total_assets}
 									</if>
 									<else/>
 									<if condition="$v.pay_type eq 1">
-										消费通证：{$v.buy_price} + 生态总资产：{$v.ecological_total_assets}
+										消费通证：{$v.buy_price} + 可用余额：{$v.ecological_total_assets}
 										<elseif condition="$v.pay_type eq 2 or $v.pay_type eq 6"/>
-										生态总资产：{$v.ecological_total_assets}
+										可用余额：{$v.ecological_total_assets}
 										<elseif condition="$v.pay_type eq 3"/>
-										生态总资产：{$v.ecological_total_assets} + 流动通证：{$v.flow_pass_card}
+										可用余额：{$v.ecological_total_assets} + 流动通证：{$v.flow_pass_card}
 										<elseif condition="$v.pay_type eq 4"/>
-										生态总资产：{$v.ecological_total_assets} + 流动资产：{$v.flow_amount}
+										可用余额：{$v.ecological_total_assets} + 流动资产：{$v.flow_amount}
 										<elseif condition="$v.pay_type eq 5"/>
 										产品积分：{$v.product_integral}
 									</if>

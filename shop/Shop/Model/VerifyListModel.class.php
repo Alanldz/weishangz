@@ -326,9 +326,9 @@ class VerifyListModel extends ModelModel
 
             $storeInfo = M('store')->where(['uid' => $user_id])->field('cangku_num')->find();
             if ($amount > $storeInfo['cangku_num']) {
-                throw new Exception('您的生态总资产不足');
+                throw new Exception('您的可用余额不足');
             }
-            //扣除生态总资产
+            //扣除可用余额
             StoreModel::changStore($user_id, 'cangku_num', -$amount, 30);
             //增加营业账户
             StoreRecordModel::addRecord($info['uid'], 'turnover', $amount, Constants::STORE_TYPE_TURNOVER, 0, $user_id);

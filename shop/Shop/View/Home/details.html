@@ -87,10 +87,10 @@
         <p class="jg">
             <if condition="$product.shop_type eq 1 or $product.shop_type eq 2">
                 消费通证：{$product['price']}<br/>
-                生态总资产：{$product['ecological_total_assets']}
+                可用余额：{$product['ecological_total_assets']}
             </if>
             <if condition="$product.shop_type eq 3 or $product.shop_type eq 6">
-                生态总资产：{$product['ecological_total_assets']}
+                可用余额：{$product['ecological_total_assets']}
             </if>
         </p>
     </div>

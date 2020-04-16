@@ -23,12 +23,12 @@
     <div class="fill_sty">
         <p>转账类型：</p>
         <select name="type" class="select_style">
-            <option value="cangku_num">生态总资产</option>
+            <option value="cangku_num">可用余额</option>
             <option value="fengmi_num">消费通证</option>
         </select>
     </div>
     <div class="fill_sty">
-        <p style="width: 25%;" class="user_money_text">生态总资产：</p>
+        <p style="width: 25%;" class="user_money_text">可用余额：</p>
         <input type="text" readonly class="user_money" value="{$userInfo.cangku_num}">
     </div>
     <div class="fill_sty">
@@ -66,7 +66,7 @@
             is_show = 0;
         } else {
             user_money = "{$userInfo.cangku_num}";
-            user_money_text = '生态总资产：';
+            user_money_text = '可用余额：';
         }
 
         $('.user_money_text').html(user_money_text);

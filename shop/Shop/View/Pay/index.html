@@ -65,7 +65,7 @@
         </p>
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">可用余额+流动资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_two'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动资产：{$orderPrice['flow_amount'] | formatNum2})</span></label>
+            <label style="margin-left: 10px">可用余额+流动资产</br><span style="font-size: 3.5vmin;">（可用余额：{$orderPrice['ecological_total_assets_two'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动资产：{$orderPrice['flow_amount'] | formatNum2})</span></label>
             <input type="radio" name="payway" value="4">
         </p>
         <p>
@@ -77,7 +77,7 @@
     <if condition="$order['shop_type'] eq 6">
         <p>
             <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
-            <label style="margin-left: 10px">生态总资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
+            <label style="margin-left: 10px">可用余额</br><span style="font-size: 3.5vmin;">（可用余额：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
             <input type="radio" name="payway" value="2" checked>
         </p>
     </if>
