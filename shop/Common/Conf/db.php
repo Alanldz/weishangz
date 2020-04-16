@@ -12,11 +12,11 @@ return array(
 
     'DB_HOST'   => '127.0.0.1', // 服务器地址
 
-    'DB_NAME'   => 'daokeqi2', // 数据库名
+    'DB_NAME'   => 'weishangz_attyw', // 数据库名
 
-    'DB_USER'   => 'daokeqi2', // 用户名
+    'DB_USER'   => 'weishangz_attyw', // 用户名
 
-    'DB_PWD'    => 'daokeqiroot', // 密码
+    'DB_PWD'    => 'HX4YHffNWEx5ZnyA', // 密码
 
     'DB_PORT'   => 3306, // 端口
 
