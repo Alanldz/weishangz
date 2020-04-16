@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>生态通证兑换生态总资产</title>
+    <link rel="stylesheet" href="__WCSS__/style.css">
+    <link rel="stylesheet" href="__WCSS__/meCen.css">
+</head>
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('Home/Index/index')}"><img src="__WIMG__/jiant.png"></a>
+    </div>
+    <div class="header_c"><h2>生态通证兑换生态总资产</h2></div>
+</div>
+
+<div class="big_width100">
+    <div class="fill_sty" id="changeContent">
+        <div>
+            <p style="padding-bottom:0px; width: 35%">当前生态通证：</p>
+            <input style="width: 60%" type="text" readonly autocomplete="off" class="pass_card_amount" value="{$userInfo['pass_card_amount']}">
+        </div>
+        <div>
+            <p style="padding-bottom:0px; width: 35%">当前生态总资产：</p>
+            <input style="width: 60%" type="text" readonly autocomplete="off" class="cangku_num" value="{$userInfo['cangku_num']}">
+        </div>
+        <div id="moneysChange">
+            <p style="padding-bottom:0px;width: 35%">当前兑换额度：</p>
+            <input style="width: 60%" type="text" readonly autocomplete="off" class="current_exchange_amount" value="{$userInfo['exchange_amount']}">
+        </div>
+    </div>
+    <input type="hidden" class="coin_price" value="{$coin_price}">
+    <div class="fill_sty">
+        <p>兑换数量：</p>
+        <input type="number" name="amount" class="amount" placeholder="请输入兑换数量" autocomplete="off">
+    </div>
+    <div class="fill_sty">
+        <p style="width: 30%;">所需兑换额度：</p>
+        <input type="text" class="exchange_num" readonly value="">
+    </div>
+    <div class="fill_sty">
+        <p>交易密码：</p>
+        <input type="password" name="safety_pwd" placeholder="输入交易密码" autocomplete="off">
+    </div>
+    <div class="buttonGeoup">
+        <a href="JavaScript:void(0)" class="not_next" id="submit-exchange">提交兑换</a>
+    </div>
+</div>
+<script type="text/javascript" src="__WJS__/jquery1.11.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+    $('.amount').blur(function () {
+        var amount = parseInt($(this).val());
+        var exg = /^[1-9]\d*|0$/;
+        if (!exg.test(amount) || amount < 0) {
+            amount = 0;
+        }
+        $(this).val(amount);
+        var coin_price = $('.coin_price').val();
+        var exchange_num = amount * coin_price;
+        $('.exchange_num').val(exchange_num);
+    });
+
+    $('#submit-exchange').on('click', function () {
+        var amount = parseInt($.trim($('.amount').val()));
+        var exg = /^[1-9]\d*|0$/;
+        if (!exg.test(amount) || amount <= 0) {
+            msg_alert('请输入兑换金额~');
+            return;
+        }
+        var pass_card_amount = $('.pass_card_amount').val();
+        if (amount > parseFloat(pass_card_amount)) {
+            msg_alert('您的生态通证不足兑换数量');
+            return;
+        }
+
+        var coin_price = $('.coin_price').val();
+        var current_exchange_amount = parseFloat($('.current_exchange_amount').val());
+        var exchange_num = parseFloat(amount * coin_price);
+        if (exchange_num > current_exchange_amount) {
+            msg_alert('您的兑换额度不足所需兑换额度');
+            return;
+        }
+
+        var safety_pwd = $.trim($('input[name=safety_pwd]').val());
+        if (safety_pwd === '') {
+            msg_alert('请输入交易密码~');
+            return;
+        }
+
+        var is_ajax = $('#submit-exchange').hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作~');
+            return;
+        }
+        $('#submit-exchange').addClass('is_ajax');
+
+        //ajax操作g
+        $.ajax({
+            url: "{:U('Shop/member/exchangeTwo')}",
+            type: 'post',
+            data: {'amount': amount, 'safety_pwd': safety_pwd},
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status) {
+                    msg_alert(mes.msg);
+                    window.location.reload();
+                } else {
+                    msg_alert(mes.msg);
+                    $('#submit-exchange').removeClass('is_ajax');
+                }
+            }
+        })
+    });
+</script>
+
+</body>
+</html>

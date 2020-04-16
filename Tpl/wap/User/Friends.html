@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-11 ios-11-0 ios-gt-10 ios-gt-9 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+
+	<head>
+		<!-- meta标签设置-->
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<!-- app标题 -->
+		<title>市场</title>
+		<!-- 使用iOS CSS主题样式-->
+
+		<script type="text/javascript" charset="utf-8">
+			var browser = {
+				versions: function() {
+					var u = navigator.userAgent,
+						app = navigator.appVersion;
+					return { //移动终端浏览器版本信息
+						ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+						android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+						iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+						iPad: u.indexOf('iPad') > -1, //是否iPad
+					};
+				}(),
+			};
+			if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+				document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+			} else {
+				document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+			}
+		</script>
+		<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+		<!-- iOS related颜色样式 -->
+		<link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+		<!-- 自定义样式-->
+		<link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+		<link rel="stylesheet" href="__HOME__/css/style2.css">
+		<script>
+			var deviceWidth = document.documentElement.clientWidth;
+			document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+		</script>
+
+		<title>Epay</title>
+		<style>
+			.cwlmy-items .part2 {
+				font-size: 0.25rem;
+				line-height: 0.4rem;
+			}
+			.pager span {
+				background: #8FC41F;
+				color: #fff;
+				border: 1px solid #8FC41F;
+				padding: 3px 10px;
+				margin-left: 8px;
+			}
+			.pager a {
+				border: 1px solid #666666;
+				padding: 3px 10px;
+				margin-left: 8px;
+				text-decoration: none;
+				color: #333;
+				outline: none;
+			}
+			.search-btn{
+				display: inline-block;
+				width: 1.5rem;
+				height: 0.7rem;
+				line-height: 0.7rem;
+				text-align: center;
+				color: #FFFFFF;
+				margin-left: 0.2rem;
+				font-size: 0.28rem;
+				border-radius: 5px;
+				background: #91cb74;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="views">
+			<div class="view view-main" data-page="tsuList2">
+				<div class="pages navbar-through toolbar-through">
+					<!-- 首页, "data-page" 里设置页面名字 -->
+					<div class="titlediv">
+						<p><a href="{:U('User/found')}"><i class="icon iconfont icon-fanhui"></i></a>直推列表</p>
+					</div>
+					<div class="myfirend" style="margin-top: 1.1rem;"  >
+						<div class="mf-title" style="display:none">
+							<img class="headimg" src="__HOME__/img/img.jpg" alt="">
+							<font style="font-size:0.28rem;" class="ft_eid">会员ID:{$uid}</font>
+						</div>
+						<form action="{:U('User/Friends')}" method="post">
+							<div class="mf-input" style="display:none">
+								<input type="text" placeholder="输入EID搜索" name="uinfo" value="{$uinfo}">
+								<button class="search-btn btn">搜索</button>
+							</div>
+						</form>
+					</div>
+					<div class="caiwulist" style="margin-top: 0.2rem;">
+						<div class="cwl-item celchongzhi">直推列表 <i class="icon iconfont icon-iconfontxiangxia"></i></div>
+						<div class="cwl-ichild chongzhilist tsuListdiv" style="display: block;overflow-y: auto;height: 8.7rem;">
+							<div style="margin-bottom:0.2rem; ">
+								<foreach name="muinfo" item="v" key="k" >
+									<div class="cwlmy-items">
+										<div class="part1"> <i class="icon iconfont icon-user"></i></div>
+										<div class="part2">{$v['mobile']} ({$v['username']})<br> </div>
+										<div class="part3"> </div>
+										<div class="part4">  </div>
+										<div style="clear: both"></div>
+									</div>
+								</foreach>
+							</div>
+							<ul class="paginList pager"><!-- 分页显示 -->{$page}</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+		<script src="__HOME__/js/member.js"></script>
+
+		<script>
+			$(function() {
+				$('.celchongzhi').click(function() {
+					if ($(this).hasClass('active')) {
+						$(this).removeClass('active')
+					} else {
+						$(this).addClass('active')
+					}
+					$('.chongzhilist').slideToggle();
+				});
+
+				$('.srbtn').click(function () {
+					$.ajax({
+						url:"{:U('user/friends')}",
+						type:'get',
+						dataType: "json",
+						data:{
+							eid:$('input[name=keyword]').val()
+						},
+						success:function () {
+							window.load();
+						}
+					})
+				});
+			});
+		</script>
+	</body>
+
+</html>

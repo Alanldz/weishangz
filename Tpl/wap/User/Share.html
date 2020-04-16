@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>分享好友</title>
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/meCen.css">
+<style>
+    .div-hang{margin-bottom: 10px;}
+    .fxfuzanj input {padding: 6px 12px;background-color: #fff;border: 1px solid #ccc;border-radius: 0;}
+    .activate {background-color: #63b157;display: inline-block;width: 100%;height: 2rem;line-height: 2rem;border-radius: 50px;}
+</style>
+
+<body class="bg96 bg_blue" style="background: #eeb634;">
+<div class="header">
+    <div class="header_l" style="width:33.3%;">
+        <a href="javascript:history.go(-1)"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c" style="width:33.3%;"><h2>分享好友</h2></div>
+    <div class="header_r" style="width:33.3%;"><a href="#"></a></div>
+</div>
+
+<div class="big_width80">
+    <if condition="$userInfo['is_share'] eq 1">
+        <div class="qrCodeGro qrCodeGroa">
+            <img src="{$shareImg}">
+            <p class="mt40">扫描二维码即可分享好友哟</p>
+        </div>
+    </if>
+
+    <div class="fxfuzanj">
+        <div class="div-hang">
+            <p>当前分享人:{$userInfo['mobile']}</p>
+        </div>
+        <if condition="$userInfo['is_share'] eq 0">
+            <div class="div-hang">
+                <p>激活需2元生态总资产</p>
+            </div>
+            <div class="div-hang">
+                <p>交易密码：<input type="password" class="pwd" placeholder="请输入交易密码"></p>
+            </div>
+            <div class="div-hang">
+                <a class="Infopwdbtn activate" href="javascript:;" style=" text-decoration: none;">激活</a>
+            </div>
+        </if>
+    </div>
+</div>
+
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+    function copyUrl() {
+        var txt = $("#txt").text();
+        copy(txt);
+    }
+
+    function copy(message) {
+        var input = document.createElement("input");
+        input.value = message;
+        document.body.appendChild(input);
+        input.select();
+        input.setSelectionRange(0, input.value.length), document.execCommand('Copy');
+        document.body.removeChild(input);
+        alert("复制成功哦");
+    }
+
+    $('.activate').on('click',function () {
+        var pwd = $('.pwd').val();
+        if(pwd.length == 0){
+            msg_alert('请输入交易密码');
+        }
+        var is_ajax = $('.activate').hasClass('submit_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.activate').addClass('submit_ajax');
+
+        $.ajax({
+            url: "{:U('user/openSharePower')}",
+            type: 'post',
+            data: {'pwd': pwd},
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status == 1) {
+                    msg_alert(mes.message);
+                    window.location.reload();
+                } else {
+                    msg_alert(mes.message);
+                    $('.activate').removeClass('submit_ajax');
+                }
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

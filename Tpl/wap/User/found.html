@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-3 retina ios ios-11 ios-11-0 ios-gt-10 ios-gt-9 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>市场</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+</head>
+
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="FaXian">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="FaXian">
+                <div class="titlediv" style="z-index: 10;">
+                    <p>市场 </p>
+                </div>
+                <div style="overflow-y: auto; height: 100%;z-index: 5;">
+                    <div class="moneylist " style="margin-top: 1.1rem;">
+                        <div class="ml-item">
+                            <a href="{:U('Shop/Index/treasureChest')}">
+                                <span><i class="icon iconfont icon-qianbao" style="color: #c56352"></i></span>百宝箱
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Shop/Index/lockWarehouse')}">
+                                <span><i class="icon iconfont icon-suoxiao" style="color: #c56352"></i></span>锁仓通证
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/index')}">
+                                <span><i class="icon iconfont icon-qiandai" style="color: #c56352"></i></span>我的资产
+                            </a>
+                        </div>
+
+<!--                        <div class="ml-item">-->
+<!--                            <a href="{:U('Turntable/Transaction')}">-->
+<!--                                <span><i class="icon iconfont icon-renjijiaohu" style="color: #c56352"></i></span>我的交易-->
+<!--                            </a>-->
+<!--                        </div>-->
+                        <div class="ml-item">
+                            <a href="{:U('Shop/member/withdrawal')}">
+                                <span><i class="icon iconfont icon-yinhangqia" style="color: #c56352"></i></span>生态总资产提现
+                            </a>
+                        </div>
+<!--                        <div class="ml-item">-->
+<!--                            <a href="{:U('Shop/Member/exchange')}">-->
+<!--                                <span><i class="icon iconfont icon-biaodankongjianlianxiren" style="color: #c56352"></i></span>兑换-->
+<!--                            </a>-->
+<!--                        </div>-->
+                        <div class="ml-item">
+                            <a href="{:U('Shop/member/transfer')}">
+                                <span><i class="icon iconfont icon-zhuanzhang" style="color: #c56352"></i></span>转账
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="moneylist " style="margin-top: 0.2rem;margin-bottom: 1rem;">
+
+                        <div class="ml-item">
+                            <a href="javascript:void(0)">
+                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队业绩：{$storeInfo['total_release']|number_format =2}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Home/User/Share')}">
+                                <span><i class="icon iconfont icon-fenxiang" style="color: #c56352"></i></span>分享二维码
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Home/User/Friends')}">
+                                <span><i class="icon iconfont icon-wode" style="color: #c56352"></i></span>我的直推
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('User/Complaint')}">
+                                <span><i class="icon iconfont icon-wenxiao" style="color: #cd7060"></i></span> 有问必答
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a style="width: 90%;" href="{:U('User/SystemMsg')}">
+                                <span><i class="icon iconfont icon-xiaoxi" style="color: #c97e01"></i></span> 系统消息
+                            </a>
+                            <if condition="$systemMsgNum gt 0 ">
+                                <div style="margin: 25px 10px 0 0;float: right;width:10px;height:10px;border-radius:50%;background-color:red;"></div>
+                            </if>
+                        </div>
+                    </div>
+                </div>
+                <!--底部-->
+                <include file="Public:footer" />
+                <!--底部-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 42.6667px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>我的银行卡</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+    <style>
+        .yinhangkaitem2 {height: 0.9rem;background-color: #fafafa;border-bottom: 1px solid #E6E6E6;line-height: 0.9rem;}
+        .yinhangkaitem2 .cell {text-align: center;line-height: 0.9rem;color: #4D4D4D;font-size: 0.25rem;}
+        .yinhangkaitem2 .cell a {text-align: center;line-height: 0.9rem;color: #4D4D4D;font-size: 0.25rem;}
+    </style>
+</head>
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="BankCardList">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="BankCardList">
+                <div class="titlediv">
+                    <p>
+                        <?php
+                            $back_url_head = U('Shop/member/mine');
+                            if($back_url == 'withdrawal'){
+                                $back_url_head = U('Shop/member/withdrawal');
+                            }elseif($back_url == 'withTurnover'){
+                                $back_url_head = U('Shop/Member/withTurnover');
+                            }
+                        ?>
+                        <a href="{$back_url_head}">
+                            <i class="icon iconfont icon-fanhui"></i>
+                        </a>我的银行卡
+                        <a style="font-size: 0.28rem; float:right;position: initial; margin-right: 0.2rem;" href="{:U('Growth/Addbank',array('back_url'=>$back_url))}">新增</a>
+                    </p>
+                </div>
+
+                <div class="show_main" style="margin-top: 1rem;">
+                    <foreach name="morecars" item="v">
+                        <div class="yinhangkaitem2 yxui-flex">
+                            <div class="cell"><a href="{$v.back_url}">{$v['banq_genre']}</a></div>
+                            <div class="cell">{$v['card_number']}</div>
+                            <div class="cell">储蓄卡</div>
+                            <div class="cell">
+                                <i class="icon iconfont icon-shanchu"></i>
+                                <a href="javascript:void(0)" class="bcl" onclick="deleteb(this)" data-id="{$v['id']}">删除</a>
+                            </div>
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript">
+    function deleteb(e) {
+        var bangid = $(e).attr('data-id');
+        if (bangid == '') {
+            layer.msg('请选择对应银行卡进行操作');
+        }
+        var is_ajax = $('.bcl').hasClass('ajax_add');
+        if (is_ajax) {
+            layer.msg('请勿频繁提交，请稍后');
+            return;
+        }
+        $('.bcl').addClass('ajax_add');
+        $.ajax({
+            url: "{:U('Growth/Cardinfos')}",
+            type: 'post',
+            data: {'bangid': bangid},
+            datatype: 'json',
+            success: function (mes) {
+                layer.msg(mes.message);
+                if(mes.status){
+                    setTimeout(function () {
+                        location.reload();
+                    },1000);
+                }else {
+                    $('.bcl').removeClass('ajax_add');
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

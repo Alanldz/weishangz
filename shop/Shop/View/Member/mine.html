@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>我的</title>
+    <meta name="Keywords" content=""/>
+    <meta name="description" content=""/>
+    <link rel="stylesheet" href="__CSS__/mui.min.css" />
+    <link rel="stylesheet" href="__ICON__/iconfont.css">
+    <link rel="stylesheet" href="__CSS__/styleshop.css"/>
+    <link rel="stylesheet" href="__CSS__/style1.css">
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
+    <style>
+        .fxm_left img {width: 4vmin;margin-top: 9vmin;height: 6vmin;float: left;margin-left: 3vmin;}
+        .user-order-box ul li {width: 25%;}
+        .member-info .user-name .info-fan {display: flex;}
+        .member-info .user-name .info-fan a {background: #F15353;padding: 0 2vmin;box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);font-size: 3.8vmin;}
+        .iconfont {font-family: "iconfont" !important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+        /*底部样式*/
+        .bottom_nav {position: fixed;bottom: 0;width: 100%;background: #fff;border-top: solid 1px #eaeaea;max-width: 378px;margin: 0 auto;}
+        .bottom_nav ul {overflow: hidden;}
+        .bottom_nav ul li {float: left;width: 25%;text-align: center;font-size: .5rem;color: #666;}
+        /*底部样式*/
+    </style>
+</head>
+<body>
+<div class="member-top">
+    <div class="fxm_left"></div>
+    <div class="header-r" style="float: right;margin: 10px;"></div>
+    <div class="member-info">
+        <div class="user-avatar">
+            <img src="__WIMG__/toux-icon.png"></div>
+        <div class="user-name" style="margin-left: 80px; width: 70%;">
+            <div class="info-fan">账号：{$userInfo.account}</div>
+            <div class="info-fan">ID号：{$userInfo.userid}</div>
+            <div class="info-fan">会员状态：{$userInfo.level|getUserLevelItems}</div>
+
+        </div>
+    </div>
+</div>
+<div class="user-order-box">
+    <dl>
+        <a href="{:U('Member/allorder',array('s'=>5))}">
+            <dt><strong>全部订单</strong> <span>查看全部订单</span></dt>
+        </a>
+    </dl>
+    <ul>
+        <li>
+            <a href="{:U('Member/allorder',array('s'=>0))}">
+                <div class="user_order"><i class="iconfont">&#xe631;</i></div>
+                <span>待付款</span>
+            </a>
+        </li>
+        <li>
+            <a href="{:U('Member/allorder',array('s'=>1))}">
+                <div class="user_order"><i class="iconfont">&#xe775;</i></div>
+                <span style="width: 100%;">待发货({$wait_send_num})</span>
+            </a>
+        </li>
+        <li>
+            <a href="{:U('Member/allorder',array('s'=>2))}">
+                <div class="user_order"><i class="iconfont">&#xe775;</i></div>
+                <span style="width: 100%;">待收货({$wait_take_num})</span>
+            </a>
+        </li>
+        <li>
+            <a href="{:U('Member/allorder',array('s'=>3))}">
+                <div class="user_order"><i class="iconfont">&#xe605;</i></div>
+                <span>已完成</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="uset-center-content">
+    <if condition="$userInfo.is_e_verify eq 1">
+        <a href="{:U('Member/Mineorders')}"> <em class="groupon-icon"></em>
+            <dl class="border_bottm">
+                <dt>商户订单</dt>
+            </dl>
+        </a>
+    </if>
+    <a href="{:U('Home/User/Setuname')}"> <em class="user-info-icon"></em>
+        <dl>
+            <dt>个人资料</dt>
+            <dd></dd>
+        </dl>
+    </a>
+    <a href="{:U('Home/Growth/Cardinfos')}"> <em class="user-info-iconyhk"></em>
+        <dl>
+            <dt>管理银行卡</dt>
+            <dd></dd>
+        </dl>
+    </a>
+    <a href="{:U('Home/Growth/alipay')}"> <em class="user-info-iconzfb"></em>
+        <dl>
+            <dt>管理支付宝二维码</dt>
+            <dd></dd>
+        </dl>
+    </a>
+    <a href="{:U('Home/Growth/weChat')}"> <em class="user-info-iconwx"></em>
+        <dl>
+            <dt>管理微信二维码</dt>
+            <dd></dd>
+        </dl>
+    </a>
+
+    <a href="{:U('Home/User/News')}"> <em class="user-info-icongg"></em>
+        <dl>
+            <dt>公告</dt>
+            <dd></dd>
+        </dl>
+    </a>
+
+    <a href="{:U('Home/User/Sharecode')}"> <em class="user-info-iconxz"></em>
+        <dl>
+            <dt>APP下载</dt>
+            <dd></dd>
+        </dl>
+    </a>
+
+    <a href="{:U('Home/User/Setpwd')}"> <em class="user-info-iconaq"></em>
+        <dl>
+            <dt>安全设置</dt>
+            <dd></dd>
+        </dl>
+    </a>
+
+    <!--<a href="{:U('member/recharge')}"> <em class="recharge-card-icon"></em>-->
+        <!--<dl>-->
+            <!--<dt>注册积分充值</dt>-->
+            <!--<dd></dd>-->
+        <!--</dl>-->
+    <!--</a>-->
+
+    <a href="{:U('Member/addresslist')}"> <em class="consignee-address-icon"></em>
+        <dl class="border_bottm">
+            <dt>收货地址</dt>
+            <dd style='color: red;'>添加/修改</dd>
+        </dl>
+    </a>
+
+    <if condition="$verify_is_show">
+        <a href="{$verifyInfo['url']}">
+            <em class="user-info-iconrz"></em>
+            <dl>
+                <dt>认证中心</dt>
+                <dd>{$verifyInfo['result']}</dd>
+            </dl>
+        </a>
+    </if>
+
+    <eq name="member['status']" value="1"><a href="{:U('Shop/Home/Business')}"> <em class="product-upload-icon"></em>
+        <dl>
+            <dt>产品上传</dt>
+        </dl>
+    </a>
+        <a href="{:U('Shop/Home/Minepros')}"> <em class="product-manage-icon"></em>
+            <dl>
+                <dt>产品管理</dt>
+            </dl>
+        </a>
+        <a href="{:U('Shop/Dianpu/dp_info')}"> <em class="myshop-icon"></em>
+            <dl>
+                <dt>我的店铺</dt>
+            </dl>
+        </a>
+    </eq>
+</div>
+
+<div class="uset-center-content">
+    <a href="{:U('Member/loginout')}">
+        <em class="sign-off-icon"></em>
+        <dl>
+            <dt>退出登录</dt>
+        </dl>
+    </a>
+</div>
+<div class="h50"></div>
+
+<!--底部-->
+<include file="Public:shop_foot"/>
+<!--底部-->
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+</body>
+</html>

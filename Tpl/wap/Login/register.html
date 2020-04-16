@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html style="font-size: 50px;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>星宇环球会员注册</title>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style.css">
+
+    <style>
+        .pay-input input {
+            -webkit-appearance: radio;
+            width: 13px;
+        }
+    </style>
+</head>
+<body class="mainbg loginbg">
+<div class="maindiv">
+    <form id="user_form" action="{:U('Login/register')}">
+        <div class="titlediv" style="background-color: #D5A512;z-index: 1;">
+            <p><a href="{:U('user/map')}"><i class="icon iconfont icon-fanhui"></i></a>星宇环球会员注册</p>
+        </div>
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 用户账号：</span>
+            <input type="text" name="account" notnull="" value="" placeholder="请输入用户账号">
+        </div>
+
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 真实姓名：</span>
+            <input type="text" name="username" notnull="" value="" placeholder="请输入真实姓名">
+        </div>
+        <!--<div class="logoinput" style="margin-top: 0.2rem">-->
+            <!--<span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 身份证：</span>-->
+            <!--<input type="text" name="identity_card" notnull="" value="" placeholder="请输入身份证">-->
+        <!--</div>-->
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-shouji"></i> 手机号码：</span>
+            <input type="text" name="mobile" maxlength="11" placeholder="请输入手机号码" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 验证码：</span>
+            <input type="text" placeholder="请输入验证码" name="code" notnull="">
+            <p class="ii-ispan sendmsgBtn" onclick="sendModile()">获取验证码</p>
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-mima" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 登录密码：</span>
+            <input type="password" name="login_pwd" maxlength="25" placeholder="请输入登陆密码" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-mima" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 确认密码：</span>
+            <input type="password" name="relogin_pwd" maxlength="25" placeholder="请输入确认密码" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-mima" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 交易密码：</span>
+            <input type="password" name="safety_pwd" maxlength="25" placeholder="请输入交易密码" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 推荐人：</span>
+            <input type="text" name="pid" notnull="" class="pid" value="{$mobile}" placeholder="请输入推荐人手机号">
+        </div>
+        <div class="loginbtn"><a href="javascript:void(0)" id="subbtn">立即注册</a></div>
+        <div class="loginbtn" style="margin-bottom: 20px;"><a href="http://down.aimeibaobao.com/xiazai.html" style="background: #000000">下载APP</a></div>
+
+    </form>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__HOME__/js/global.js"></script>
+<script type="text/javascript" src="__HOME__/js/user4.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    var deviceWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+</script>
+<script>
+    //发送短信事件
+    function sendModile() {
+        var Phone = $('#user_form input[name=mobile]').val();
+        if (!Phone.match(/^1[3-9]\d{9}$/)) {
+            layer.msg('请填写正确的手机号码');
+            $('#user_form input[name=mobile]').focus();
+            return false;
+        }
+
+        $('.sendmsgBtn').html('获取验证码').attr('disabled', true);
+
+        var time = 0;
+        time_obj = function () {
+            if (time >= 60) {
+                $('.sendmsgBtn').html('获取验证码').attr('disabled', false);
+                time = 0;
+                clearInterval(timer);
+            } else {
+                $('.sendmsgBtn').html('重新(' + (60 - time) + ')');
+                time++;
+            }
+        };
+        var timer = setInterval('time_obj()', 1000);
+        $.post("{:U('Login/sendCode')}", {'mobile': Phone}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.message);
+                RemainTime();
+            } else {
+                layer.msg(data.message);
+            }
+        });
+        $('.sendmsgBtn').attr('disabled', true);
+    }
+
+    //提交注册
+    $('#subbtn').click(function () {
+        var mobile_rex = /^1[3456789]\d{9}$/;
+        var account = $('#user_form input[name=account]').val();
+        var username = $('#user_form input[name=username]').val();
+        var identity_card = $('#user_form input[name=identity_card]').val();
+        var mobile = $('#user_form input[name=mobile]').val();
+        var code = $('#user_form input[name=code]').val();
+        var login_pwd = $('#user_form input[name=login_pwd]').val();
+        var relogin_pwd = $('#user_form input[name=relogin_pwd]').val();
+        var safety_pwd = $('#user_form input[name=safety_pwd]').val();
+        var pid = $('#user_form input[name=pid]').val();
+
+        if (account == '') {
+            layer.msg('请输入用户账号');
+            return false;
+        }
+        if (username == '') {
+            layer.msg('请输入姓名');
+            return false;
+        }
+        // if (identity_card == '') {
+        //     layer.msg('请输入身份证');
+        //     return false;
+        // }
+        if (mobile == '') {
+            layer.msg('手机号码不能为空');
+            return false;
+        }
+        if (code == '') {
+            layer.msg('验证码不能为空');
+            return false;
+        }
+
+        if (login_pwd == '') {
+            layer.msg('登录密码不能为空');
+            return false;
+        }
+        if (login_pwd != relogin_pwd) {
+            layer.msg("两次输入登录密码不一致");
+            return false;
+        }
+        if (pid == '') {
+            layer.msg('请输推荐人ID');
+            return false;
+        }
+
+        var is_ajsx = $('#subbtn').hasClass('ajax_btn');
+        if (is_ajsx) {
+            layer.msg("请勿频繁操作");
+            return false;
+        }
+        $('#subbtn').addClass('ajax_btn');
+        var post_url = $("#user_form").attr('action');
+        var data;
+        data = {
+            account : account,
+            username: username,
+            identity_card: identity_card,
+            mobile: mobile,
+            code: code,
+            login_pwd: login_pwd,
+            relogin_pwd: relogin_pwd,
+            safety_pwd: safety_pwd,
+            pid: pid,
+        };
+        doajax(post_url, data, function (data) {
+            if (data.status == 1) {
+                layer.alert(data.message, {
+                    time: 0 //不自动关闭
+                    , btn: ['好']
+                    , yes: function (index) {
+                        layer.close(index);
+                        window.location.href = data.url;
+                    }
+                    , cancel: function (index) {
+                        window.location.href = data.url;
+                    }
+                });
+            } else {
+                layer.msg(data.message);
+            }
+            $('#subbtn').removeClass('ajax_btn');
+        });
+    });
+
+</script>
+</body>
+</html>

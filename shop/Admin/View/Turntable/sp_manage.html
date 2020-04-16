@@ -1,0 +1,125 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+</block>
+
+<block name="main">
+    <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <foreach name="_menu_tab['name']" item="tab_v" >
+                <li class="text-muted">{$tab_v}</li>
+            </foreach>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <div class="form-group"></div>
+                    <!-- 顶部工具栏按钮 -->
+
+                    <!-- 数据列表 -->
+                    <div class="builder-container">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <p>买方列表</p>
+                                <div class="builder-table">
+                                    <div class="panel panel-default table-responsive">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>会员ID</th>
+                                                <th>剩余RP</th>
+                                                <th>激活时间</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <volist name="buy_list" id="data">
+                                                <tr>
+                                                    <td>{$data['userid']}</td>
+                                                    <td>
+                                                        {$data['purchase_integral']}
+                                                     </td>
+                                                    <td>
+                                                        {$data['activation_time']|date='Y-m-d H:i:s',###}
+                                                    </td>
+                                                </tr>
+                                            </volist>
+
+                                            <empty name="buy_list">
+                                                <tr class="builder-data-empty">
+                                                    <td class="text-center empty-info" colspan="20">
+                                                        <i class="fa fa-database"></i> 暂时没有数据<br>
+                                                    </td>
+                                                </tr>
+                                            </empty>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <p>卖方列表</p>
+                                <div class="builder-table">
+                                    <div class="panel panel-default table-responsive">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>卖家ID </th>
+                                                <th>卖出数量</th>
+                                                <th>已分配数量 </th>
+                                                <th>剩余数量 </th>
+                                                <th>卖出时间</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <volist name="seller_list" id="data">
+                                                <tr>
+                                                    <td>{$data['sell_id']}</td>
+                                                    <td>{$data['total_num']}</td>
+                                                    <td>
+                                                        {$data['total_num'] - $data['num']}
+                                                     </td>
+                                                    <td>
+                                                        {$data['num']}
+                                                    </td>
+                                                    <td>
+                                                        {$data['create_time']|date='Y-m-d H:i:s',###}
+                                                    </td>
+                                                </tr>
+                                            </volist>
+
+                                            <empty name="seller_list">
+                                                <tr class="builder-data-empty">
+                                                    <td class="text-center empty-info" colspan="20">
+                                                        <i class="fa fa-database"></i> 暂时没有数据<br>
+                                                    </td>
+                                                </tr>
+                                            </empty>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+    <script>
+        $(function () {
+            setTimeout(function () {
+                window.location.reload()
+            },10000);
+        })
+    </script>
+</block>

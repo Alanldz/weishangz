@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>安全设置</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>')
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="Infopwd">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="Infopwd">
+                <div class="titlediv">
+                    <p>
+                        <a href="#" onClick="javascript:history.back(-1)">
+                            <i class="icon iconfont icon-fanhui"></i>
+                        </a>安全设置
+                    </p>
+                </div>
+                <div class="mytruename" style="margin-top: 1.1rem;">
+                    <form id="Infopwd_form">
+                        <div class="mtn-itme">
+                            <span>登录密码</span>
+                            <input type="text" name="login_pwd" class="turename" placeholder="新密码" value="">
+                        </div>
+                        <div class="mtn-itme">
+                            <span>交易密码</span>
+                            <input type="text" name="safety_pwd" class="turename" placeholder="不修改可不填" value="">
+                        </div>
+                        <div class="mtn-itme">
+                            <span>手机号</span>
+                            <input type="text" class="turename" placeholder="" name="mobile" readonly value="{$userInfo.mobile}">
+                        </div>
+                        <div class="mtn-itme">
+                            <span>验证码</span>
+                            <input type="text" class="turename" placeholder="请输入验证码" name="code" value="" notnull="">
+                            <h1 class="ii-ispan sendmsgBtn">获取验证码</h1>
+                        </div>
+                    </form>
+                </div>
+                <div class="mytruebtn">
+                    <a class="Infopwdbtn" href="javascript:void(0);">确认修改</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__HOME__/js2/framework7.min.js"></script>
+<script type="text/javascript" src="__HOME__/js2/app28.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+
+    //事件
+    $('.sendmsgBtn').click(function () {
+        var mobile = $('input[name=mobile]').val();
+        if (mobile == '') {
+            msg_alert('请输入手机号');
+            $('input[name=mobile]').focus();
+            return false;
+        }
+        if (!mobile.match(/^1[3-9]\d{9}$/)) {
+            msg_alert('请填写正确的手机号码');
+            $('input[name=mobile]').focus();
+            return false;
+        }
+        $('.sendmsgBtn').html('获取验证码').attr('disabled', true);
+
+        var is_send = $('.sendmsgBtn').hasClass('is_send_email');
+        if (is_send) {
+            msg_alert('耐心等待，请勿重复点击');
+            return;
+        }
+        var time = 0;
+        time_obj = function () {
+            if (time >= 60) {
+                $('.sendmsgBtn').html('获取验证码').attr('disabled', false);
+                $('.sendmsgBtn').removeClass('is_send_email');
+                time = 0;
+                clearInterval(timer);
+            } else {
+                $('.sendmsgBtn').html('重新(' + (60 - time) + ')');
+                time++;
+            }
+        };
+        $('.sendmsgBtn').addClass('is_send_email');
+        var timer = setInterval('time_obj()', 1000);
+        $.post("{:U('Login/sendCode')}", {'mobile': mobile, 'type': 'setpwd_code'}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                RemainTime();
+            } else {
+                $('.sendmsgBtn').removeClass('is_send_email');
+                msg_alert(data.message);
+            }
+        });
+        $('.sendmsgBtn').attr('disabled', true);
+    });
+
+    $('.Infopwdbtn').click(function () {
+        var login_pwd = $('input[name=login_pwd]').val();
+        var safety_pwd = $('input[name=safety_pwd]').val();
+        var code = $('input[name=code]').val();
+        var email = $('input[name=email]').val();
+
+        if (login_pwd == '') {
+            msg_alert('新密码不能为空');
+            return false;
+        }
+
+        if (safety_pwd != '') {
+            var reg = /^\d{6}\b/;
+            if (!reg.test(safety_pwd)) {
+                msg_alert('交易密码只能为6位数');
+                return false;
+            }
+        }
+
+        if (code == '' || code == null) {
+            msg_alert('请输入验证码');
+            return false;
+        }
+
+        $.ajax({
+            url: "{:U('user/Setpwd')}",
+            type: 'post',
+            dataType: "json",
+            data: {
+                login_pwd: login_pwd,
+                safety_pwd: safety_pwd,
+                code: code,
+                email: email
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    msg_alert(data.message,data.url);
+                } else {
+                    msg_alert(data.message);
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

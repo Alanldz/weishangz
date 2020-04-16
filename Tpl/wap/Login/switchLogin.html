@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>切换账号</title>
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/meCen.css">
+<body class="bg96">
+<style>
+    .current_login{
+        background:#e40000;
+    }
+</style>
+
+<div class="header">
+    <div class="header_l">
+        <a href="javascript:history.go(-1)"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c"><h2>切换账号</h2></div>
+    <div class="header_r"></div>
+</div>
+
+<div class="big_width100 por">
+    <foreach name="arrUser" item="v">
+        <div class="share_ul" style="    height: 40px;">
+            <div class="share_ul_l">
+                <div class="share_p">
+                    <p>UID:{$v['userid']}
+                        <if condition="$v['level'] eq 1">
+                            （一星）
+                            <elseif condition="$v['level'] eq 2"/>
+                            （二星）
+                            <elseif condition="$v['level'] eq 3"/>
+                            （三星）
+                            <elseif condition="$v['level'] eq 4"/>
+                            （四星）
+                        </if>
+                        <if condition="$v['account_type'] eq 1">
+                            子账户
+                            <else/>
+                            主账户
+                            </if>
+                    </p>
+                    <p>注册时间：{$v['reg_date']|date='Y-m-d H:i:s',###}</p>
+                </div>
+            </div>
+            <if condition="$userid eq $v['userid']">
+                <div class="dengjxias current_login">
+                    当前登录
+                </div>
+            <else/>
+                <a title="登录" target="_blank" onclick="ddd({$v['userid']})">
+                    <!--href="{:U('Login/switchLogin',array('userid'=>$v['userid'],'type'=>'switchAccount'))}"-->
+                    <div class="dengjxias dengjxiasa">
+                        切换
+                    </div>
+                </a>
+            </if>
+        </div>
+</div>
+</foreach>
+</div>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script>
+    function ddd(userid) {
+        if(userid == ''){
+            layer.msg('请选择切换账户');
+            return ;
+        }
+        doajax("{:U('Login/switchLogin')}", {userid: userid}, function (data) {
+            if(data.status==1){
+                layer.msg(data.message);
+                window.location=data.url;
+            }else{
+                layer.msg(data.message);
+            }
+        });
+    }
+</script>
+</body>
+</html>

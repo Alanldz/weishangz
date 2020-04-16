@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-3 retina ios ios-11 ios-11-0 ios-gt-10 ios-gt-9 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>我的资产</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+</head>
+
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="FaXian">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="FaXian">
+                <div class="titlediv" style="z-index: 10;">
+                    <p> <a href="{:U('User/found')}">
+                        <i class="icon iconfont icon-fanhui"></i>
+                    </a>我的资产</p>
+                </div>
+                <div style="overflow-y: auto; height: 100%;z-index: 5;">
+                    <div class="moneylist " style="margin-top: 1.1rem;">
+                        <div class="ml-item">
+                            <a href="{:U('Index/Bancerecord')}">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>生态总资产：{$storeInfo.cangku_num}
+                            </a>
+                        </div>
+                        <div class="ml-item">
+                            <a href="{:U('Index/Turncords')}">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>消费通证：{$storeInfo.fengmi_num}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/storeRecord',array('store_type'=>6))}">
+                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>流动通证：{$storeInfo.can_flow_amount}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/PurchaseRecord')}">
+                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>签到账户：{$storeInfo.purchase_integral}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/storeRecord',array('store_type'=>7))}">
+                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>流动资产：{$storeInfo.current_assets}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
+                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>产品积分：{$storeInfo.product_integral}
+                            </a>
+                        </div>
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/storeRecord',array('store_type'=>9))}">
+                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>营业款账户：{$storeInfo.turnover}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="moneylist " style="margin-top: 0.2rem;margin-bottom: 1rem;">
+
+                        <div class="ml-item">
+                            <a href="{:U('Index/ucoinsRecord')}">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>生态通证：{$storeInfo.pass_card_amount}
+                            </a>
+                        </div>
+                        <div class="ml-item">
+                            <a href="JavaScript:void(0)">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>生态通证价格：{$coin_price}
+                            </a>
+                        </div>
+                        <div class="ml-item">
+                            <a href="{:U('Shop/Member/exchangeTwo')}">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>生态通证兑换生态总资产
+                            </a>
+                        </div>
+                        <div class="ml-item">
+                            <a href="{:U('Shop/Member/withTurnover')}">
+                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>营业款提现
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

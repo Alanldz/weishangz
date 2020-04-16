@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 42.6667px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>添加银行卡</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+    <style>
+        .update_name {width: 1.1rem;float: left;height: 0.6rem;border: none;outline: none;background: none;font-size: 0.28rem;color: #4D4D4D;margin-top: 0.2rem;}
+    </style>
+</head>
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="BankCards">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="BankCards">
+                <div class="titlediv">
+                    <p>
+                        <a href="{:U('Growth/Cardinfos')}">
+                            <i class="icon iconfont icon-fanhui"></i>
+                        </a>添加银行卡
+                        <span style="font-size: 0.28rem;"></span>
+                    </p>
+                </div>
+                <div class="yinhangtext" style="margin-top: 1.1rem;">添加银行卡</div>
+                <form id="BankCards_Form">
+                    <div class="yinhangitem">
+                        <span>所属银行</span>
+                        <div class="select">
+                            <select name="Bank" isval="true" msg="{$Think.lang.addcard3}" id="Bank">
+                                <option value="0" style="color: #666" selected>{$Think.lang.addcard3}</option>
+                                <foreach name="bakinfo" item="v">
+                                    <option value="{$v['pid']}">{$v['banq_genre']}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="yinhangitem"><span>银行卡号</span> <input type="text" id="yhk" name="Card"
+                                                                      placeholder="请输入银行卡号" notnull=""></div>
+                    <div class="yinhangitem">
+                        <span>开户名</span>
+                        <input type="text" id="crkxm" name="Name" placeholder="请输入开户名" readonly value="{$username}">
+                        <a href="{:U('User/Setuname')}" class="update_name">修改</a>
+                    </div>
+                    <div class="yinhangitem">
+                        <span>开户行</span>
+                        <input type="text" id="khzy" name="IDCard" placeholder="请输入开户行" value="" notnull="">
+                    </div>
+                    <div class="yinhangitem">
+                        <span>银行卡种类</span>
+                        <div class="select">
+                            <select name="Category" id="Category">
+                                <option value="0">储蓄卡</option>
+                                <option value="1">信用卡</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="yinhangitem"><span>备注</span>
+                        <input type="text" id="Remark" name="Remark" placeholder="如是其他银行请在备注填写该银行名称" value="">
+                    </div>
+                    <p class="tixing"></p>
+                    <div class="mytruebtn">
+                        <a class="BankCardsBtn" href="javascript:void(0);" style="border-radius: 5px;">提交</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript">
+
+    $('.BankCardsBtn').on('click', function () {
+        var back_url = "{$back_url}";
+        var khy = $.trim($('#Bank').val()); //开户行
+        if (khy == 0) {
+            layer.msg('请选择开户行');
+            return;
+        }
+
+        var yhk = $.trim($('#yhk').val()); //银行卡
+        // var pattern = /^([1-9]{1})(\d{14}|\d{18})$/;
+        // if(!pattern.test(yhk)){
+        //     msg_alert('银行卡号输入不正确');
+        //     return;
+        // }
+
+        var crkxm = $.trim($('#crkxm').val()); //姓名
+        if (crkxm == '') {
+            layer.msg('请填写持卡人姓名');
+            return;
+        }
+
+        var khzy = $.trim($('#khzy').val()); //开户支行
+
+        if (khzy == '') {
+            layer.msg('开户银行支行分行输入有误');
+            return;
+        }
+
+        var is_ajax = $('.BankCardsBtn').hasClass('ajax_add');
+        if (is_ajax) {
+            layer.msg('请勿频繁提交，请稍后');
+            return;
+        }
+        $('.BankCardsBtn').addClass('ajax_add');
+
+        $.post("{:U('Growth/Addbank')}", {crkxm: crkxm, khy: khy, yhk: yhk, khzy: khzy,back_url:back_url}, function (mes) {
+            if (mes.status == 1) {
+                layer.msg(mes.message);
+                setTimeout(function () {
+                    window.location.href = mes.url;
+                }, 1000);
+            } else {
+                $('.BankCardsBtn').removeClass('ajax_add');
+                layer.msg(mes.message);
+            }
+        }, "json");
+    });
+</script>
+</body>
+</html>

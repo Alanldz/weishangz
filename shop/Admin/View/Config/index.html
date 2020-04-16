@@ -1,0 +1,101 @@
+<extend name="Public/layout"/>
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+    <style>
+        .containera {background: url(__PUBLIC__/home/wap/images/jietubeij.jpg) no-repeat;height: 120px;}
+    </style>
+</block>
+
+<block name="main">
+    <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <foreach name="_menu_tab['name']" item="tab_v">
+                <li class="text-muted">{$tab_v}</li>
+            </foreach>
+            <li class="text-muted">基本设置</li>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <!--栏目-->
+                    <include file="Public:config-header"/>
+                    <!--栏目-->
+                    <div class="form-group"></div>
+                    <div class="builder-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <form class="form-horizontal form form-builder" id="setCollectionsImgForm">
+                                    <div class="form-type-list">
+                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
+                                            <label class="left control-label">收款账户图片：</label>
+                                            <div style="width:310px" class="input-group">
+                                                <div class="containera">
+                                                    <if condition="$data['collections_img']">
+                                                        <img src="{$data['collections_img']}" style="height: 120px;width: 120px;">
+                                                    </if>
+                                                </div>
+                                                <input type="file" name="image" style="opacity: 0;position: absolute;height: 120px; top: 6px;" class="account_img">
+                                                <input type="hidden" name="is_change_img" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="form-group"></div>
+                                        <div class="form-group bottom_button_list">
+                                            <a class="btn btn-primary submit setCollectionsImg" type="submit">确定</a>
+                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+    <script type="text/javascript">
+        $('.setCollectionsImg').click(function () {
+            var formData = new FormData(document.querySelector("#setCollectionsImgForm"));//获取form值
+            $.ajax({
+                url: "{:U('Config/setCollectionsImg')}",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if(data.status){
+                        alert(data.info);
+                        window.location.reload();
+                    }else {
+                        alert(data.info);
+                    }
+                }
+            })
+        });
+        $('.account_img').change(function (e) {
+            var files = this.files;
+            var img = new Image();
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function (e) {
+                img.src = this.result;
+                img.style.width = "120px";
+                img.style.height = "120px";
+                // img.style.margin = "0px 0px 0px -50px";
+                $('input[name=is_change_img]').val(1);
+                $('.containera').html(img);
+            }
+        });
+    </script>
+</block>

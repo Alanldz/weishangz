@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>百宝箱</title>
+    <meta http-equiv="Content-Type" content="textml; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="__NEWSHOP__/css/index.css"/>
+    <link rel="stylesheet" href="__NEWSHOP__/css/bao.css">
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
+</head>
+<body class="loading">
+
+<div class="wrapper">
+    <div class="head" style="z-index:9999999 !important;">
+        <a href="{:U('Home/User/found')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
+        <div>百宝箱</div>
+        <a class="yup" href=""></a>
+    </div>
+    <div class="whole">
+        <div>
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+    <div class="whole">
+        <div class="wallet">
+            <ul>
+                <a href="{:U('Home/Index/storeRecord',array('store_type'=>1))}">
+                    <li>
+                        <span>{$storeInfo.share_amount}</span>
+                        <p>分享奖</p>
+                    </li>
+                </a>
+                <a href="{:U('Home/Index/storeRecord',array('store_type'=>2))}">
+                    <li>
+                        <span>{$storeInfo.merits_amount}</span>
+                        <p>绩效奖</p>
+                    </li>
+                </a>
+                <a href="{:U('Home/Index/storeRecord',array('store_type'=>3))}">
+                    <li>
+                        <span>{$storeInfo.thankful_amount}</span>
+                        <p>感恩奖</p>
+                    </li>
+                </a>
+                <a href="{:U('Home/Index/storeRecord',array('store_type'=>4))}">
+                    <li>
+                        <span>{$storeInfo.flow_amount}</span>
+                        <p>流动通证</p>
+                    </li>
+                </a>
+                <if condition="$userInfo.feedback_ratio gt 0">
+                    <a href="{:U('Home/Index/storeRecord',array('store_type'=>5))}">
+                        <li>
+                            <span>{$storeInfo.feedback_amount}</span>
+                            <p>回馈</p>
+                        </li>
+                    </a>
+                </if>
+                <li style="display:none">
+                    <span>0.00</span>
+                    <p>兑换卷</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="moneybox" id="leafContainer"></div>
+    <div style="height:70px;"></div>
+</div>
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+    const NUMBER_OF_LEAVES = 50;
+    const width = window.screen.width;
+
+    function init() {
+        var container = document.getElementById('leafContainer');
+        for (var i = 0; i < NUMBER_OF_LEAVES; i++) {
+            container.appendChild(createALeaf());
+        }
+    }
+
+    function randomInteger(low, high) {
+        return low + Math.floor(Math.random() * (high - low));
+    }
+
+    function randomFloat(low, high) {
+        return low + Math.random() * (high - low);
+    }
+
+    function pixelValue(value) {
+        return value + 'px';
+    }
+
+    function durationValue(value) {
+        return value + 's';
+    }
+
+    function createALeaf() {
+        var leafDiv = document.createElement('div');
+        var image = document.createElement('img');
+        image.src = '__NEWSHOP__/images/shop/cash' + randomInteger(3, 4) + '.png';
+        leafDiv.style.top = "-100px";
+        leafDiv.style.left = pixelValue(randomInteger(0, width));
+        var spinAnimationName = (Math.random() < 0.5) ? 'clockwiseSpin' : 'counterclockwiseSpinAndFlip';
+        leafDiv.style.webkitAnimationName = 'fade, drop';
+        image.style.webkitAnimationName = spinAnimationName;
+        var fadeAndDropDuration = durationValue(randomFloat(3, 9));
+        var spinDuration = durationValue(randomFloat(3, 7));
+        leafDiv.style.webkitAnimationDuration = fadeAndDropDuration + ', ' + fadeAndDropDuration;
+        var leafDelay = durationValue(randomFloat(0, 0));
+        leafDiv.style.webkitAnimationDelay = leafDelay + ', ' + leafDelay;
+        image.style.webkitAnimationDuration = spinDuration;
+        leafDiv.appendChild(image);
+        return leafDiv;
+    }
+
+    window.addEventListener('load', init, false);
+</script>
+
+</body>
+</html>

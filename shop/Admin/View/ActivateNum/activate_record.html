@@ -1,0 +1,145 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+    <style type="text/css">
+        tr,td{
+            margin: 0 !important;
+            padding: 5px 5px !important;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <foreach name="_menu_tab['name']" item="tab_v" >
+                <li class="text-muted">{$tab_v}</li>
+            </foreach>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <div class="form-group"></div>
+                    <!-- 顶部工具栏按钮 -->
+                    <div class="builder-toolbar">
+                        <div class="row">
+                            <!-- 搜索框 -->
+                            <!--<div class="col-xs-12 col-sm-12 clearfix">-->
+                                <!--<form class="form" method="get" action="">-->
+                                    <!--<div class="form-group right">-->
+                                        <!--<div style="float:left;width:150px;margin-right:20px" class="">-->
+                                            <!--<input type="text" name="date_start" class="search-input form-control date" value="{$_GET.date_start}" placeholder="开始日期">-->
+                                        <!--</div>-->
+
+                                        <!--<div style="float:left;width:150px;margin-right:20px" class="">-->
+                                            <!--<input type="text" name="date_end" class="search-input form-control date" value="{$_GET.date_end}" placeholder="结束日期">-->
+                                        <!--</div>-->
+
+                                        <!--<div style="float:left;width:120px;margin-right:20px" class="">-->
+                                            <!--<select name="querytype" class="form-control lyui-select select">-->
+                                                <!--<option value="uid">UID号</option>-->
+                                                <!--<option <if condition="$querytype eq 'mobile'">selected="true" </if> value="mobile">手机</option>-->
+                                            <!--</select>-->
+                                        <!--</div>-->
+                                        <!--<div style="width:250px" class="input-group search-form">-->
+                                            <!--<input  type="text" name="keyword" class="search-input form-control" value="{$_GET.keyword}" placeholder="输入搜索内容">-->
+                                            <!--<span class="input-group-btn">-->
+                                                <!--<a class="btn btn-default search-btn"><i class="fa fa-search"></i></a>-->
+                                            <!--</span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</form>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <!-- 数据列表 -->
+                    <div class="builder-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="builder-table">
+                                    <div class="panel panel-default table-responsive">
+                                        <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>会员ID号</th>
+                                                <th>级别</th>
+                                                <th>激活时间 </th>
+                                                <th>类型</th>
+                                                <th>激活者</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <volist name="list" id="v">
+                                                <tr>
+                                                    <td>{$v.uid}</td>
+                                                    <td>
+                                                        <if condition="$v['level'] eq 1">
+                                                        一星
+                                                        <elseif condition="$v['level'] eq 2" />
+                                                        二星
+                                                        <elseif condition="$v['level'] eq 3" />
+                                                        三星
+                                                        <elseif condition="$v['level'] eq 4" />
+                                                        四星
+                                                        </if>
+                                                    </td>
+                                                    <td>
+                                                        {$v['activation_time']}
+                                                    </td>
+                                                    <td>
+                                                        <if condition="$v['type'] eq 3">
+                                                            EP激活
+                                                            <elseif condition="$v['type'] eq 4" />
+                                                            EF激活
+                                                            <else/>
+                                                            激活卡
+                                                        </if>
+
+                                                    </td>
+                                                    <td>{$v.userid}</td>
+                                                </tr>
+
+                                            </volist>
+
+                                            <empty name="list">
+                                                <tr class="builder-data-empty">
+                                                    <td class="text-center empty-info" colspan="20">
+                                                        <i class="fa fa-database"></i> 暂时没有数据<br>
+                                                    </td>
+                                                </tr>
+                                            </empty>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <notempty name="table_data_page">
+                                        <ul class="pagination">{$table_data_page}</ul>
+                                    </notempty>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        $('.date').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language:"zh-CN",
+            minView:2,
+            autoclose:true,
+            todayBtn:1, //是否显示今日按钮
+        });
+    </script>
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+</block>

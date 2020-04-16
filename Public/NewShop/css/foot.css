@@ -1,0 +1,91 @@
+﻿
+/*底部 */
+footer {
+    margin-top: 15px;
+    padding: 0px 0.2rem 0.4rem;
+    background-color: #F0EFED;
+}
+
+.footer-bar {
+    font-size: 0.28rem;
+    margin-bottom: 0.4rem;
+}
+.btn {
+    display: inline-block;
+    margin: 0px;
+    text-align: center;
+    height: 30px;
+    padding: 0px 16px;
+    border-radius: 3px;
+    color: #FFF;
+    border: 0px none;
+    background-color: #06C1AE;
+    font-size: 14px;
+    vertical-align: middle;
+    line-height: 30px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.btn-weak {
+    border: 1px solid #06C1AE;
+    padding: 0px 15px;
+    background: transparent none repeat scroll 0px center;
+    color: #06C1AE;
+}
+
+.footer-nav {
+    margin-bottom: 9px;
+}
+.footer-nav ul {
+    margin: 0px;
+    padding: 9px 0px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: -moz-box;
+    width: 100%;
+}
+.footer-nav li {
+    -moz-box-flex: 1;
+    border-right: 1px solid #666;
+    text-align: center;
+     width: 30%;
+     float:left;
+}
+
+.footer-nav li > a {
+    color: #06C1AE;
+}
+.footer-copyright {
+    color: #999;
+}
+.footer-copyright {
+    font-size: 11px;
+    text-align: center;
+    position: relative;
+}
+
+.footer-copyright .hr {
+    display: block;
+    content: "";
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    border-top: 1px solid #999;
+}
+
+.footer-copyright-text {
+    position: relative;
+    padding: 0px 15px;
+    background-color: #F0EFED;
+}
+.footer-copyright {
+    color: #999;
+}
+.footer-copyright {
+    font-size: 11px;
+    text-align: center;
+}
+
+
+
+

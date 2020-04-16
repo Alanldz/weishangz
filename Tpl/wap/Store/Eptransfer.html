@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+</head>
+<body>
+<header class="text-center"><a href="{:U('Growth/index')}" class="go-back"></a>EP转账</header>
+<div class="container">
+    <div class="zz-p">
+        <p>转帐规则</p>
+        <p>1、服务中心只能转给伞下的会员，100起转且100的倍数。</p>
+        <p>2、服务中心不能互转。</p>
+        <p>3、会员有转EP给自己服务中心的功能，转给服务中心只能100以上，100的倍数转。</p>
+        <p>4、会员之间不能互转</p>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">EP数量：</div>
+        <div class="input-txt input-txt-c cangku_num">{$store['cangku_num'] | Showtwo}</div>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">转入ID： </div>
+        <input type="text" name="intoID" class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">手机后四位：</div>
+        <input type="text" name="mobile" class="form-control input-border" />
+    </div>
+    <!--<div class="select-box">-->
+        <!--<div class="select-left select-left-sm">用户名：</div>-->
+        <!--<input type="text" name="username" class="form-control input-border" />-->
+    <!--</div>-->
+    <div class="select-box">
+        <div class="select-left select-left-sm">转出数量：</div>
+        <input type="text" name="num" class="form-control input-border" />
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">备注：</div>
+        <input type="text" name="remark" class="form-control input-border" />
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">交易密码：</div>
+        <input type="password" name="safety_pwd" class="form-control input-border" />
+    </div>
+</div>
+<div class="text-center"><button type="button" class="btn btn-jh confirm">提交转账</button></div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    $('.btn').click(function () {
+        var cangku_num = $('.cangku_num').text();
+        var intoID = $('input[name=intoID]').val();
+        var mobile = $('input[name=mobile]').val();
+        var num = $('input[name=num]').val();
+        var remark = $('input[name=remark]').val();
+        var safety_pwd = $('input[name=safety_pwd]').val();
+        if(intoID == ''){
+            msg_alert('请输入转入ID');
+            return false;
+        }
+        if(mobile == ''){
+            msg_alert('请输入手机后四位');
+            return false;
+        }
+        if(num == ''){
+            msg_alert('请输入转出数量');
+            return false;
+        }
+        var exg = /^[1-9]\d*|0$/;
+        if(!(/^(\+|-)?\d+$/.test( num )) || num <= 0 || !exg.test(num) || (num%100 !== 0)){
+            msg_alert('转出数量必须是100的整数倍~');
+            return ;
+        }
+        if(num > parseFloat(cangku_num)){
+            msg_alert('您的EP数量不足~');
+            return ;
+        }
+        if(safety_pwd == ''){
+            msg_alert('请输入交易密码');
+            return false;
+        }
+
+        var data = {
+            intoID:intoID,
+            mobile:mobile,
+            num:num,
+            remark:remark,
+            safety_pwd:safety_pwd
+        };
+        var is_ajax = $('.confirm').hasClass('btn-submit');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.confirm').addClass('btn-submit');
+        doajax("{:U('store/Eptransfer')}", data, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    location.reload();
+                },1000);
+            } else {
+                msg_alert(data.message);
+                $('.confirm').removeClass('btn-submit');
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui">
+    <title>认证中心</title>
+    <link rel="stylesheet" href="__RZCSS__/header.css">
+    <link rel="stylesheet" href="__RZCSS__/huiyuan.css">
+    <link rel="stylesheet" href="__RZCSS__/layer.css">
+    <style>
+        .address li {line-height: 12vmin;font-size: 4.2vmin;background: #fff;border-radius: 2vmin;border: 1px solid #ddd;margin-top: 3%;text-indent: 1em;}
+        .address li input {width: 80%;border: none}
+        .address li p {padding-left: 0;}
+        .certification_tips {display: inline-block;width: 92%;clear: both;}
+        .upload {clear: both;}
+        .renzheng_style {width: 90%;margin-left: 5%;padding-top: 3vmin;padding-bottom: 5vmin;clear: both;}
+        .renzheng_style li {display: inline-block;float: left;font-size: 3.8vmin;padding-right: 4.5vmin;}
+        .renzheng_style li span {display: inline-block;padding-left: 1vmin;}
+        .divstyle2 {display: none;}
+    </style>
+</head>
+
+<body id="huise">
+<div class="fxm_header" style="background:#ff7a01">
+    <div class="fxm_left"><a href="{:U('member/mine')}"><img src="__RZCSS__/left.png"></a></div>
+    <div class="fxm_center">认证中心</div>
+    <!--<div class="fxm_right"><img src="/Public/home/wap/images/zf.png"></div>-->
+</div>
+<div class="top_top"></div>
+
+<form action="" method="post" enctype="multipart/form-data" id="msg">
+    <div class="shezhi qyrz3 smrz">
+        <ul class="renzheng_style">
+            <li>
+                <input name="type" <if condition="$verifyInfo.type neq 1">checked="checked"</if> type="radio" value="2" onclick="test(this)"/><span style="color: red">线上商家</span>
+            </li>
+            <li>
+                <input name="type"  value="1" <if condition="$verifyInfo.type eq 1">checked="checked"</if> type="radio" onclick="test(this)"/><span style="color: red">实体商家</span>
+            </li>
+        </ul>
+        <input type="hidden" name="id" value="{$verifyInfo.id}">
+        <input type="text" class="abc" name="real_name" value="{$verifyInfo.realname}" placeholder="姓名"/>
+        <input type="number" class="abc" name="phone" value="{$verifyInfo.phone}" placeholder="手机号"/>
+        <input type="text" class="abc" name="id_card" value="{$verifyInfo.idcard}" placeholder="身份证号"/>
+        <input type="text" class="abc" name="store_name" value="{$verifyInfo.store_name}" placeholder="店铺名称"/>
+        <div class="divstyle2">
+            <p class="abc">省份：
+                <select id="province" name="province" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                    <option value="" selected="selected">--请选择省份--</option>
+                </select>
+            </p>
+            <p class="abc">城市：
+                <select id="city" name="city" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                    <option value="" selected="selected">--请选择市--</option>
+                </select>
+            </p>
+            <p class="abc">区域：
+                <select id="district" name="district" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                    <option value="" selected="selected">--请选择区--</option>
+                </select>
+            </p>
+            <input type="hidden" class="province_id" value="{$verifyInfo['province_id']}">
+            <input type="hidden" class="city_id" value="{$verifyInfo['city_id']}">
+            <input type="hidden" class="country_id" value="{$verifyInfo['country_id']}">
+        </div>
+
+        <input type="text" class="abc" name="shore_address" value="{$verifyInfo.shore_address}" placeholder="店铺地址"/>
+
+        <div class="upload">
+            <div id="preview4">
+                <?php
+                        $legal_person_hand_card = $verifyInfo['hand_idcard'] ? $verifyInfo['hand_idcard'] : '__RZCSS__/y4.jpg';
+                    ?>
+
+                <img id="imghead4" width="100%" height="auto" border="0" src="{$legal_person_hand_card}">
+            </div>
+            <input type="file" onchange="previewImage4(this)" name="legal_person_hand_card" class="tijiao4">
+            <span id="ckt"><img src="__RZCSS__/y03.jpg"></span>
+        </div>
+        <div class="upload">
+            <div id="preview5">
+                <?php
+                        $business_license = $verifyInfo['licence'] ? $verifyInfo['licence'] : '__RZCSS__/y1.jpg';
+                    ?>
+                <img id="imghead5" width="100%" height="auto" border="0" src="{$business_license}">
+            </div>
+            <input type="file" onchange="previewImage5(this)" name="business_license" class="tijiao5">
+            <span id="ckt"><img src="__RZCSS__/y04.jpg"></span>
+        </div>
+        <!--线上商家-->
+        <div class="divstyle1">
+
+        </div>
+
+        <!--实体商家-->
+        <div class="divstyle2">
+            <div class="upload">
+                <div id="preview2">
+                    <?php
+                       $store_phone = $verifyInfo['store_phone'] ? $verifyInfo['store_phone'] : '__RZCSS__/y5.png';
+                    ?>
+                    <img id="imghead2" width="100%" height="auto" border="0" src="{$store_phone}">
+                </div>
+                <input type="file" onchange="previewImage2(this)" name="store_phone" class="tijiao2">
+                <span id="ckt"><img src="__RZCSS__/y05.jpg"></span>
+            </div>
+        </div>
+
+        <p class="certification_tips">
+            认证提交后，工作人员会再3个工作日完成审核，如有疑问，请联系客服&nbsp;
+        </p>
+        <p style="margin-top: 5%;">
+            <input type="checkbox" name="vehicle" class="vehicle" value="Car" checked="checked" style="vertical-align: middle;">同意协议
+            <a href="{:U('Member/verifyAgreement')}">
+                <i style="color: #f00">《认证协议》</i>
+            </a>
+        </p>
+    </div>
+    <div class="buttones">
+        <a href="javascript:void(0)" class="doSubmit">提交申请</a>
+    </div>
+</form>
+
+<script type="text/javascript" src="__RZCSS__/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="__RZCSS__/upload.js"></script>
+<script type="text/javascript" src="__RZCSS__/index.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+<script type="text/javascript" src="__RZCSS__/address.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var type = "{$verifyInfo.type}";
+        if(type == 1){
+            $('.divstyle1').css('display','none');
+            $('.divstyle2').css('display','block');
+            $('input[name=shore_address]').attr('placeholder','详细地址');
+        }
+        var province_id = $('.province_id').val();
+        var city_id = $('.city_id').val();
+        var country_id = $('.country_id').val();
+        if (province_id != '') {
+            addressInit('province', 'city', 'district', province_id, city_id, country_id);//添加
+        } else {
+            addressInit('province', 'city', 'district', '福建', '', '');//添加
+        }
+    });
+
+    function test(obj) {
+        if (obj.value == "2") {
+            $('.divstyle1').css('display','block');
+            $('.divstyle2').css('display','none');
+            $('input[name=shore_address]').attr('placeholder','店铺地址');
+        } else {
+            $('.divstyle1').css('display','none');
+            $('.divstyle2').css('display','block');
+            $('input[name=shore_address]').attr('placeholder','详细地址');
+        }
+    }
+
+    $('.doSubmit').click(function () {
+        var type = $('input[name=type]:checked').val();
+        var real_name = $('input[name="real_name"]').val();
+        var phone = $('input[name="phone"]').val();
+        var id_card = $('input[name="id_card"]').val();
+        var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        var store_name = $('input[name="store_name"]').val();
+        var shore_address = $('input[name="shore_address"]').val();
+
+        if (real_name == '') {
+            $('input[name="real_name"]').focus();
+            msg_alert('请填写姓名');
+            return;
+        }
+
+        if (phone == '') {
+            $('input[name="phone"]').focus();
+            msg_alert('请填手机号');
+            return;
+        }
+
+        if(id_card == ''){
+            $('input[name="id_card"]').focus();
+            msg_alert('请填写身份证号码');
+            return;
+        }
+
+        if (!pattern.test(id_card)) {
+            $('input[name="id_card"]').focus();
+            msg_alert('请填写正确的身份证号码');
+            return;
+        }
+
+        if(store_name == ''){
+            $('input[name="store_name"]').focus();
+            msg_alert('请填写店铺名称');
+            return;
+        }
+
+        if(type == 2){
+            if(shore_address == ''){
+                $('input[name="shore_address"]').focus();
+                msg_alert('请填写店铺地址');
+                return;
+            }
+        }else {
+            var province = $("#province  option:selected").text();
+            var city = $("#city  option:selected").text();
+            var district = $("#district  option:selected").text();
+
+            if(province == '--请选择省份--'){
+                msg_alert('请选择省份');
+                return;
+            }
+            if(city == '' || city == '--请选择市--'){
+                msg_alert('请选择城市');
+                return;
+            }
+            if(district == '' || district == '--请选择区--'){
+                msg_alert('请选择区');
+                return;
+            }
+            if(shore_address == ''){
+                $('input[name="shore_address"]').focus();
+                msg_alert('请填写详细地址');
+                return;
+            }
+        }
+
+        //判断是否选中
+        var is_checked = $('.vehicle').is(':checked');
+        if (!is_checked) {
+            msg_alert('请同意商城用户协议');
+            return;
+        }
+
+        $("#msg").submit();
+    })
+</script>
+</body>
+</html>

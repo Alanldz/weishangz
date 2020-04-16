@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>转账</title>
+    <link rel="stylesheet" href="__WCSS__/style.css">
+    <link rel="stylesheet" href="__WCSS__/meCen.css">
+    <style>
+        .select_style {width: 65%;float: left;font-size: 14px;border: none;color: #000;line-height: 24px;margin: 11px 0;padding: 0;}
+    </style>
+</head>
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('Home/User/found')}"><img src="__WIMG__/jiant.png"></a>
+    </div>
+    <div class="header_c"><h2>转账</h2></div>
+    <!--<div class="header_r"><a href="{:U('Index/Turncords')}">{$Think.lang.zcjl}</a></div>-->
+</div>
+
+<div class="big_width100">
+    <div class="fill_sty">
+        <p>转账类型：</p>
+        <select name="type" class="select_style">
+            <option value="cangku_num">生态总资产</option>
+            <option value="fengmi_num">消费通证</option>
+        </select>
+    </div>
+    <div class="fill_sty">
+        <p style="width: 25%;" class="user_money_text">生态总资产：</p>
+        <input type="text" readonly class="user_money" value="{$userInfo.cangku_num}">
+    </div>
+    <div class="fill_sty">
+        <p>{$Think.lang.dfzh}：</p>
+        <input type="number" name="account" placeholder="请输入手机号" autocomplete="off" id="phone_uid">
+    </div>
+    <div class="fill_sty">
+        <p>转账数量：</p>
+        <input type="text" name="amount" class="amount" placeholder="请输入转账数量" autocomplete="off">
+    </div>
+    <div class="fill_sty fee_num_div">
+        <p>手续费：</p>
+        <input type="text" class="fee_num" readonly value="">
+    </div>
+    <div class="fill_sty">
+        <p>交易密码：</p>
+        <input type="password" name="safety_pwd" class="dhnums" placeholder="输入交易密码" autocomplete="off">
+    </div>
+    <div class="buttonGeoup">
+        <a href="#" class="not_next" id="submit-transfer">提交转账</a>
+    </div>
+</div>
+<script type="text/javascript" src="__WJS__/jquery1.11.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+    $('.select_style').change(function () {
+        var style = $(this).val();
+        var user_money_text = '';
+        var user_money = '';
+        var is_show = 1;
+        if (style === 'fengmi_num') {
+            user_money = "{$userInfo.fengmi_num}";
+            user_money_text = '消费通证：';
+            is_show = 0;
+        } else {
+            user_money = "{$userInfo.cangku_num}";
+            user_money_text = '生态总资产：';
+        }
+
+        $('.user_money_text').html(user_money_text);
+        $('.user_money').val(user_money);
+        if(is_show){
+            $('.fee_num_div').show();
+        }else {
+            $('.fee_num_div').hide();
+        }
+    });
+
+    $('.amount').blur(function () {
+        var amount = Math.ceil($(this).val());
+        $(this).val(amount);
+        var fee_ratio = "{$fee_ratio}";
+        var fee_num = amount * fee_ratio;
+        $('.fee_num').val(fee_num);
+    });
+
+    $('#submit-transfer').on('click', function () {
+        var type = $('.select_style').val();
+        if (type == '') {
+            msg_alert('请选择转账类型~');
+            return;
+        }
+
+        var userAccount = $('input[name=account]').val();
+        if (userAccount == '') {
+            msg_alert('对方账户不能为空~');
+            return;
+        }
+
+        var amount = $.trim($('.amount').val());
+        var exg = /^[1-9]\d*|0$/;
+        if (!exg.test(amount)) {
+            msg_alert('请输入转账数量~');
+            return;
+        }
+
+        var safety_pwd = $.trim($('input[name=safety_pwd]').val());
+        if (safety_pwd === '') {
+            msg_alert('请输入交易密码~');
+            return;
+        }
+        var is_ajax = $('#submit-transfer').hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作~');
+            return;
+        }
+        $('#submit-transfer').addClass('is_ajax');
+        //ajax操作g
+        $.ajax({
+            url: "{:U('Shop/member/transfer')}",
+            type: 'post',
+            data: {'amount': amount, 'safety_pwd': safety_pwd, account: userAccount, type: type},
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status) {
+                    msg_alert(mes.msg);
+                    window.location.reload();
+                } else {
+                    msg_alert(mes.msg);
+                    $('#submit-transfer').removeClass('is_ajax');
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

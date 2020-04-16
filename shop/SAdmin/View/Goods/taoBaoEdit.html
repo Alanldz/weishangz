@@ -1,0 +1,108 @@
+<extend name="Public:base"/>
+<block name="css">
+    <style>
+        .table thead > tr > td, .table tbody > tr > td {vertical-align: middle;}
+        .table thead td span[data-toggle="tooltip"]:after, label.control-label span:after {font-family: FontAwesome;color: #1E91CF;content: "\f059";margin-left: 4px;}
+    </style>
+</block>
+<block name="content">
+    <div class="page-header">
+        <h1>
+            {$breadcrumb2}
+            <small>
+                <i class="icon-double-angle-right"></i>
+                {$crumbs}
+            </small>
+            <button name="send" form="form-goods" type="submit" style="float:right;" class="btn btn-sm btn-primary">提交</button>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-goods" class="form-horizontal">
+                <div class="panel-body">
+
+                    <notempty name="Think.get.id">
+                        <input name="id" type="hidden" value="{$Think.get.id}"/>
+                    </notempty>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-general" data-toggle="tab">基本信息</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- 基本信息 START -->
+                        <div class="tab-pane active" id="tab-general">
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label" for="product_name">商品名称：</label>
+                                <div class="col-sm-10">
+                                    <input id="product_name" class="form-control" type="text" placeholder="商品名称" value="{$goods.product_name|default=''}" name="product_name">
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label">原价：</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="原价" value="{$goods.cost_price|default=''}" name="cost_price">
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label">折后价：</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="折后价" value="{$goods.discount_price|default=''}" name="discount_price">
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label">商品链接：</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="商品链接" value="{$goods.product_url|default=''}" name="product_url">
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label">主图链接：</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="主图链接" value="{$goods.pic_url|default=''}" name="pic_url">
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="col-sm-2 control-label">优惠券链接：</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="优惠券链接" value="{$goods.coupon_url|default=''}" name="coupon_url">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否上架：</label>
+                                <?php
+                                    if(array_key_exists('status',$goods)) {
+                                        $pro_status = $goods['status'];
+                                    }else{
+                                        $pro_status = 1;
+                                    }
+                                ?>
+                                <div class="col-sm-10">
+                                    <label class="radio-inline"><input type="radio" <eq name="pro_status" value="1"> checked="checked"</eq> value="1" name="status">是</label>
+                                    <label class="radio-inline"><input type="radio" <eq name="pro_status" value="0"> checked="checked"</eq> value="0" name="status">否</label>
+                                </div>
+                            </div>
+
+                            <notempty name="Think.get.id">
+                                <div class="form-group required">
+                                    <label class="col-sm-2 control-label" >创建时间：</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="text" value="{$goods.create_time|toDate}" readonly>
+                                    </div>
+                                </div>
+                            </notempty>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</block>
+<block name="javascript">
+
+</block>

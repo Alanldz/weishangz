@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>买入</title>
+
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/digital.css">
+<link rel="stylesheet" href="__WCSS__/zhifu.css">
+<link rel="stylesheet" href="__WCSS__/ion.rangeSlider.css"/>
+<link rel="stylesheet" href="__WCSS__/ion.rangeSlider.skinHTML5.css"/>
+
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__WJS__/ion.rangeSlider.js"></script>
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('Turntable/buySharesList')}"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c" id="dig_xiala"><h2 style="line-height:36px;">买入</h2></div>
+</div>
+<div class="big_width100">
+
+    <!-- 输入 -->
+    <div class="fabchsding">
+        <div class="fill_styaa">
+            <p>卖家ID：</p>
+            <input type="text" readonly value="{$orderInfo['sell_id']}">
+        </div>
+        <div class="fill_styaa">
+            <p>类型：</p>
+            <if condition="$orderInfo['sell_type'] eq 1">
+                <input type="text" readonly value="生态总资产交易">
+                <else/>
+                <input type="text" readonly value="消费通证交易">
+            </if>
+
+        </div>
+        <div class="fill_styaa">
+            <p>出售数量：</p>
+            <input type="text" readonly value="{$orderInfo['num']|showTwo}">
+        </div>
+
+        <div class="fill_styaa">
+            <p>购买数量：</p>
+            <input type="number" name="buy_num" id="buy_num" onkeyup="enfocus()" placeholder="{$Think.lang.qsrsl}">
+        </div>
+        <div class="fill_styaa">
+            <p>应付金额：</p>
+            <input type="number" readonly="readonly" id="total_money" class="">
+        </div>
+        <div class="fill_styaa">
+            <p>交易密码：</p>
+            <input type="password" name="pwd" id="pwd" placeholder="请输入交易密码">
+        </div>
+        <a class="dig_zhifuanj definite_buying" style="background:#D5A512" href="javascript:void(0);">
+            确定买入
+        </a>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    function enfocus() {
+        var buy_num = Math.round($('#buy_num').val());
+        $('#buy_num').val(buy_num);
+        $('#total_money').val(buy_num);
+    }
+
+    $('.definite_buying').on('click',function () {
+        var order_id = "{$orderInfo['id']}";
+        var buy_num = $('#buy_num').val();
+        var pwd = $('#pwd').val();
+        var sell_num = "{$orderInfo['num']}";
+
+        if(buy_num == '' || buy_num == 0){
+            $('#buy_num').focus();
+            msg_alert('请输入购买数量');
+            return false;
+        }
+
+        if(parseFloat(buy_num) > parseFloat(sell_num)){
+            $('#buy_num').focus();
+            msg_alert('购买数量不能大于出售数量，请重新输入');
+            return false;
+        }
+
+        if(pwd == '' || pwd === undefined ){
+            msg_alert('交易密码不能为空');
+            return false;
+        }
+
+        var is_ajax = $('.definite_buying').hasClass('submit_buy');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+
+        $('.definite_buying').addClass('submit_buy');
+
+        doajax("{:U('Turntable/subBuyShares')}", {order_id:order_id,buy_num:buy_num,sale_pwd:pwd}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message, data.url);
+            } else {
+                msg_alert(data.message);
+                $('.definite_buying').removeClass('submit_buy');
+            }
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>开通交易</title>
+    <link rel="stylesheet" href="__WCSS__/style.css">
+    <link rel="stylesheet" href="__WCSS__/meCen.css">
+</head>
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('Home/Turntable/Transaction')}"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c"><h2>开通交易</h2></div>
+    <div class="header_r"><a href="{:U('Shop/member/rechargeRecord')}">付款记录</a></div>
+</div>
+
+<div class="big_width100">
+    <form id='submit-form' action="{:U('Shop/member/recharge')}" method='post' enctype='multipart/form-data'>
+        <div class="acco_con_upa fill_sty">
+            <p style="width: 30%;">收款账户</p>
+            <div class="shangcjt" style="width: 60%;padding: 10px 0;">
+                <img style="width: 90px;height: 90px;" class="collections_img" src="{$collections_img}" alt="">
+                <input type="hidden" class="pay_code" value="{$collections_img}">
+            </div>
+        </div>
+        <div class="fill_sty">
+            <p>需付金额：</p>
+            <input type="text" value="{$open_power_sell_amount}" readonly>
+        </div>
+        <div class="acco_con_upa fill_sty">
+            <p style="width: 30%;">付款凭证：</p>
+            <div class="shangcjt" style="width: 60%;padding: 10px 0;">
+                <div class="containera"></div>
+                <input type="file" id="photo" name="uploadfile" class="shangcanj">
+            </div>
+        </div>
+        <div class="fill_sty">
+            <p>交易密码：</p>
+            <input type="password" name="pwd" class="pwd" placeholder="请输入交易密码" autocomplete="off" >
+        </div>
+    </form>
+    <div class="buttonGeoup">
+        <a href="#" class="not_next" id="submit-recharge">提交</a>
+    </div>
+</div>
+<script type="text/javascript" src="__WJS__/jquery1.11.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="/Public/home/wap/js/jquery.form.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js" ></script>
+<script type="text/javascript">
+    $('.shangcanj').change(function (e) {
+        var files = this.files;
+        var img = new Image();
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = function (e) {
+            var dx = (e.total / 1024) / 1024;
+            if (dx >= 2) {
+                alert("文件不能大于2M");
+                return;
+            }
+            img.src = this.result;
+            img.style.width = "100%";
+            img.style.height = "90%";
+            $('.containera').html(img);
+        }
+    });
+
+    $('#submit-recharge').on('click', function () {
+        var is_ajax= $('#submit-recharge').hasClass('is_ajax');
+        if(is_ajax){
+            msg_alert('请勿频繁操作~');
+            return;
+        }
+        $('#submit-recharge').addClass('is_ajax');
+        $('#submit-form').ajaxSubmit({
+            dataType: 'json', //数据格式为json
+            success: function (data) {
+                if (data.status == 1) {
+                    msg_alert(data.msg);
+                    window.location.reload();
+                } else {
+                    msg_alert(data.msg);
+                }
+                $('#submit-recharge').removeClass('is_ajax');
+            },
+            error: function (xhr) { //上传失败
+                msg_alert('上传失败');
+                $('#submit-recharge').removeClass('is_ajax');
+            }
+        });
+    });
+
+    $('.collections_img').on('click',function () {
+        var img = $(this).parent().find('.pay_code').val();
+        console.log(img);
+        //自定页
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-demo', //样式类名
+            closeBtn: 1, //不显示关闭按钮
+            anim: 2,
+            title:'',
+            shadeClose: true, //开启遮罩关闭
+            content: '<img style="width: 300px;height: 400px;" src="'+img+'">'
+        });
+    });
+</script>
+
+</body>
+</html>

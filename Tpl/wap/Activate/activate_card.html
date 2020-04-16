@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 2px 5px;
+            margin: 0 1px;
+            border: 1px solid #f0f0f0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        .pagination a,
+        .pagination li {
+            display: inline-block;
+            list-style: none;
+            text-decoration: none;
+            color: #58A0D3;
+        }
+
+        .pagination a.first,
+        .pagination a.prev,
+        .pagination a.next,
+        .pagination a.end {
+            margin: 0;
+        }
+
+        .pagination a:hover {
+            border-color: #50A8E6;
+        }
+
+        .pagination span.current {
+            background: #50A8E6;
+            color: #FFF;
+            font-weight: 700;
+            border-color: #50A8E6;
+        }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>激活卡</header>
+<div class="back"></div>
+<ul class="jh-list">
+    <li><a href="{:U('activate/markCard')}"><span></span>制作激活卡</a></li>
+</ul>
+<ul class="jh-tabs clearfix">
+    <li
+    <eq name="step" value="0">class="active"</eq>
+    ><a href="{:U('Activate/activate_card',array('step'=>0))}">未使用</a></li>
+    <li
+    <eq name="step" value="1">class="active"</eq>
+    ><a href="{:U('Activate/activate_card',array('step'=>1))}">已使用</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+        <ul class="ka-list">
+            <if condition="$list">
+            <foreach name="list" item="v">
+                <li>
+                    <div class="list-header">{$v['header_name']}</div>
+                    <div class="ka-bottom">
+                        <p>{$v['activation_code']}</p>
+
+                        <div class="text-right">
+                           时间:{$v['create_time']}
+                            <a role="button">
+                                <if condition="$v['status'] eq 0">
+                                    未使用
+                                    <else/>
+                                    已使用
+                                </if>
+                            </a>
+                            <if condition="$v['status'] eq 0 && $v['is_giving']">
+                                <a href="{:U('Activate/giftActivationCard',['card_id'=>$v['id']])}">赠送</a>
+                            </if>
+                        </div>
+                    </div>
+                </li>
+            </foreach>
+                <else/>
+            <li>
+                <div style="text-align: center;color: #a99d9d">
+                    <if condition="$step eq 0">
+                        暂无未使用的激活卡
+                        <else/>
+                        暂无已使用的激活卡
+                    </if>
+                </div>
+            </li>
+                </if>
+        </ul>
+        <div class="text-center">
+            <notempty name="page">
+                <ul class="pagination">{$page}</ul>
+            </notempty>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+</html>

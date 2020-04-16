@@ -1,0 +1,345 @@
+#member_nav {
+	background: rgb(221, 221, 221); height: 36px;
+}
+#member_nav li {
+	background: rgb(221, 221, 221); border-width: 1px 1px 1px medium; border-style: solid solid solid none; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(204, 204, 204) currentColor; border-image: none; width: 100%; height: 36px; text-align: center; line-height: 36px; float: left; box-sizing: border-box;
+}
+#member_nav li.cur {
+	background: rgb(255, 255, 255); font-weight: bold;
+}
+#member_nav li a {
+	text-decoration: none;
+}
+#order_list h1 {
+	height: 22px; text-indent: 8px; font-weight: bold; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#order_list .item {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px 0px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; overflow: hidden; position: relative;
+}
+#order_list .item .pro {
+	margin: 8px 8px 0px; clear: both; position: relative;
+}
+ #order_list .item  .noclear {
+	clear: none;
+}
+ 
+#order_list .item .pro2 {
+	margin: 8px 8px 0px; clear: both; position: relative;
+}
+#order_list .item .pro2 dl {
+	overflow: hidden; margin-right: 5px; min-height: 100px;
+}
+#order_list .item .pro2 dl dd {
+	height: 22px; color: rgb(136, 136, 136); overflow: hidden;
+}
+
+
+#order_list .item .pro .img {
+	border: 1px solid rgb(238, 238, 238); border-image: none; width: 100px; overflow: hidden; position: absolute;
+}
+
+#order_list .item .pro .desc {
+	 float: left;
+margin-left: 108px;
+	 font-size:10px;
+}
+#order_list .item .pro .morderdesc {
+	 float: left;
+margin-left: 8px;
+	 font-size:10px;
+}
+.red { color:red;
+}
+#order_list .item .pro .morderdesc ul {
+		width:130px;float: left; clear:none;
+}
+
+#order_list .item .pro .img img {
+	width: 100%; float: left;
+}
+#order_list .item .pro .drawimg img {
+	width:40px;height:28px; float: left;
+}
+#order_list .item .pro dl {
+	overflow: hidden; margin-right: 5px; margin-left: 108px; min-height: 100px;
+}
+#order_list  .item .pro  .Bankdl { min-height: 85px;
+}
+#order_list .item .pro dl dd {
+	height: 22px; color: rgb(136, 136, 136); overflow: hidden;
+}
+#order_list .item .pro dl dd.name {
+	white-space: nowrap; -ms-text-overflow: ellipsis;
+}
+#order_list .item .pro dl dd a {
+	font-size: 14px; font-weight: bold;
+}
+/**/
+#order_list .item .pro ul {
+	width:75px;float: left; clear:none;
+    
+}
+
+
+#order_list .item .pro ul li  {
+	font-size: 12px; 
+}
+/**/
+#order_list #turn_page {
+	padding: 5px 5px 10px;
+}
+#order_detail .item {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px 0px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; overflow: hidden; position: relative;
+}
+#order_detail .item ul {
+	padding-left: 8px;
+}
+#order_detail .item ul li {
+	color: rgb(85, 85, 85); padding-top: 5px;
+}
+#order_detail .item ul li a {
+	color: rgb(85, 85, 85); margin-left: 10px;
+}
+#order_detail .item .pro {
+	margin: 0px 8px 8px; clear: both; position: relative;
+}
+#order_detail .item .pro .img {
+	border: 1px solid rgb(238, 238, 238); border-image: none; width: 100px; overflow: hidden; position: absolute;
+}
+#order_detail .item .pro .img img {
+	width: 100%; float: left;
+}
+#order_detail .item .pro dl {
+	overflow: hidden; margin-right: 5px; margin-left: 108px; min-height: 100px;
+}
+#order_detail .item .pro dl dd {
+	height: 22px; color: rgb(136, 136, 136); overflow: hidden;
+}
+#order_detail .item .pro dl dd.name {
+	white-space: nowrap; -ms-text-overflow: ellipsis;
+}
+#order_detail .item .pro dl dd a {
+	font-size: 14px; font-weight: bold;
+}
+#order_detail .item .total_price {
+	text-align: right; padding-top: 8px; padding-right: 8px; border-top-color: rgb(221, 221, 221); border-top-width: 1px; border-top-style: solid;
+}
+#order_detail .item .total_price span {
+	color: rgb(255, 0, 0); font-weight: bold;
+}
+#order_detail .item .red {
+	color: red;
+}
+#order_detail .payment {
+	padding: 8px 0px 15px; height: 36px;
+}
+#order_detail .payment a {
+	margin: 0px auto; border-radius: 5px; border: 1px solid rgb(193, 0, 1); border-image: none; width: 150px; height: 36px; text-align: center; color: rgb(255, 255, 255); line-height: 36px; font-size: 16px; font-weight: bold; text-decoration: none; display: block; box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5); background-color: rgb(240, 0, 25);
+}
+#address .add {
+	margin: 8px;
+}
+#address .add a {
+	background: rgb(240, 0, 25); border-radius: 5px; height: 36px; text-align: center; color: rgb(255, 255, 255); line-height: 36px; font-size: 16px; text-decoration: none; display: block;
+}
+#address .list {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; line-height: 150%; overflow: hidden; position: relative;
+}
+#address .list img {
+	padding: 0px 4px; vertical-align: middle;
+}
+#address dl {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none;
+}
+#address dl dd {
+	color: rgb(102, 102, 102); padding-bottom: 8px;
+}
+#address dl dd input {
+	border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 100%; height: 32px; color: rgb(102, 102, 102); line-height: 32px; box-sizing: border-box;
+}
+#address dl dd select {
+	background: rgb(255, 255, 255); padding: 5px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; height: 32px; color: rgb(102, 102, 102); margin-bottom: 5px;
+}
+#address dl dt {
+	padding: 5px; text-align: center;
+}
+#address dl dt .submit {
+	border-radius: 5px; border: 1px solid rgb(193, 0, 1); border-image: none; width: 150px; height: 36px; text-align: center; color: rgb(255, 255, 255); font-size: 16px; font-weight: bold; box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5); background-color: rgb(240, 0, 25);
+}
+#address dl dt .back {
+	background: rgb(247, 247, 247); border-radius: 5px; width: 60px; height: 36px; text-align: center; font-size: 16px; font-weight: bold; margin-left: 8px;
+}
+.fr {
+	float: right;
+}
+.fl {
+	float: left;
+}
+.m_column {
+	background: rgb(231, 231, 231); height: 45px; text-align: center; color: black; line-height: 45px; font-family: "Î¢ÈíÑÅºÚ"; font-size: 18px; position: relative;
+}
+.m_column .back {
+	background: url("../images/back_icon.jpg") no-repeat center / 100%; left: 15px; top: 10px; width: 26px; height: 26px; display: block; position: absolute;
+}
+#member_center {
+	padding-bottom: 55px;
+}
+.member_info {
+	padding: 15px 0px;
+}
+.member_info .info {
+	width: 50%; margin-left: 5%;
+}
+.member_info .info .face {
+	width: 56px; height: 56px;
+}
+.member_info .info .face img {
+	width: 100%; height: 100%;
+}
+.member_info .info .intro {
+	width: 90px; line-height: 20px; padding-top: 10px; margin-left: 10px;
+}
+.member_info .status {
+	width: 42%; padding-top: 35px;
+}
+.order_status {
+	background: rgb(255, 255, 255); border-width: 1px 0px; border-style: solid none; border-color: rgb(226, 226, 226) currentColor; border-image: none; height: 60px;
+}
+.order_status li {
+	width: 33%; height: 60px; text-align: center; float: left;
+}
+.order_status li span {
+	padding: 15px 0px 5px; width: 100%; color: rgb(0, 0, 0); font-weight: bold; display: block;
+}
+.order_status li.center {
+	border-width: 0px 1px; border-style: none solid; border-color: currentColor rgb(226, 226, 226); border-image: none;
+}
+.linkbar {
+	background: rgb(255, 255, 255); width: 100%; margin-top: 8px; border-top-color: rgb(226, 226, 226); border-top-width: 1px; border-top-style: solid;
+}
+.linkbar li {
+	width: 50%; height: 50px; line-height: 50px; padding-left: 65px; border-bottom-color: rgb(226, 226, 226); border-bottom-width: 1px; border-bottom-style: solid; float: left; box-sizing: border-box;
+}
+.linkbar li.cart {
+	background: url("../images/m_cart_icon.jpg") no-repeat 35px / 24px 21px; border-right-color: rgb(226, 226, 226); border-right-width: 1px; border-right-style: solid;
+}
+.linkbar li.address {
+	background: url("../images/m_address_icon.jpg") no-repeat 35px / 22px 20px;
+}
+.linkbar li.coupon {
+	background: url("../images/m_coupon_icon.jpg") no-repeat 35px / 19px 19px; border-right-color: rgb(226, 226, 226); border-right-width: 1px; border-right-style: solid;
+}
+.linkbar li.gifts {
+	background: url("../images/m_win_icon.png") no-repeat 35px / 20px;
+}
+.heading {
+	padding: 10px 0px 10px 12px; font-size: 14px;
+}
+.mytable {
+	background: rgb(255, 255, 255); border-bottom-color: rgb(226, 226, 226); border-bottom-width: 1px; border-bottom-style: solid;
+}
+.mytable .head {
+	height: 32px; text-align: center; line-height: 32px;
+}
+.mytable .head td {
+	border-width: 1px 0px; border-style: solid none; border-color: rgb(226, 226, 226) currentColor; border-image: none;
+}
+.mytable .head .con1 {
+	width: 28%; border-right-color: rgb(226, 226, 226); border-right-width: 1px; border-right-style: solid;
+}
+.mytable .head .con2 {
+	width: 18%; border-right-color: rgb(226, 226, 226); border-right-width: 1px; border-right-style: solid;
+}
+.mytable .head .con3 {
+	width: 18%; border-right-color: rgb(226, 226, 226); border-right-width: 1px; border-right-style: solid;
+}
+.mytable .rows td {
+	padding: 5px 0px; text-align: center; border-bottom-color: rgb(226, 226, 226); border-bottom-width: 1px; border-bottom-style: dotted;
+}
+.mytable .last td {
+	padding: 5px 0px; text-align: center;
+}
+.mytable .nodata {
+	height: 140px; text-align: center; line-height: 140px; font-size: 16px;
+}
+.mytable .nodata img {
+	width: 25px; margin-right: 10px; vertical-align: middle;
+}
+.m_foot {
+	background: rgb(45, 49, 50); width: 100%; height: 50px; bottom: 0px; position: fixed;
+}
+.m_foot .back {
+	padding: 0px 30px; height: 30px; margin-top: 10px; border-right-color: rgb(33, 37, 38); border-right-width: 1px; border-right-style: solid;
+}
+.m_foot .back img {
+	width: 24px;
+}
+.m_foot .ref {
+	padding: 0px 30px; height: 30px; margin-top: 10px; border-left-color: rgb(33, 37, 38); border-left-width: 1px; border-left-style: solid;
+}
+.m_foot .ref img {
+	width: 24px;
+}
+
+ .memberdiv h1 {
+                        border-bottom: 1px solid rgb(221, 221, 221);
+                        font-size: 18px;
+                        font-weight: bold;
+                        height: 25px;
+                        text-indent: 8px;
+                    }
+
+.payment input {
+    background-color: rgb(36, 168, 179);
+    border: 1px solid rgb(65, 168, 255);
+    border-radius: 5px;
+    box-shadow: 0 1px 0 #cbdeda inset, 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-weight: bold;
+    height: 36px;
+    text-align: center;
+    width: 150px;
+}
+
+  .comment input {
+    background-color: rgb(240, 0, 25);
+    border: 1px solid rgb(193, 0, 1);
+    border-radius: 5px;
+    box-shadow: 0 1px 0 #d95260 inset, 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255);
+    
+    font-size: 16px;
+    font-weight: bold;
+    height: 36px;
+    text-align: center;
+    width: 150px;
+}
+    .Recomment input {
+    background-color: rgb(240, 0, 25);
+    border: 1px solid rgb(193, 0, 1);
+    border-radius: 5px;
+    box-shadow: 0 1px 0 #d95260 inset, 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255);
+    
+    font-size: 16px;
+    font-weight: bold;
+    height: 36px;
+    text-align: center;
+    width: 150px;
+}
+
+.abtn {
+    border-radius: 5px;
+border: 1px solid rgb(193, 0, 1);
+border-image: none;
+width: 80px;
+
+text-align: center;
+color: rgb(255, 255, 255);
+
+font-weight: bold;
+float: right;
+box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5);
+background-color: rgb(240, 0, 25);
+}

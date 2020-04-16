@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+</head>
+<body>
+<header class="text-center"><a href="{:U('user/found')}" class="go-back"></a>激活账户</header>
+<div class="back"></div>
+<div class="container">
+    <div class="select-box">
+        <div class="select-left">选择激活方式：</div>
+        <select class="form-control" name="type" id="type">
+            <option value="1">EP激活</option>
+            <option value="3">EF激活</option>
+            <option value="2">激活卡激活</option>
+        </select>
+    </div>
+    <div class="lind"></div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">激活账户：</div>
+        <input type="text" name="user_id" id="user_id" class="form-control input-border" placeholder="UID"/>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">账户姓名：</div>
+        <input type="text" name="username" class="form-control input-border" readonly/>
+    </div>
+    <div class="select-box select-price">
+        <div class="select-left select-left-sm">所需EP：</div>
+        <div class="input-txt"><span class="investment_price">0</span>$（目前账户EP余额<span class="cangku_num">{$store['cangku_num']|Showtwo}</span>$)
+        </div>
+    </div>
+    <div class="select-box select-ef" style="display: none">
+        <div class="select-left select-left-sm">所需EF：</div>
+        <div class="input-txt"><span class="ef_price">0</span>$（目前账户EF余额<span class="complex_integral">{$store['complex_integral']|Showtwo}</span>$)
+        </div>
+    </div>
+    <div class="select-box select-card" style="display: none">
+        <div class="select-left select-left-sm">选择激活卡：</div>
+        <select class="form-control input-border sel-card">
+            <!--<option>djkfjklejkfjekfjkefjkjj(激活一星)</option>-->
+        </select>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">交易密码：</div>
+        <input type="password" name="trade_pwd" class="form-control input-border"/>
+    </div>
+    <div class="text-center">
+        <button type="button" class="btn btn-jh">提交激活</button>
+    </div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    $('#user_id').blur(function () {
+        var user_id = $('#user_id').val();
+        if (user_id == '') {
+            return;
+        }
+        doajax("{:U('activate/getUserInfo')}", {user_id: user_id}, function (data) {
+            if (data.status == 1) {
+                if(data.message.level > 0){
+                    $('input[name=username]').val('已激活');
+
+                }else {
+                    $('input[name=username]').val(data.message.username);
+                }
+                $('.investment_price').text(data.message.investment_price);
+                $('.ef_price').text(data.message.investment_price);
+                var card_list = data.message.card_list;
+                $('.sel-card').html('');
+                var options = '';
+                if(card_list != ''){
+                    var level_name = '';
+                    $.each(card_list,function (i,list) {
+                        if(list.level == 1){
+                            level_name = '激活一星';
+                        }else if(list.level == 2){
+                            level_name = '激活二星';
+                        }else if(list.level == 3){
+                            level_name = '激活三星';
+                        }else if(list.level == 4){
+                            level_name = '激活四星';
+                        }
+                        options += '<option value="' + list.id + '">' + "(" +level_name + ")" + list.activation_code + '</option>';
+                    });
+                }else {
+                    options += '<option value="0">' + '暂无激活卡' + '</option>';
+                }
+                $('.sel-card').html(options);
+            } else {
+                $('#user_id').val('');
+                $('input[name=username]').val('');
+                $('.investment_price').text(0);
+                msg_alert(data.message);
+                $('.sel-card').html('');
+                return false;
+            }
+        });
+    });
+
+    //选择激活方式
+    $('#type').change(function () {
+        var type = $(this).val();
+        if(type == 2){ //激活卡
+            $('.select-price').hide();
+            $('.select-ef').hide();
+            $('.select-card').show();
+        }else if(type == 3){
+            $('.select-price').hide();
+            $('.select-card').hide();
+            $('.select-ef').show();
+        }else { //EP激活
+            $('.select-price').show();
+            $('.select-ef').hide();
+            $('.select-card').hide();
+        }
+    });
+
+    //提交激活
+    $('.btn').click(function () {
+        var type = $("#type option:selected").val();
+        if(type == ''){
+            msg_alert('请选择激活方式');
+            return false;
+        }
+
+        var user_id = $('#user_id').val();
+        if (user_id == '') {
+            msg_alert('请输入激活账户');
+            return false;
+        }
+
+        var card_id =  $('.sel-card').val();
+        if(type == 2 && (card_id == 0 || card_id == '' )){
+            msg_alert('请选择激活卡');
+            return false;
+        }
+
+        var trade_pwd = $('input[name=trade_pwd]').val();
+        if(trade_pwd == ''){
+            msg_alert('请输入交易密码');
+            return false;
+        }
+
+        var investment_price = 0;
+        if(type == 3){
+            investment_price = $('.ef_price').text();
+        }else {
+            investment_price = $('.investment_price').text();
+        }
+
+        var cangku_num = $('.cangku_num').text();
+        if(type == 1 && parseFloat(investment_price) > parseFloat(cangku_num)){
+            msg_alert('您的EP金额不足，不能激活');
+            return false;
+        }
+        var complex_integral = $('.complex_integral').text();
+        if(type == 3 && parseFloat(investment_price) > parseFloat(complex_integral)){
+            msg_alert('您的EF金额不足，不能激活');
+            return false;
+        }
+
+        var is_ajax = $('.btn').hasClass('btn-submit');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.btn').addClass('btn-submit');
+        var data = {
+            type:type,
+            activation_id:user_id,
+            trade_pwd :trade_pwd,
+            card_id :card_id
+        };
+
+        doajax("{:U('activate/submit')}", data, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    location.reload();
+                },1000);
+            } else {
+                msg_alert(data.message);
+            }
+            $('.btn').removeClass('btn-submit');
+        });
+    });
+</script>
+</html>

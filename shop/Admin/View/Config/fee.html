@@ -1,0 +1,65 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+</block>
+
+<block name="main">
+   <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <foreach name="_menu_tab['name']" item="tab_v" >
+            <li class="text-muted">{$tab_v}</li>
+            </foreach>
+             <li class="text-muted">积分释放率</li>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+                    <div class="builder-tabs builder-form-tabs">
+                        <ul class="nav nav-tabs">
+
+                            <li class="">
+                                <a href="{:U('Config/group2',array('group'=>1))}">基本设置</a>
+                            </li>
+                    
+                            <li class="active">
+                                <a href="{:U('Config/group4')}">奖励设置</a>
+                            </li>
+
+                            <li class="">
+                                <a href="{:U('Config/group1',array('group1'=>5))}">实时价格设置</a>
+                            </li>
+                            <li class="">
+                                <a href="{:U('Config/group',array('group'=>3))}">网站开关</a>
+                            </li>
+                       
+                        </ul>
+                    </div>
+                    <div class="form-group"></div>
+                    <div class="builder-container" >
+                        <div class="row" >
+                            <div class="col-xs-12" >
+                                
+
+
+
+ 
+
+                                                                   
+                               
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>                   
+</div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+</block>

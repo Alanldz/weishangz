@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{$config['SITE_TITLE']}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/foot.css">
+    <link rel="stylesheet" href="__CSS__/head.css">
+    <link rel="stylesheet" type="text/css" href="__RES__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__CSS__/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/style22.css">
+    <style>
+        .order_table tr {width: 100%;height: 8vmin;}
+        .order_table tr th {width: 20%;}
+        .order_table tr td {width: 66%;}
+        .order_table tr td input {border: none}
+        .allder_nr p.dain {float: left;line-height: 10vmin;font-size: 4vmin;margin-left: 3%;color: #ff7031;}
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="header_l" style="width: 15%;">
+        <a href="{:U('shop/member/mine')}"><img src="__IMG__/lpg.png" alt=""><span>商户订单</span></a>
+    </div>
+    <div class="header_c" style="width: 70%;"><h1 style="color:#000"></h1></div>
+    <div class="header_r" style="width: 15%;"></div>
+    <!-- <span><a href=""><img src="" alt=""></a></span> -->
+</div>
+
+<foreach name="orderList" item="order">
+    <div class="allder_nr">
+        <p class="dain">订单编号：<span>{$order.order_no}</span></p>
+        <div style="clear: both;"></div>
+        <foreach name="order['detail']" item="detail">
+            <div class="ddcontent">
+                <div class="content_l">
+                    <img src="{$detail['com_img']}">
+                </div>
+                <div class="content_r">
+                    <div class="content_rt">
+                        <h3 style="width: 100%" onClick="window.location.href='{:U('Shop/Home/details',array('proid'=>$detail['com_id']))}'">
+                            {$detail['com_name']}</h3>
+                        <div class="jaind">
+                            <p>
+                                <if condition="$order['status'] eq 0">
+                                    <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
+                                        消费通证：{$detail.com_price}<br/> 生态总资产：{$detail.com_ecological_total_assets}
+                                        <else/>
+                                        生态总资产：{$detail.com_ecological_total_assets}
+                                    </if>
+                                    <else/>
+                                    <if condition="$order.pay_type eq 1">
+                                        消费通证：{$detail.com_price}<br/> 生态总资产：{$detail.com_ecological_total_assets}
+                                        <elseif condition="$order.pay_type eq 2"/>
+                                        生态总资产：{$detail.com_ecological_total_assets}
+                                        <elseif condition="$order.pay_type eq 3"/>
+                                        生态总资产：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
+                                        <elseif condition="$order.pay_type eq 4"/>
+                                        生态总资产：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
+                                        <elseif condition="$order.pay_type eq 5"/>
+                                        产品积分：{$detail.com_product_integral}
+                                    </if>
+                                </if>
+                            </p>
+                            <p>x{$detail['com_num']}</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </foreach>
+        <div class="total" style="margin-bottom:2vmin">
+          <p style="line-height: 7vmin;">
+              <span>合计：
+                 <if condition="$order['status'] eq 0">
+                     <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
+                          消费通证：{$order.buy_price}<br/> 生态总资产：{$order.ecological_total_assets}
+                         <else/>
+                         生态总资产：{$order.ecological_total_assets}
+                     </if>
+                     <else/>
+                     <if condition="$order.pay_type eq 1">
+                          消费通证：{$order.buy_price}<br/> 生态总资产：{$order.ecological_total_assets}
+                          <elseif condition="$order.pay_type eq 2"/>
+                          生态总资产：{$order.ecological_total_assets}
+                          <elseif condition="$order.pay_type eq 3"/>
+                          生态总资产：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
+                          <elseif condition="$order.pay_type eq 4"/>
+                          生态总资产：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
+                          <elseif condition="$order.pay_type eq 5"/>
+                          产品积分：{$order.product_integral}
+                      </if>
+                 </if>
+              </span>
+          </p>
+
+          <!--<a href="javascript:void(0)" onClick="window.location.href='/Shop/Pay/index/oid/{$detail['order_id']}'" class="btn_style2">立即支付</a>-->
+          <!--<a href="javascript:void(0)" class="btn_style1" id="show_odetail">查看详情</a>-->
+        </div>
+
+    <!--    <foreach name="order['detail']" item="detail" key="k">
+            <table class="order_table">
+                 <tr>
+                    <th>订单编号:</th>
+                    <td>{$k+1}</td>
+                </tr>
+                <tr>
+                    <th>商品名称:</th>
+                    <td>{$detail['com_name']}</td>
+                </tr>
+
+                <tr>
+                    <th>购买金额:</th>
+                     <td>{$detail['com_price']+0} * {$detail['com_num']+0}</td>
+                </tr>
+                <tr>
+                   <th>购买数量:</th>
+                   <td>{$detail['com_num']+0}</td>
+                </tr>
+                <tr>
+                   <th>结算金额:</th>
+                   <td>{$order['buy_price']+0}</td>
+                 </tr>
+
+            </table>
+
+        </foreach>-->
+
+        <table class="order_table" style="margin-left: 3%">
+            <tr>
+                <th>支付时间：</th>
+                <td><input type="text" readonly value="{$order.pay_time|toDate}">
+                </td>
+            </tr>
+            <tr>
+                <th>快递名称：</th>
+                <td><input type="text" <if condition="$order['status'] neq 1">readonly</if> value="{$order['kd_name']}" class="kd_name_{$order['order_id']}" name="kd_name" placeholder="请输入快递名称">
+                </td>
+            </tr>
+            <tr>
+                <th>快递单号：</th>
+                <td><input type="text" <if condition="$order['status'] neq 1">readonly</if> value="{$order['kd_no']}"  class="order_no_{$order['order_id']}" name="order_no" placeholder="请输入快递单号"></td>
+            </tr>
+        </table>
+
+        <p style="text-align: center;padding-bottom: 3%;padding-top: 3%;">
+            <if condition="$order['status'] eq 2">
+                <button style="width: 94%;height: 10vmin;border: none;background: #c5c5c5;font-size: 4vmin;border-radius: 1vmin;color: #fff;">
+                    已发货
+                </button>
+                <elseif condition="$order['status'] eq 3"/>
+                <button style="width: 94%;height: 10vmin;border: none;background: #c5c5c5;font-size: 4vmin;border-radius: 1vmin;color: #fff;">
+                    交易完成
+                </button>
+                <else/>
+                <button class="deliver" data-id="{$order['order_id']}" style="width: 94%;height: 10vmin;border: none;background: #ff5000;font-size: 4vmin;border-radius: 1vmin;color: #fff;">
+                    确定发货
+                </button>
+            </if>
+        </p>
+
+        <eq name="order['status']" value="0">
+            <notempty name="order['order_proof']">
+                <p style="text-align: center;padding-bottom: 3%;">
+                    <a href="{$order['order_proof']}" target="_blank">
+                        <img width="60" height="60" src="{$order['order_proof']}" >
+                    </a>
+                    <button class=" haveMoney" data-id="{$order['order_id']}" style="width: 94%;height: 10vmin;border: none;background: #ff5000;font-size: 4vmin;border-radius: 1vmin;color: #fff;">
+                        我已收到款
+                    </button>
+                </p>
+            </notempty>
+        </eq>
+
+        <div style="background: #f4f4f4;height: 2vmin;margin-top: 3vmin;"></div>
+    </div>
+</foreach>
+
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__LAYERJS__/layer.js"></script>
+<script type="text/javascript" charset="utf-8" async defer>
+
+    $(".haveMoney").click(function () {
+        var id = $(this).attr("data-id");
+        $.post("{:U('Member/havemoney')}", {"id": id}, function (data) {
+            if (data.status == '1') {
+                layer.msg(data.info, {icon: 1, time: 1200});
+            } else {
+                layer.msg(data.info, {icon: 2, time: 1200});
+            }
+        }, "json");
+    });
+
+    $('.deliver').click(function () {
+        var id = $(this).attr('data-id');
+        var kd_name = ".kd_name_" + id;
+        var kd_no = ".order_no_" + id;
+        var kd_name_val = $(kd_name).val();
+        var kd_no_val = $(kd_no).val();
+        var old = $(this);
+        $.ajax({
+            url: "{:U('Member/deliver')}",
+            type: "post",
+            data: {'id': id, 'express_order': kd_no_val, 'express_name': kd_name_val},
+            datatype: "json",
+            success: function (mes) {
+                if (mes.status == 1) {
+                    layer.msg(mes.info, {icon: 1, time: 1200}, function () {
+                        old.text('已发货');
+                        old.css('background', '#c5c5c5');
+                        old.removeClass("deliver");
+                        return;
+                    });
+                } else {
+                    layer.msg(mes.info, {icon: 2, time: 1200});
+                }
+            }
+        })
+    });
+</script>
+
+</body>
+</html>

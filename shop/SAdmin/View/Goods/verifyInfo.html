@@ -1,0 +1,199 @@
+<extend name="Public:base"/>
+<block name="css">
+    <style>
+        .user_img{
+            width:150px;height: 105px;
+        }
+    </style>
+</block>
+
+<block name="content">
+    <div class="page-header">
+        <h1>
+            {$breadcrumb2}
+            <small>
+                <i class="icon-double-angle-right"></i>
+                {$crumbs}
+            </small>
+        </h1>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-member" data-toggle="tab">用户认证信息</a></li>
+    </ul>
+    <form class="form-horizontal" id="validation-form" method="post" action='{$action}'>
+        <div class="tab-content">
+            <input name="id" type="hidden" value="{$info.id}"/>
+            <div class="tab-pane active" id="tab-member">
+                <table class="table table-binfoed">
+                    <tr>
+                        <td>账户</td>
+                        <td>{$info['account']}</td>
+                    </tr>
+                    <tr>
+                        <td>认证类型</td>
+                        <td>{$info['type_name']}</td>
+                        <input type="hidden" name="type" value="{$info.type}">
+                    </tr>
+                    <tr>
+                        <td>用户名</td>
+                        <td>{$info.username}</td>
+                    </tr>
+                    <tr>
+                        <td>真实姓名</td>
+                        <td><input name="realname" type="text" style="width:400px;" value="{$info.realname|default=''}"/></td>
+                    </tr>
+                    <tr>
+                        <td>手机号</td>
+                        <td><input name="phone" type="number" style="width:400px;" value="{$info.phone|default=''}"/></td>
+                    </tr>
+                    <tr>
+                        <td>身份证</td>
+                        <td><input name="idcard" type="text" style="width:400px;" value="{$info.idcard|default=''}"/></td>
+                    </tr>
+                    <tr>
+                        <td>店铺名称</td>
+                        <td><input name="store_name" type="text" style="width:400px;" value="{$info.store_name|default=''}"/></td>
+                    </tr>
+                    <if condition="$info.type eq 2">
+                        <tr>
+                            <td>店铺地址</td>
+                            <td><input name="shore_address" type="text" style="width:400px;" value="{$info.shore_address|default=''}"/></td>
+                        </tr>
+                        <else/>
+                        <tr>
+                            <td>省份</td>
+                            <td>
+                                <select id="province" name="province_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                                    <option value="" selected="selected">--请选择省份--</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>城市</td>
+                            <td>
+                                <select id="city" name="city_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                                    <option value="" selected="selected">--请选择市--</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>区域</td>
+                            <td>
+                                <select id="district" name="country_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                                    <option value="" selected="selected">--请选择区--</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <input type="hidden" class="province_id" value="{$info['province_id']}">
+                        <input type="hidden" class="city_id" value="{$info['city_id']}">
+                        <input type="hidden" class="country_id" value="{$info['country_id']}">
+                        <tr>
+                            <td>详细地址</td>
+                            <td><input name="shore_address" type="text" style="width:400px;" value="{$info.shore_address|default=''}"/></td>
+                        </tr>
+                    </if>
+                    <tr>
+                        <td>消费人数</td>
+                        <td><input name="buy_num" type="number" style="width:400px;" value="{$info.buy_num|default='0'}"/></td>
+                    </tr>
+                    <tr>
+                        <td>营业时间</td>
+                        <td><input name="business_hours" type="text" style="width:400px;" value="{$info.business_hours|default=''}"/></td>
+                    </tr>
+                    <tr>
+                        <td>导航地址</td>
+                        <td><input name="nav_url" type="text" style="width:400px;" value="{$info.nav_url|default=''}"/></td>
+                    </tr>
+                    <tr>
+                        <td>法人身份证</td>
+                        <td>
+                            <if condition="$info['hand_idcard']">
+                                <a href="{$info['hand_idcard']}" target="_blank">
+                                    <img class="user_img" src="{$info.hand_idcard}" alt="">
+                                </a>
+                                <else/>
+                                未上传
+                            </if>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>营业执照</td>
+                        <td>
+                            <if condition="$info['licence']">
+                                <a href="{$info['licence']}" target="_blank">
+                                    <img class="user_img" src="{$info.licence}" alt="">
+                                </a>
+                                <else/>
+                                未上传
+                            </if>
+                        </td>
+                    </tr>
+                    <if condition="$info['type'] eq 1">
+                        <tr>
+                            <td>门店照片</td>
+                            <td>
+                                <if condition="$info['store_phone']">
+                                    <a href="{$info['store_phone']}" target="_blank">
+                                        <img class="user_img" src="{$info['store_phone']}">
+                                    </a>
+                                    <else/>
+                                    未上传
+                                </if>
+                            </td>
+                        </tr>
+                    </if>
+                    <tr>
+                        <td>创建时间</td>
+                        <td>{$info.time|toDate='Y/m/d H:i:s'}</td>
+                    </tr>
+                    <tr>
+                        <td>状态</td>
+                        <td>
+                            <label class="radio-inline"><input type="radio" <if condition="$info.status eq 0"> checked="checked"</if> value="0" name="status">待审核</label>
+                            <label class="radio-inline"><input type="radio" <if condition="$info.status eq 1"> checked="checked"</if> value="1" name="status">通过</label>
+                            <label class="radio-inline"><input type="radio" <if condition="$info.status eq 2"> checked="checked"</if> value="2" name="status">不通过</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>商家介绍：</td>
+                        <td>
+                            <textarea name="content" id="description">{$info['content']|default=''}</textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div style="margin-left:20px;">
+                        <input name="send" type="submit" value="提交" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</block>
+<block name="javascript">
+    <script type="text/javascript" src="__RZCSS__/address.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/fileupload/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/fileupload/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var province_id = $('.province_id').val();
+            var city_id = $('.city_id').val();
+            var country_id = $('.country_id').val();
+            if (province_id != '') {
+                addressInit('province', 'city', 'district', province_id, city_id, country_id);//添加
+            } else {
+                addressInit('province', 'city', 'district', '福建', '', '');//添加
+            }
+        });
+
+        CKEDITOR.replace('description', {
+            filebrowserImageUploadUrl: '{:U("Image/ckupload")}',
+            toolbar: [
+                ['Source', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+                ['FontSize', 'TextColor', 'BGColor'],
+                ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Format']
+            ]
+        });
+    </script>
+</block>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>有问必答</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+<body>
+
+<div class="views">
+    <div class="view view-main" data-page="Lyb">
+        <div class="pages navbar-through toolbar-through">
+            <div class="page page-on-center" data-page="Lyb" style="overflow: auto;">
+                <div class="header">
+                    <div class="header_l">
+                        <a href="{:U('User/found')}"><img src="/Public/home/wap/images/jiant.png" alt=""></a>
+                    </div>
+                    <div class="header_c"><h2>有问必答</h2></div>
+                    <div class="header_r">
+                        <a href="{:U('User/ComplaintList')}" id="hide">问答列表</a>
+                    </div>
+                </div>
+
+                <div class="caiwulist" style="margin-top:0px;">
+                    <form id="Lyb_form">
+                        <div class="cwl-item celchong">有问必答 <i class="icon iconfont icon-iconfontxiangxia"></i></div>
+                        <div class="cwl-ichild chongzhiinput" style="display: block;">
+                            <div class="liuyanbaninput">
+                                <textarea name="introduce" id="introducebb" notnull="" placeholder="请输入您想对我们想问的问题"></textarea>
+                            </div>
+                            <div class="liuyanbanimg" style="display:none">
+                                <span>图片</span>
+                                <div class="lybimgdiv" style="margin-top: 17px;">
+                                    <input style="font-size:0.28rem" id="fileupload" type="file" name="files[]" multiple class="yxcheckimg ">
+                                    <input name="hfShopAd1" type="hidden" value="">
+                                </div>
+                            </div>
+                            <div class="cwlic-btn"><a class="Lybbtn" style="background-color:#eeb634"> 提交问题</a></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.celchong').click(function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active')
+            } else {
+                $(this).addClass('active')
+            }
+            $('.chongzhiinput').slideToggle();
+        });
+
+        $('.celchongzhi').click(function () {
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active')
+            } else {
+                $(this).addClass('active')
+            }
+            $('.chongzhilist').slideToggle();
+        });
+        $('.yxcheckimg').on('change', function (e) {
+            var files = this.files;
+            for (var i = 0; i < files.length; i++) {
+
+                var reader = new FileReader();
+                reader.readAsDataURL(files[i]);
+                reader.onload = function (e) {
+                    var img = new Image();
+                    var mb = (e.total / 1024) / 1024;
+                    img.src = this.result;
+                    img.style.width = "0.8rem";
+                    img.style.height = "0.8rem";
+                    $('.lybimgdiv').prepend(img);
+                }
+            }
+        });
+    });
+
+    $('.Lybbtn').click(function () {
+        var obj = $(this);
+        var content = $('#introducebb').val();
+        if (content == '') {
+            msg_alert('请填写内容');
+            return false;
+        }
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        $.ajax({
+            url: "{:U('User/Complaint')}",
+            type: 'post',
+            data: {'content': content},
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status == 1) {
+                    msg_alert(mes.message, mes.url);
+                } else {
+                    msg_alert(mes.message);
+                    obj.removeClass('is_ajax');
+                }
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

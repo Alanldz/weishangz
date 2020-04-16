@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>锁仓通证</title>
+    <meta http-equiv="Content-Type" content="textml; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="__NEWSHOP__/css/index.css"/>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
+    <style>
+        .empty{height: 100px;line-height: 100px;text-align: center;color: #a29999;}
+        .need_repeat_buy{    z-index: 19891015;width: 257px;top: 302px;left: 60.5px;}
+    </style>
+</head>
+<body class="loading">
+<div class="wrapper">
+    <div class="head" style="z-index:9999999 !important;">
+        <a href="{:U('Home/User/found')}" class="pgv" >
+            <img src="__NEWSHOP__/images/shop/fh5.png">
+        </a>
+        <div>锁仓通证</div>
+        <a class="yup" href=""></a>
+    </div>
+    <div class="whole" style="padding-top:10px;">
+        <div class="Account">
+            <if condition="$list">
+                <foreach name="list" item="vo" key="k">
+                    <div class="Acc-b">
+                        <h4 style="color:#62ad00;"><img src="__NEWSHOP__/images/shop/pg2.png">下单时间：{$vo.create_time|date='Y年m月d日 H:i',###}</h4>
+                        <ul>
+                            <li>开始时间：{$vo.start_time}</li>
+                            <li>状态：{$vo.status_name}</li>
+                            <li>类型：{$vo.shop_type_name}</li>
+                            <li>兑换额：<span class="multiple">{$vo.multiple_ratio}</span></li>
+                            <li>锁仓通证：<span class="amount">{$vo.amount}</span></li>
+                            <li>预计增值：<span class="growth_amount">{$vo.growth_amount}</span></li>
+                            <li>释放时间：<span class="day">{$vo.day}</span>天
+                                <if condition="$vo.status eq 1">
+                                    <select class="select_day">
+                                        <foreach name="multipleList" item="multiple" key="day">
+                                            <option value="{$day}" data-multiple="{$multiple}">{$day}天</option>
+                                        </foreach>
+                                    </select>
+                                    <input type="hidden" class="lock_warehouse_id" value="{$vo.id}">
+                                    <input type="button" class="select_btn" value="确定" style="width:20%;">
+                                </if>
+                            </li>
+                        </ul>
+                    </div>
+                </foreach>
+                <else/>
+                <p class="empty">暂无锁仓记录</p>
+            </if>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var need_repeat_num = "{$need_repeat_num}";
+        if(need_repeat_num > 0){
+            //初体验
+            layer.alert('需要复购', {
+                skin: 'need_repeat_buy'
+                ,time: 0 //不自动关闭
+                , btn: ['马上复购','稍后购买']
+                , yes: function (index) {
+                    window.location.href = "{:U('Index/index')}";
+                    layer.close(index);
+                }
+                , btn2: function (index) {
+                    layer.close(index);
+                }
+            });
+        }
+    });
+    //选择天数
+    $('.select_day').change(function () {
+        var obj = $(this).parent().parent().parent();
+        var multiple = parseFloat($(this).find('option:selected').data('multiple'));
+        var amount = parseFloat(obj.find('.amount').text());
+        var growth_amount = multiple * amount;
+        obj.find('.growth_amount').text(growth_amount)
+    });
+
+    //确定选择
+    $('.select_btn').on('click',function () {
+        var obj = $(this);
+        var obj_parent = obj.parent();
+        var lock_warehouse_id = obj_parent.find('.lock_warehouse_id').val();
+        var day = obj_parent.find('.select_day').val();
+        var is_ajax =obj.hasClass('is_ajax');
+        if(is_ajax){
+            layer.msg('请勿频繁操作',{shift: -1, time: 1000});
+            return false;
+        }
+        obj.addClass('is_ajax');
+        $.post("{:U('Index/lockWarehouse')}", {lock_warehouse_id: lock_warehouse_id, day: day}, function (data) {
+            if (data.status) {
+                layer.msg(data.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                },1000)
+            } else {
+                layer.msg(data.msg, {shift: -1, time: 1500});
+                obj.removeClass('is_ajax');
+            }
+        }, "json");
+    });
+</script>
+</body>
+</html>

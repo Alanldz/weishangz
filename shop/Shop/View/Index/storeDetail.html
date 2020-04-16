@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>商家详情</title>
+    <meta http-equiv="Content-Type" content="textml; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="__NEWSHOP__/css/index.css"/>
+    <style>
+        .fghy ul li {font-size: 12px;line-height: 30px;padding-bottom: 0;border-bottom: solid 1px #efefef;}
+        .fghy ul {padding: 0px 5px;}
+        .fghy ul li ul {padding: inherit;}
+        .fghy ul li ul li {padding: inherit;border-bottom: none;}
+        .suibg {background: #fff;margin-top: 10px;font-size: 16px;margin-bottom: 5px;}
+        .suibg h3 {border-bottom: solid 1px #efefef;line-height: 36px;padding: 0 .5rem;font-size: 1rem;font-weight: normal;}
+        .suibg h3 span {font-size: .9rem;}
+        .suuifh {border-bottom: solid 1px #efefef;position: relative;width: 100%;overflow: hidden;}
+        .suibg ul {float: left;padding: .5rem .5rem;}
+        .suibg ul li {padding-left: 36px;font-size: 16px;padding-top: 10px;color: #FF0000;line-height: 20px;}
+        .suibg ul li.tib {font-size: 1rem;color: #333;}
+        .suibg ul li.tib2 {font-size: 1rem;color: #1bc561;font-weight: 700;}
+        .yuding {right: 50%;padding-bottom: 12px;color: #F00;font-size: .15rem;text-align: center;}
+        .yuding p {background: #F60;padding: .2rem 1rem;color: #fff;}
+    </style>
+</head>
+<body class="loading">
+<form>
+    <div class="wrapper">
+        <div class="head" style="z-index:9999999 !important;">
+            <a href="JavaScript:history.back(-1)" class="pgv" style="background:none;">
+                <img src="__NEWSHOP__/images/shop/fh5.png">
+            </a>
+            <div>商家详情</div>
+            <a class="yup" href=""></a></div>
+        <div class="whole">
+            <div class="banner" style="margin-top:13%">
+                <img src="{$info.store_phone}" style="width:100%; height:250px;">
+            </div>
+            <div class="bgju">
+                <dl style="padding:10px 0;">
+                    <dt>{$info.store_name}</dt>
+                    <dd><span style="color:#333;"></span></dd>
+                </dl>
+            </div>
+            <div class="fghy">
+                <ul>
+                    <li>
+                        <label>地址</label>
+                        <ul>
+                            <li>{$info.province_id}{$info.city_id}{$info.country_id}{$info.shore_address}</li>
+                        </ul>
+                    </li>
+                    <li style="border-bottom: none;">
+                        <label>电话</label>
+                        <ul>
+                            <li>{$info.phone}</li>
+                        </ul>
+                    </li>
+                    <li style="border-bottom: none;">
+                        <label>营业</label>
+                        <ul>
+                            <li>{$info.business_hours}</li>
+                        </ul>
+                    </li>
+                    <li style="border-bottom: none;">
+                        <label>导航</label>
+                        <ul>
+                            <li class="nav_url">到这里去</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="suibg">
+                <h3>向他付款 </h3>
+                <div class="suuifh">
+                    <ul>
+                        <li>生态总资产：{$storeInfo.cangku_num|default='0'}
+                        <li>
+                            <label>付款金额：</label>
+                            <input type="number" class="amount" value="" placeholder="请输入付款金额">
+                        </li>
+                        <li>
+                            <label>交易密码：</label>
+                            <input type="password" class="safe_pwd" value="" placeholder="请输入交易密码">
+                        </li>
+                        <li class="yuding">
+                            <p><a class="payment">点击付款</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hki">
+                <ul>
+                    <label style=" display:block;border-bottom:solid 1px #efefef;">商家介绍</label>
+                    <li>
+                        {$info.content|htmlspecialchars_decode}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+<script type="text/javascript">
+    $('.nav_url').on('click',function () {
+        window.location.href = "{$info.nav_url}";
+    });
+
+    $('.payment').on('click',function () {
+        var obj = $(this);
+        var id = "{$info.id}";
+        var amount = $('.amount').val();
+        var safe_pwd = $('.safe_pwd').val();
+        if(amount == ''){
+            layer.msg('请输入付款金额',{shift: -1, time: 1000});
+            $('.amount').focus();
+            return false;
+        }
+
+        if(amount <= 0){
+            layer.msg('付款金额必须大于零',{shift: -1, time: 1000});
+            $('.amount').focus();
+            return false;
+        }
+
+        if(safe_pwd == ''){
+            layer.msg('请输入交易密码',{shift: -1, time: 1000});
+            $('.safe_pwd').focus();
+            return false;
+        }
+        var is_ajax = obj.hasClass('is_ajax');
+        if(is_ajax){
+            layer.msg('请勿频繁操作',{shift: -1, time: 1000});
+            return false;
+        }
+        obj.addClass('is_ajax');
+        $.post("{:U('Index/storeDetail')}", {id:id,amount: amount, safe_pwd: safe_pwd}, function (data) {
+            if (data.status) {
+                layer.msg(data.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                },1000)
+            } else {
+                layer.msg(data.msg, {shift: -1, time: 1500});
+                obj.removeClass('is_ajax');
+            }
+        }, "json");
+
+    });
+</script>
+
+</body>
+</html>

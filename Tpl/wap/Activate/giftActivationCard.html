@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+</head>
+<body>
+<header class="text-center"><a href="{:U('activate/activate_card')}" class="go-back"></a>赠送激活卡</header>
+<div class="back"></div>
+<div class="container padding-a">
+    <input type="hidden" class="card_id" name="card_id" value="{$cardInfo['id']}">
+    <div class="select-box">
+        <div class="select-left select-left-sm">激活卡：</div>
+        <input type="text" readonly class="form-control input-border" name="activation_code" value="{$cardInfo['activation_code']}"/>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">会员ID号：</div>
+        <input type="text" name="give_user_id" class="form-control input-border"/>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">手机后四位：</div>
+        <input type="text" name="mobile" class="form-control input-border"/>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">交易密码：</div>
+        <input type="password" class="form-control input-border" placeholder="请输入交易密码" notnull=""  name="safety_salt"/>
+    </div>
+    <div class="text-center">
+        <button type="button" class="btn btn-jh confirm">提交赠送</button>
+    </div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    $('.confirm').click(function () {
+        var card_id = $('.card_id').val();
+        var give_user_id = $('input[name=give_user_id]').val();
+        var mobile = $('input[name=mobile]').val();
+        var safety_salt = $('input[name=safety_salt]').val();
+
+        if(give_user_id == ''){
+            msg_alert('请输入会员ID');
+            return false;
+        }
+        if(mobile == ''){
+            msg_alert('请输入手机号后四位');
+            return;
+        }
+        var exg=/^\d{4}$/;
+        if(!exg.test(mobile)){
+            msg_alert('手机号后四位输入有误，请重新输入');
+            return;
+        }
+        if(safety_salt == ''){
+            msg_alert('请输入您的交易密码');
+            return false;
+        }
+
+        var is_ajax = $('.confirm').hasClass('btn-submit');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.confirm').addClass('btn-submit');
+
+        var data = {
+            card_id:card_id,
+            give_user_id:give_user_id,
+            mobile:mobile,
+            safety_salt:safety_salt
+        };
+
+        doajax("{:U('activate/giftActivationCard')}", data, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    window.location.href = data.url;
+                },1000);
+            } else {
+                msg_alert(data.message);
+            }
+            $('.confirm').removeClass('btn-submit');
+        });
+    });
+</script>
+</html>

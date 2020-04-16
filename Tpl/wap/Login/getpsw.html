@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html style="font-size: 50px; height: 100%">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style.css">
+
+</head>
+<body class="mainbg loginbg">
+<div class="maindiv">
+    <form name="getpwdfrom" id="Info_form" action="{:U('setpsw')}" method="post">
+
+        <div class="titlediv">
+            <p><a href="{:U('Login/login')}"><i class="icon iconfont icon-fanhui"></i></a>忘记密码</p>
+        </div>
+        <div class="logoinput">
+            <span><i class="icon iconfont icon-shouji"
+                     style="font-size: 0.42rem; margin-right: 0.15rem;"></i> 会员ID：</span>
+            <input type="text" name="userid" placeholder="请输入会员ID" notnull="">
+        </div>
+        <div class="logoinput">
+            <span><i class="icon iconfont icon-shouji"
+                     style="font-size: 0.42rem; margin-right: 0.15rem;"></i> 手机号：</span>
+            <input type="text" name="mobile" placeholder="请输入手机号" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-message"
+                     style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 验证码：</span>
+            <input type="text" placeholder="请输入验证码" name="code" notnull="">
+            <p class="ii-ispan sendmsgBtn">获取验证码</p>
+        </div>
+
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-mima"></i> 登录密码：</span>
+            <input type="password" placeholder="请输入登录密码" name="password" notnull="">
+        </div>
+        <div class="logoinput" style="margin-top: 0.25rem;">
+            <span><i class="icon iconfont icon-mima"></i> 确认密码：</span>
+            <input type="password" placeholder="请输入登录密码" name="passwordmin" notnull="">
+        </div>
+        <div class="loginbtn"><a class="Infopwdbtn" onclick="SetPwd()">修改密码</a></div>
+    </form>
+</div>
+
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__HOME__/js/global.js"></script>
+<script>
+    var deviceWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+</script>
+<script type="text/javascript">
+    //事件
+    $('.sendmsgBtn').click(function () {
+        var mobile = $('#Info_form input[name=mobile]').val();
+        if (mobile == '') {
+            layer.msg('请输入手机号');
+            $('#Info_form input[name=mobile]').focus();
+            return false;
+        }
+        if (!mobile.match(/^1[3-9]\d{9}$/)) {
+            layer.msg('请填写正确的手机号码');
+            $('#Info_form input[name=mobile]').focus();
+            return false;
+        }
+
+        $('.sendmsgBtn').html('获取验证码').attr('disabled', true);
+        var is_send = $('.sendmsgBtn').hasClass('is_send_email');
+        if (is_send) {
+            layer.msg('耐心等待，请勿重复点击');
+            return;
+        }
+        var time = 0;
+        time_obj = function () {
+            if (time >= 60) {
+                $('.sendmsgBtn').html('获取验证码').attr('disabled', false);
+                time = 0;
+                $('.sendmsgBtn').removeClass('is_send_email');
+                clearInterval(timer);
+            } else {
+                $('.sendmsgBtn').html('重新(' + (60 - time) + ')');
+                time++;
+            }
+        };
+        $('.sendmsgBtn').addClass('is_send_email');
+        var timer = setInterval('time_obj()', 1000);
+        $.post("{:U('Login/sendCode')}", {'mobile': mobile, 'type': 'getpsw_code'}, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.message);
+                RemainTime();
+            } else {
+                layer.msg(data.message);
+                $('.sendmsgBtn').removeClass('is_send_email');
+            }
+        });
+        $('.sendmsgBtn').attr('disabled', true);
+    });
+
+    function SetPwd() {
+        //验证数据
+        var thisform = document.forms['getpwdfrom'];
+        var userid = thisform.userid.value;
+        var mobile = thisform.mobile.value;
+        var code = thisform.code.value;
+        var passwordmin = thisform.passwordmin.value;
+        var password = thisform.password.value;
+        if (userid == '') {
+            layer.msg('请输入会员ID');
+            return false;
+        }
+        if (mobile == '' || mobile == null) {
+            layer.msg('请输入邮箱');
+            $('#Info_form input[name=mobile]').focus();
+            return false;
+        }
+
+        if (!mobile.match(/^1[3-9]\d{9}$/)) {
+            layer.msg('请填写正确的手机号码');
+            $('#Info_form input[name=mobile]').focus();
+            return false;
+        }
+
+        if (code == '' || code == null) {
+            layer.msg('请输入验证码');
+            return false;
+        }
+
+        if (password == '' || password == null) {
+            layer.msg('请输入新密码');
+            return false;
+        }
+        if (passwordmin == '' || passwordmin == null) {
+            layer.msg('请输入确认密码');
+            return false;
+        }
+        if (passwordmin != password) {
+            layer.msg('两次输入密码不一致');
+            return false;
+        }
+
+        //正在加载
+        var index = layer.load(1, {
+            shade: [0.1, '#fff']
+        });
+
+        var post_url = $("form[name='getpwdfrom']").attr('action');
+        var post_data = $("form[name='getpwdfrom']").serialize();
+        $.ajax({
+            type: "POST",
+            url: post_url,
+            data: post_data,
+            dataType: "json",
+            success: function (data) {
+                layer.close(index);//关闭加载
+                if (data.status == 1) {
+                    layer.msg(data.message);
+                    setTimeout(function () {
+                        window.location.href = data.url;
+                    }, 1000);
+                } else {
+                    layer.msg(data.message);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

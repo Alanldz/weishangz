@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>卖出EP</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .pagination a,
+        .pagination span { display: inline-block;  padding: 2px 5px;  margin: 0 1px;  border: 1px solid #f0f0f0;  -webkit-border-radius: 3px;  -moz-border-radius: 3px;  border-radius: 3px;  }
+        .pagination a,
+        .pagination li {display: inline-block;  list-style: none;  text-decoration: none;  color: #58A0D3;  }
+        .pagination a.first,
+        .pagination a.prev,
+        .pagination a.next,
+        .pagination a.end {  margin: 0;  }
+        .pagination a:hover {  border-color: #50A8E6;  }
+        .pagination span.current {  background: #50A8E6;  color: #FFF;  font-weight: 700;  border-color: #50A8E6;  }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('index/index')}" class="go-back"></a>卖出EP</header>
+<div class="back"></div>
+<div class="container">
+    <ul class="mr-list clearfix">
+        <li><a href="{:U('Trading/Conpayd')}">确认收款</a></li>
+        <li><a href="{:U('Trading/Sellerrecords')}">卖出记录</a></li>
+        <li><a href="{:U('Trading/Nofinsh')}" >订单管理</a></li>
+    </ul>
+    <div class="gz-border">
+
+        
+        <p>EP交易规则</p>
+<p>每个玩家进入EP交易平台必须要注意以下几个规则：</p>
+<p>1、EP交易手动抢购，抢到EP三小时内必须打款，否则扣一颗星，收到款后六小时必须确认，否则扣一颗星，五颗星扣完没有交易权。</p>
+<p>2、买卖双方必须确认个人资料和收款账号准确无误。</p>
+<p>3、买卖双方必须要各有所需的前提下才去点击卖出或买入。</p>
+<p>4、当卖出方挂单后如无人确认要购买之前可以撤销该单，如果对方点击要买入该单则卖出方就无法撤销该单。</p>
+<p>5、卖方不能同时交易多单，必须第一单交易结束后才能继续交易第二个单。</p>
+<p>6、买入方在确认购买后必须马上打款，卖出方收到款后必须马上确认收款完成交易。</p>
+<p>7、买卖双方保存好所有跟交易有关的资料以免造成不必要的麻烦。</p>
+<p>8、如发现那一方有不诚信行为扰乱交易市场或给对方造成损失的必须承担相应的责任。</p>
+<p>9、希望所有玩家必须遵循以上规则，如发现不按照以上规则行为给平台或个人造成损失的，有可能永久取消交易权或者被冻结帐号。</p>
+<p>10、会员在交易市场抢购EP每一分钟只能刷新一次。</p>
+        
+        
+        
+        
+    </div>
+    <div class="gz-border">
+        <div class="container padding-a">
+            <div class="select-box">
+                <div class="select-left select-left-sm">EP余额：</div>
+                <input value="{$moneyinfo['cangku_num']|Showtwo}" readonly class="form-control input-border" />
+            </div>
+            <div class="select-box">
+                <div class="select-left select-left-sm">卖出数量：</div>
+                <input type="text" class="form-control input-border" id="num" name="num"  placeholder="请输入卖出数量[100的倍数]" />
+            </div>
+            <div class="select-box">
+                <div class="select-left select-left-sm">收款账户：</div>
+                <select class="form-control input-border" id="carnumber" name="carnumber">
+                    <foreach name="morecars" item="v">
+                        <option value="{$v['id']}">
+                            {$v['banq_genre']}:<?php echo substr($v['card_number'],-4);?></option>
+                    </foreach>
+                </select>
+            </div>
+            <div class="select-box">
+                <div class="select-left select-left-sm">交易密码：</div>
+                <input type="password" class="form-control input-border" id="pwd" placeholder="请输入交易密码"/>
+            </div>
+
+            <div class="text-center"><button type="button" class="btn btn-jh">提交卖出</button></div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="left">编号</th>
+            <th>卖出日期</th>
+            <th>卖出数量</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="orders" item="v">
+            <tr>
+                <td class="left"><?php echo C.substr($v['pay_no'],-4);?></th>
+                <td>{$v['pay_time']|date='Y-m-d H:i',###}</td>
+                <td>{$v['pay_nums']}$</td>
+                <td><if condition="$v['pay_state'] eq 0">
+                    排队中
+                    <elseif condition="$v['pay_state'] eq 1"/>
+                        交易中
+                    <elseif condition="$v['pay_state'] eq 2"/>
+                        确认收款
+                    <elseif condition="$v['pay_state'] eq 3"/>
+                        完成
+                     </if>
+                </td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <notempty name="page">
+            <ul class="pagination">{$page}</ul>
+        </notempty>
+    </div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    $(function () {
+        var cardid = $('#carnumber').val();//银行卡id
+        if (cardid == '' || cardid == null) {
+            layer.alert('请您先绑定银行卡', {
+                time: 0 //不自动关闭
+                , btn: ['好']
+                , yes: function (index) {
+                    layer.close(index);
+                    window.location.href = "{:U('Growth/Cardinfos')}";
+                }
+            });
+        }
+    });
+
+    //提交
+    $('.btn').click(function () {
+        var sellnums = $('#num').val();
+        var cardid = $('#carnumber').val();//银行卡id
+        var exg = /^[1-9]\d*|0$/;
+        if(sellnums == ''){
+            msg_alert('请输入卖出数量~');
+            return ;
+        }
+        if(!(/^(\+|-)?\d+$/.test( sellnums )) || sellnums <= 0 || !exg.test(sellnums) || (sellnums%100 !== 0)){
+            msg_alert('卖出数量必须是100的整数倍~');
+            return ;
+        }
+        if (cardid == '' || cardid == null) {
+            msg_alert('请选择银行卡');
+            return ;
+        }
+        var pwd = $('#pwd').val();
+        if(pwd == ''){
+            msg_alert('请输入交易密码');
+            return ;
+        }
+
+        var ajax_btn = $('.btn').hasClass('ajax_btn');
+        if(ajax_btn){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+
+        $('.btn').addClass('ajax_btn');
+
+        doajax("{:U('Trading/SellCentr')}", {'sellnums': sellnums,'cardid': cardid,'pwd': pwd }, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                window.location.reload();
+            } else {
+                msg_alert(data.message);
+            }
+            $('.btn').removeClass('ajax_btn');
+        });
+    });
+</script>
+</html>

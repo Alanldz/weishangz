@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>{$sell_type}</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .pagination a,
+        .pagination span { display: inline-block;  padding: 2px 5px;  margin: 0 1px;  border: 1px solid #f0f0f0;  -webkit-border-radius: 3px;  -moz-border-radius: 3px;  border-radius: 3px;  }
+        .pagination a,
+        .pagination li {display: inline-block;  list-style: none;  text-decoration: none;  color: #58A0D3;  }
+        .pagination a.first,
+        .pagination a.prev,
+        .pagination a.next,
+        .pagination a.end {  margin: 0;  }
+        .pagination a:hover {  border-color: #50A8E6;  }
+        .pagination span.current {  background: #50A8E6;  color: #FFF;  font-weight: 700;  border-color: #50A8E6;  }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('Turntable/Transaction')}" class="go-back"></a>{$sell_type}</header>
+<div class="back"></div>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="left">出售人ID</th>
+            <th>出售日期</th>
+            <th>卖出数量</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name="order_info" item="v">
+            <tr>
+                <td class="left">{$v['sell_id']}</th>
+                <td>{$v['create_time']|date='Y-m-d',###}</td>
+                <td>{$v['num']|showTwo}</td>
+                <td><a href="{:U('Turntable/buyPage',array('order_id'=>$v['id']))}" id="buy_btn" style="color: red">买入</a></td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <notempty name="page">
+            <ul class="pagination">{$page}</ul>
+        </notempty>
+    </div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+</html>

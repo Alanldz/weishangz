@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="textml; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>附近商家</title>
+    <link rel="stylesheet" href="__NEWSHOP__/css/index.css"/>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
+    <style>
+        .empty{text-align: center;line-height: 100px;color: #948e8ecc;}
+    </style>
+</head>
+
+<body style="max-width:640px;">
+<div class="head" style="z-index:9999999 !important;">
+    <div style="height:50px;">
+        <a href="{:U('Index/index')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
+        <div class="sous">
+            <input type="text" name="store_name" value="{$search.store_name}" placeholder="搜索商家名称">
+            <a onclick="load()"><img src="__NEWSHOP__/images/shop/sous1.png" style="width:50%;"></a>
+        </div>
+    </div>
+</div>
+<div class="whole">
+    <div class="Category">
+        <strong>
+            <select id="province" name="province_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                <!--<option value="" selected="selected">&#45;&#45;请选择省份&#45;&#45;</option>-->
+            </select>
+        </strong>
+        <strong>
+            <select id="city" name="city_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                <option value="" selected="selected">--请选择市--</option>
+            </select>
+        </strong>
+        <strong>
+            <select id="district" name="country_id" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
+                <option value="" selected="selected">--请选择区--</option>
+            </select>
+        </strong>
+        <input type="hidden" class="province_id" value="{$search['province_id']}">
+        <input type="hidden" class="city_id" value="{$search['city_id']}">
+        <input type="hidden" class="country_id" value="{$search['country_id']}">
+    </div>
+    <div class="quanbu">
+        <!--<h3>全部商家</h3>-->
+        <if condition="$list">
+            <foreach name="list" item="vo" key="k">
+                <div class="q-all">
+                    <div class="all-list1"><img src="{$vo.store_phone}"></div>
+                    <div class="all-list2">
+                        <h2>{$vo.store_name}
+                            <!--<em>大约365m</em>-->
+                        </h2>
+                        <p>{$vo.province_id}{$vo['city_id']}{$vo['country_id']}{$vo['shore_address']}</p>
+                        <p>营业时间：{$vo.business_hours}</p>
+                        <p>{$vo.buy_num}人消费</p>
+                        <strong>
+                            <a href="{:U('Index/storeDetail',array('id'=>$vo['id']))}"><p style="width: 50%">详情</p></a>
+                        </strong></div>
+                </div>
+            </foreach>
+            <else/>
+            <p class="empty">暂无商家</p>
+        </if>
+    </div>
+    <!--底部-->
+    <include file="Public:shop_foot"/>
+    <!--底部-->
+    <script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="__RZCSS__/address.js"></script>
+    <script>
+        $(function () {
+            var province_id = $('.province_id').val();
+            var city_id = $('.city_id').val();
+            var country_id = $('.country_id').val();
+            if (province_id != '') {
+                addressInit('province', 'city', 'district', province_id, city_id, country_id);//添加
+            } else {
+                addressInit('province', 'city', 'district', '福建', '', '');//添加
+            }
+        });
+
+        $('#province').change(function () {
+            var province = $(this).val();
+            var store_name =  $('input[name=store_name]').val();
+            var param = '';
+            if(store_name){
+                param += '/store_name/'+store_name;
+            }
+            param += '/province_id/'+province;
+
+            window.location.href = "{:U('Index/nearShop"+param+"')}";
+        });
+
+        $('#city').change(function () {
+            var city = $(this).val();
+            var province = $('#province').val();
+            var store_name =  $('input[name=store_name]').val();
+            var param = '';
+            if(store_name){
+                param += '/store_name/'+store_name;
+            }
+            if(province){
+                param += '/province_id/'+province;
+            }
+            param += '/city_id/'+city;
+
+            window.location.href = "{:U('Index/nearShop"+param+"')}";
+        });
+
+        $('#district').change(function () {
+            load();
+        });
+
+        function load() {
+            var store_name =  $('input[name=store_name]').val();
+            var province = $('#province').val();
+            var city = $('#city').val();
+            var country = $('#district').val();
+
+            var param = '';
+            if(store_name){
+                param += '/store_name/'+store_name;
+            }
+            if(province){
+                param += '/province_id/'+province;
+            }
+            if(city){
+                param += '/city_id/'+city;
+            }
+            if(country){
+                param += '/country_id/'+country;
+            }
+            window.location.href = "{:U('Index/nearShop"+param+"')}";
+        }
+    </script>
+</div>
+</body>
+</html>

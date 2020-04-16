@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>兑换股权</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+</head>
+<body>
+<header class="text-center"><a href="{:U('Growth/index')}" class="go-back"></a>兑换股权</header>
+<div class="container">
+    <div class="zz-p">
+
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">兑换方式：</div>
+        <select class="form-control input-border" id="exchange_type">
+            <option value="qbb_exchange">QBB兑换股权</option>
+            <option value="kb_exchange">KB兑换股权</option>
+        </select>
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">股权数量：</div>
+        <div class="input-txt input-txt-c" id="stock_right_num">{$storeInfo['fengmi_num']|Showtwo }</div>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm" style="width: 107px;">当前股权价格：</div>
+        <div class="input-txt input-txt-c" style="margin-left: 10px;" id="stock_right_price">{$stock_right_price}</div>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm qbb_text">QBB数量：</div>
+        <div class="input-txt input-txt-c" id="qbb_num">{$qbb_num}</div>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm now_price" style="width: 107px;">当前QBB价格：</div>
+        <div class="input-txt input-txt-c" style="margin-left: 10px;" id="qbb_price">${$coindets['coin_price']}</div>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">兑换数量：</div>
+        <input type="number" onkeyup="enfocus()" id="exchangeNum"  class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm nee_qbb_text" style="width: 107px;">所需QBB数量：</div>
+        <div class="input-txt input-txt-c" style="margin-left: 10px;" id="need_qbb_num"></div>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">交易密码：</div>
+        <input type="password" id="pwd" class="form-control input-border" placeholder="请输入交易密码" />
+    </div>
+</div>
+<div class="text-center"><button type="button" class="btn btn-jh">提交兑换</button></div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    var type = 'qbb_exchange';
+    function enfocus() {
+        var exchangeNum = $('#exchangeNum').val();
+        if(exchangeNum != ''){
+            exchangeNum  = Math.round(exchangeNum);
+        }
+        $('#exchangeNum').val(exchangeNum);
+
+        var qbb_price = "{$coindets['coin_price']}";
+        if(type == 'kb_exchange'){
+            qbb_price = "{$kb_coind['coin_price']}";
+        }
+        var stock_right_price = "{$stock_right_price}";
+        var need_qbb_num = exchangeNum * parseFloat(stock_right_price) / parseFloat(qbb_price);
+        need_qbb_num = Math.floor(need_qbb_num * 10000) / 10000;
+        $('#need_qbb_num').html(need_qbb_num);
+    }
+
+    //提交兑换
+    $('.btn-jh').on('click',function () {
+        var exchange_type = $('#exchange_type').val();
+        var exchangeNum = $('#exchangeNum').val();
+        var need_qbb_num = $('#need_qbb_num').html();
+        var qbb_num = $('#qbb_num').html();
+        var pwd = $('#pwd').val();
+        if(exchangeNum == '' || exchangeNum == 0){
+            msg_alert('请输入兑换数量');
+            return false;
+        }
+        if(pwd == ''){
+            msg_alert('请输入交易密码');
+            return false;
+        }
+        if(parseFloat(need_qbb_num) > parseFloat(qbb_num)){
+            if(exchange_type == 'kb_exchange'){
+                msg_alert('兑换所需KB数量大于您当前的账户KB数量，请重新输入');
+            }else {
+                msg_alert('兑换所需QBB数量大于您当前的账户QBB数量，请重新输入');
+            }
+            return false;
+        }
+
+        var is_ajax = $('.btn-jh').hasClass('submit_ajax');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        data = {
+            exchangeNum : exchangeNum,
+            pwd : pwd,
+            exchange_type : exchange_type
+        };
+        $('.btn-jh').addClass('submit_ajax');
+        doajax("{:U('store/exchangEf')}", data, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    location.reload();
+                },1000);
+            } else {
+                msg_alert(data.message);
+            }
+            $('.btn-jh').removeClass('submit_ajax');
+        });
+    });
+
+    $('#exchange_type').on('change',function () {
+        type = $(this).val();
+        enfocus();
+        if(type == 'kb_exchange'){
+            $('.qbb_text').html('KB数量：');
+            $('#qbb_num').html('{$kb_num}');
+            $('.nee_qbb_text').html('所需KB数量：');
+            $('.now_price').html('当前KB价格：');
+            $('#qbb_price').html("${$kb_coind['coin_price']}");
+        }else {
+            $('.qbb_text').html('QBB数量：');
+            $('#qbb_num').html('{$qbb_num}');
+            $('.nee_qbb_text').html('所需QBB数量：');
+            $('.now_price').html('当前QBB价格：');
+            $('#qbb_price').html("${$coindets['coin_price']}");
+        }
+    })
+</script>
+</html>

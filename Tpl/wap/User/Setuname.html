@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>个人资料</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+<body>
+
+<!-- 所有的Views视图 -->
+<div class="views">
+    <!-- 主视图（需要有"view-main"样式） -->
+    <div class="view view-main" data-page="Info">
+        <!-- 页面容器（Pages container）由于我们使用了固定位置的navbar和toolbar，
+        所以这里添加额外样式（navbar-through和toolbar-through）-->
+        <div class="pages navbar-through toolbar-through">
+            <!-- 首页, "data-page" 里设置页面名字 -->
+            <div class="page page-on-center" data-page="Info">
+                <div class="titlediv">
+                    <p>
+                        <a href="{:U('Shop/member/mine')}">
+                            <i class="icon iconfont icon-fanhui"></i>
+                        </a>
+                        个人资料
+                    </p>
+                </div>
+                <div class="mytruename" style="margin-top: 1.1rem;">
+                    <form id="Info_form">
+                        <div class="mtn-itme">
+                            <span>真实姓名：</span>
+                            <input type="text" class="turename" placeholder="请填写真实姓名" name="RealName" value="{$userInfo['username']}">
+                        </div>
+
+<!--                        <div class="mtn-itme"><span>身份证：</span>-->
+<!--                            <input type="text" class="turename" name="identity_card" value="{$userInfo['identity_card']}" readonly placeholder="请输入身份证">-->
+<!--                        </div>-->
+
+                        <div class="mtn-itme"><span>手机号码：</span>
+                            <input type="text" class="turename" placeholder="请输入手机号码" name="Phone" id="Phone" value="{$userInfo['mobile']}" readonly>
+                        </div>
+                        <div class="mtn-itme">
+                            <span>注册时间：</span>
+                            <input type="text" class="turename" value="{$userInfo['reg_date']|toDate}" readonly>
+                        </div>
+
+                        <div class="mytruebtn">
+                            <a class="Infobtn">提交保存</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    $('.Infobtn').click(function () {
+        var obj = $(this);
+        var user_name = $('input[name=RealName]').val();
+        if (user_name == '') {
+            layer.msg('请填写真实姓名');
+            $('input[name=RealName]').focus();
+            return false;
+        }
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            layer.msg('请勿频繁提交');
+            return false;
+        }
+        obj.addClass('is_ajax')
+
+        $.ajax({
+            url: "{:U('User/Setuname')}",
+            type: 'post',
+            data: {user_name: user_name},
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status == 1) {
+                    layer.msg(mes.message);
+                    window.location.reload();
+                } else {
+                    layer.msg(mes.message);
+                    obj.removeClass('is_ajax')
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

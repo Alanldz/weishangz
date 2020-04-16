@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>{$title}</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/stylelist.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/swiper-3.4.2.min.css">
+    <style>
+        .select_category{width: 55%;border: none;outline: none;height: 40px;line-height: 30px;appearance: none;-moz-appearance: none;background-position: 80%;padding-left: 19px;font-size: .9rem;}
+    </style>
+</head>
+
+<body>
+<div class="width100 font16 tcenter relative" style="height:44px;background:#eeb634;color:#FFFFFF;line-height:44px;position:fixed;top:0;left:0;">
+    {$title}
+    <a href="{:U('Shop/Index/index')}" id="return"></a>
+</div>
+<div class="width100 hidden" style="margin-top:54px;">
+    <div style="padding-left: 35%">
+        <select name="category" class="select_category">
+            <option value="-1">-所有分类-</option>
+            <volist name="category" id="v">
+                <option <?php if(isset($search['type_id'])&&($search['type_id']==$v['id'])){echo 'selected="selected"';} ?>value="{$v.id}">{$v.name}</option>
+            </volist>
+        </select>
+    </div>
+    <div class="width96 center hidden" id="new_xz">
+        <notempty name="goodsList">
+            <foreach name="goodsList" item="product">
+                <a href="{:U('/Shop/Home/details',array('proid'=>$product['id']))}">
+                    <img src="{$product['pic']}" alt="" class="product_img">
+                    <div class="width96 hidden center">
+                        <p class="yihang block center font12 c33">{$product['name']}</p>
+                        <p class="yihang block center font12 c33 hidden">
+                            <if condition="$product.shop_type eq 1 or $product.shop_type eq 2">
+                                <span class="left c_33"><font class="red">消费通证：{$product.price}</font></span>
+                                <span class="left c_33"><font class="red">生态总资产：{$product.ecological_total_assets}</font></span>
+                                <elseif condition="$product.shop_type eq 3 or $product.shop_type eq 6" />
+                                <span class="left c_33"><font class="red">生态总资产：{$product.ecological_total_assets}</font></span>
+                            </if>
+                            <span class="right c_33">
+                                 <font class="font12 red"></font>
+                            </span>
+                        </p>
+                    </div>
+                </a>
+            </foreach>
+            <else/>
+            <p style="text-align: center;color: #bab3b3;line-height: 100px;">暂无商品哦,亲</p>
+        </notempty>
+    </div>
+</div>
+
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script>
+    $('.select_category').on('change',function () {
+        var category = $(this).val();
+        var shop_type = "{$shop_type}";
+        var param = '/shop_type/'+shop_type;
+        param += '/category/'+category;
+
+        window.location.href = "{:U('Shop/Home/mend"+param+"')}";
+    })
+</script>
+</body>
+</html>

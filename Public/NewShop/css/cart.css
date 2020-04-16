@@ -1,0 +1,173 @@
+#cart {
+	margin: 8px auto;
+}
+#cart .item {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px 0px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; overflow: hidden; position: relative;
+}
+#cart .item .del {
+	width: 100%; position: absolute;
+}
+#cart .item .del div {
+	width: 16px; height: 16px; margin-right: 8px; float: right;
+}
+#cart .item .img {
+	background: rgb(255, 255, 255); left: 8px; top: 8px; width: 100px; overflow: hidden; position: absolute;
+}
+#cart .item .img img {
+	border: 1px solid rgb(238, 238, 238); border-image: none; width: 100%; box-sizing: border-box;
+}
+#cart .item dl {
+	overflow: hidden; margin-right: 5px; margin-left: 116px; min-height: 100px;
+}
+#cart .item dl dd {
+	height: 20px; color: rgb(136, 136, 136); overflow: hidden;
+}
+#cart .item dl dd.name {
+	white-space: nowrap; -ms-text-overflow: ellipsis;
+}
+#cart .item dl dd a {
+	font-size: 14px; font-weight: bold;
+}
+#cart .item dl dd input {
+	border: 1px solid rgb(221, 221, 221); border-image: none; width: 30px; height: 18px; text-align: center; line-height: 18px;
+}
+#cart .item dl dd .sub_total {
+	padding-left: 10px;
+}
+#cart .item dl dd .sub_total span span {
+	color: rgb(255, 0, 0);
+}
+#cart .total {
+	height: 30px; text-align: right; color: rgb(102, 102, 102); line-height: 30px; padding-right: 10px; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; border-bottom-style: dotted;
+}
+#cart .total span {
+	color: rgb(255, 0, 0); font-size: 16px; font-weight: bold;
+}
+#cart .checkout {
+	padding: 10px 8px 0px 0px; height: 38px;
+}
+#cart .checkout input {
+	border-radius: 5px; border: 1px solid rgb(193, 0, 1); border-image: none; width: 150px; height: 36px; text-align: center; color: rgb(255, 255, 255); font-size: 16px; font-weight: bold; float: right; box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5); background-color: rgb(240, 0, 25);
+}
+#cart .empty {
+	padding: 20px; text-align: center; color: rgb(187, 187, 187); font-size: 16px; font-weight: bold;
+}
+#cart .empty img {
+	padding-bottom: 20px;
+}
+#checkout {
+	margin: 8px auto;
+}
+#checkout .i-ture {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none;
+}
+#checkout .i-ture h1.t {
+	height: 22px; font-size: 16px; font-weight: bold; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#checkout .address ul {
+	padding-top: 8px;
+}
+#checkout .address ul li {
+	padding: 3px 0px; color: rgb(102, 102, 102); line-height: 150%;
+}
+#checkout .address dl {
+	display: none;
+}
+#checkout .address dl dd {
+	color: rgb(102, 102, 102); padding-top: 8px;
+}
+#checkout .address dl dd input {
+	border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 100%; height: 32px; color: rgb(102, 102, 102); line-height: 32px; box-sizing: border-box;
+}
+#checkout .address dl dd select {
+	background: rgb(255, 255, 255); padding: 5px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; height: 32px; color: rgb(102, 102, 102); margin-bottom: 5px;
+}
+#checkout .shippng li {
+	padding: 5px 0px; color: rgb(102, 102, 102);
+}
+#checkout .remark div {
+	padding: 5px 0px;
+}
+#checkout .remark div textarea {
+	padding: 5px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none; width: 100%; color: rgb(102, 102, 102); line-height: 150%; box-sizing: border-box;
+}
+#checkout .total_price {
+	height: 30px; text-align: right; color: rgb(102, 102, 102); line-height: 30px; padding-right: 10px; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; border-bottom-style: dotted;
+}
+#checkout .total_price span {
+	font-size: 16px; font-weight: bold;
+}
+#checkout .discount {
+	height: 30px; text-align: right; color: rgb(102, 102, 102); line-height: 30px; padding-right: 10px;
+}
+#checkout .checkout {
+	padding: 10px 8px 0px 0px; height: 38px;
+}
+#checkout .checkout input {
+	border-radius: 5px; border: 1px solid rgb(193, 0, 1); border-image: none; width: 150px; height: 36px; text-align: center; color: rgb(255, 255, 255); font-size: 16px; font-weight: bold; float: right; box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5); background-color: rgb(240, 0, 25);
+}
+#checkout .i-ture ul li .lbar {
+	width: 20px; float: left;
+}
+#checkout .i-ture ul li .rbar {
+	width: 90%; float: left;
+}
+#checkout .stores li {
+	margin: 5px 0px; color: rgb(102, 102, 102);
+}
+#checkout .stores li * {
+	color: rgb(102, 102, 102);
+}
+#payment .i-ture {
+	background: rgb(255, 255, 255); margin: 8px; padding: 8px; border-radius: 5px; border: 1px solid rgb(221, 221, 221); border-image: none;
+}
+#payment .i-ture h1.t {
+	height: 22px; font-size: 16px; font-weight: bold; border-bottom-color: rgb(221, 221, 221); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#payment .i-ture .info {
+	line-height: 200%; padding-top: 8px;
+}
+#payment .i-ture ul {
+	padding-top: 5px;
+}
+#payment .i-ture ul li {
+	padding-top: 10px;
+}
+#payment .i-ture ul li .payment_info {
+	color: rgb(136, 136, 136); line-height: 150%; padding-left: 20px;
+}
+#payment .i-ture ul li textarea {
+	border-radius: 5px; width: 97%; height: 80px; line-height: 150%;
+}
+#payment .payment {
+	padding: 5px 8px 10px 0px; height: 38px;
+}
+#payment .payment input {
+	border-radius: 5px; border: 1px solid rgb(193, 0, 1); border-image: none; width: 150px; height: 36px; text-align: center; color: rgb(255, 255, 255); font-size: 16px; font-weight: bold; float: right; box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5); background-color: rgb(240, 0, 25);
+}
+.delOrderList {
+    float:right;
+}
+
+
+
+.myButton {
+    padding: 10px 8px 0px 0px;
+    height: 38px;
+}
+
+    .myButton a {
+        border-radius: 5px;
+        border: 1px solid rgb(193, 0, 1);
+        border-image: none;
+        width: 149px;
+        height: 28px;
+        text-align:center;
+        padding-top:5px;
+        color: rgb(255, 255, 255);
+        font-size: 16px;
+        font-weight: bold;
+        float: right;
+        box-shadow: inset 0px 1px 0px #d95260, 0px 1px 2px rgba(0,0,0,0.5);
+        background-color: rgb(240, 0, 25);
+    }

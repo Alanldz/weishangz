@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我的交易</title>
+    <link rel="stylesheet" href="__WCSS__/style.css">
+    <link rel="stylesheet" href="__WCSS__/digital.css">
+    <link rel="stylesheet" href="__WCSS__/zhifu.css">
+    <link rel="stylesheet" href="__WCSS__/ion.rangeSlider.css"/>
+    <link rel="stylesheet" href="__WCSS__/ion.rangeSlider.skinHTML5.css"/>
+</head>
+
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="javascript:history.back(-1)"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c" id="dig_xiala"><h2 style="line-height:36px;">我的交易</h2></div>
+    <div class="header_r"></div>
+</div>
+<div class="big_width100">
+    <!-- 输入 -->
+    <div class="fabchsding">
+        <div class="fill_styaa">
+            <p style="width: 36%">卖出类型：</p>
+            <select id="sell_way" style="width: 55%;height: 46px; margin-left: -50px;appearance:none;-moz-appearance:none; -webkit-appearance:none; border: 0;">
+                <option value="1">生态总资产交易</option>
+                <option value="2">消费通证交易</option>
+            </select>
+        </div>
+        <div class="fill_styaa">
+            <p style="width: 34%" class="now_sell_type_text">当前生态总资产：</p>
+            <input type="text" id="other_account" name="other_account" readonly value="{$storeInfo[cangku_num]|default=" 0.00"}" class="lanse" >
+        </div>
+        <center>
+            <form>
+                <div class="fill_styaa">
+                    <p>卖出数量：</p>
+                    <input type="number" size=40 id="num" class="livalue" placeholder="{$Think.lang.qsrsl}">
+                </div>
+                <div class="fill_styaa">
+                    <p>手续费：</p>
+                    <input type="number" size=40 readonly="readonly" value="0" id="service_charge">
+                </div>
+                <div class="fill_styaa">
+                    <p>收款方式：</p>
+                    <select id="payment_methods" style="width: 55%;height: 46px; margin-left: -50px;appearance:none;-moz-appearance:none; -webkit-appearance:none; border: 0;">
+                        <option value="1">银行卡</option>
+                        <option value="2">支付宝</option>
+                        <option value="3">微信</option>
+                    </select>
+                </div>
+
+                <div class="fill_styaa" id="payment_card">
+                    <p>银行卡：</p>
+                    <if condition="$morecars neq null">
+                        <select id="card_type" style="width: 55%;height: 46px; margin-left: -50px;appearance:none;-moz-appearance:none; -webkit-appearance:none; border: 0;">
+                            <foreach name="morecars" item="card">
+                                <option value="{$card['id']}">{$card['banq_genre']} {$card['card_number']|cardNumber}
+                                </option>
+                            </foreach>
+                        </select>
+                        <else/>
+                        <a href="{:U('Growth/Addbank')}">
+                            <input style="color: red" type="text" size=40 readonly="readonly" id="add_card" class="" value="请添加银行卡">
+                        </a>
+                    </if>
+                </div>
+
+                <div class="fill_styaa" id="payment_alipay" style="display: none;height: 100px">
+                    <p>二维码：</p>
+                    <if condition="$alipay_img == 1">
+                        <p>
+                            <img src="/Uploads/alipay/{$uid}.png" style="height: 90px;width: 90px;margin-top: -9px">
+                        </p>
+                        <else/>
+                        <a href="{:U('Growth/alipay')}">
+                            <input style="color: red" type="text" size=40 readonly="readonly" class="" value="请上传二维码">
+                        </a>
+                    </if>
+                </div>
+
+                <div class="fill_styaa" id="payment_wechat" style="display: none;height: 100px">
+                    <p>二维码：</p>
+                    <if condition="$wechat_img == 1">
+                        <p>
+                            <img src="/Uploads/wechat/{$uid}.png" alt="" style="height: 90px;width: 90px;margin-top: -9px">
+                        </p>
+                        <else/>
+                        <a href="{:U('Growth/weChat')}">
+                            <input style="color: red" type="text" size=40 readonly="readonly" class="" value="请上传二维码">
+                        </a>
+                    </if>
+                </div>
+
+                <div class="fill_styaa">
+                    <p>交易密码：</p>
+                    <input type="password" size=40 name="pwd" id="pwd" class="" placeholder="请输入交易密码">
+                </div>
+            </form>
+        </center>
+
+        <a class="dig_zhifuanj ljzf_but" style="background:#eeb634" href="javascript:void(0);">
+            提交出售
+        </a>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__WJS__/ion.rangeSlider.js"></script>
+<script type="text/javascript">
+
+    $('#num').on('blur',function () {
+       var sell_num = $(this).val();
+       if(!isNumberByMultiple(sell_num)){
+            $('#num').focus();
+            $('#service_charge').val(0);
+            msg_alert('卖出数量必须是10的倍数');
+            return false;
+        }
+       var service_charge = sell_num * 0.06;
+        $('#service_charge').val(service_charge);
+    });
+
+    $(".ljzf_but").click(function () {
+        var num = Math.round($('#num').val());//数量
+        var sell_way = $('#sell_way').val();
+        var pwd = $('#pwd').val();
+        var payment_type = $('#payment_methods').val();
+        if (num == '' || num == 0) {
+            $('#num').focus();
+            msg_alert('请输入卖出数量');
+            return false;
+        }
+
+        if(!isNumberByMultiple(num)){
+            $('#num').focus();
+            msg_alert('出售股数必须是10的倍数');
+            return false;
+        }
+        var other_account = $('#other_account').val();
+        var total_num = num + num * 0.06;
+        if(parseFloat(total_num) > parseFloat(other_account)){
+            $('#num').focus();
+            if(sell_way == 1){
+                msg_alert('您的生态总资产不足');
+            }else {
+                msg_alert('您的消费通证不足');
+            }
+            return false;
+        }
+
+        var card_id = 0;
+        if (payment_type == 1) {   //银行卡
+            card_id = $('#card_type').val();
+            if (card_id == '' || card_id == null) {
+                msg_alert('请添加银行卡');
+                return false;
+            }
+        }
+
+        var is_ajax = $('.ljzf_but').hasClass('submit_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.ljzf_but').addClass('submit_ajax');
+        $.ajax({
+            url: "{:U('Turntable/Salesell')}",
+            type: 'post',
+            data: {
+                'num': num,
+                'pwd': pwd,
+                'card_id': card_id,
+                'payment_type': payment_type,
+                'sell_way': sell_way
+            },
+            datatype: 'json',
+            success: function (mes) {
+                if (mes.status == 1) {
+                    msg_alert(mes.message, mes.url);
+                } else {
+                    msg_alert(mes.message);
+                    $('.ljzf_but').removeClass('submit_ajax');
+                }
+            }
+        })
+    });
+
+    $('#sell_way').change(function () {
+        var type = $(this).val();
+        if(type == 1){
+            $('.now_sell_type_text').html('当前生态总资产：');
+            $('#other_account').val("{$storeInfo['cangku_num']}");
+        }else {
+            $('.now_sell_type_text').html('当前消费通证：');
+            $('#other_account').val("{$storeInfo['fengmi_num']}");
+        }
+    });
+
+    $('#payment_methods').change(function () {
+        var type = $(this).val();
+        if (type == 1) {
+            $('#payment_card').show();
+            $('#payment_alipay').hide();
+            $('#payment_wechat').hide();
+        }
+        if (type == 2) {
+            $('#payment_card').hide();
+            $('#payment_alipay').show();
+            $('#payment_wechat').hide();
+        }
+        if (type == 3) {
+            $('#payment_card').hide();
+            $('#payment_alipay').hide();
+            $('#payment_wechat').show();
+        }
+    });
+</script>
+</html>

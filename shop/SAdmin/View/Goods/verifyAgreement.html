@@ -1,0 +1,44 @@
+<extend name="Public:base"/>
+<block name="content">
+    <div class="page-header">
+        <h1>
+            {$breadcrumb2}
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal" id="form" method="post" action="{:U('Goods/verifyAgreement')}">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">协议内容：</label>
+                        <div class="col-sm-11">
+                            <textarea name="content" id="description">{$content|default=''}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-left"> </label>
+                <div class="col-sm-11">
+                    <button form="form" type="submit" class="btn btn-sm btn-primary">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="javascript">
+    <script type="text/javascript" src="__PUBLIC__/fileupload/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/fileupload/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('description', {
+            filebrowserImageUploadUrl: '{:U("Image/ckupload")}',
+            toolbar: [
+                ['Source', 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
+                ['FontSize', 'TextColor', 'BGColor'],
+                ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image', 'Format']
+            ]
+        });
+
+    </script>
+</block>

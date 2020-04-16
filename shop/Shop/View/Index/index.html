@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="textml; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>星宇环球</title>
+    <link rel="stylesheet" href="__NEWSHOP__/css/index.css"/>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
+    <style>
+        .head a.pgv {height: 30px;position: absolute;left: 20px;}
+    </style>
+</head>
+<body class="loading" style="max-width:375px; margin:0 auto;">
+
+<div class="wrapper">
+    <div class="head" style="z-index:9999999 !important;max-width:375px;">
+        <a class="pgv" style="background:none; display:none">南宁
+            <img src="__NEWSHOP__/images/shop/shop/xx2.png" width="50%"></a>
+        <div class="pgv">星宇环球</div>
+        <a class="yup" href="{:U('Member/mine')}"><img src="__NEWSHOP__/images/shop/yh1.png" width="50%"></a></div>
+    <div class="whole">
+        <!--<div class="">-->
+            <!--<img src="__NEWSHOP__/images/shop/201411110817415244.jpg" style="width:100%; background:#fff;">-->
+        <!--</div>-->
+        <div class="main-content ng-scope" id="main_content">
+            <div class="main_visual">
+                <div class="flicking_con">
+                    <foreach name="bannerList" item="vo" key="k">
+                        <a href="#"></a>
+                    </foreach>
+                </div>
+                <div class="main_image">
+                    <ul>
+                        <foreach name="bannerList" item="vo" key="k">
+                            <li><span class="img_3"><img src="{$vo.picture}" style="width:100%; background:#fff;"></span></li>
+                        </foreach>
+                    </ul>
+                    <a href="javascript:;" id="btn_prev"></a>
+                    <a href="javascript:;" id="btn_next"></a>
+                </div>
+            </div>
+        </div>
+        <div class="nav">
+            <ul>
+                <li onClick="location.href='{:U('Shop/Home/mend',array('shop_type'=> 1))}';">
+                    <img src="__NEWSHOP__/images/shop/nav1.png">
+                    <p>消费区</p>
+                </li>
+                <li onClick="location.href='{:U('Shop/Home/mend',array('shop_type'=> 2))}';">
+                    <img src="__NEWSHOP__/images/shop/nav3.png">
+                    <p>再生商城</p>
+                </li>
+                <li onClick="location.href='{:U('Shop/Home/mend',array('shop_type'=> 3))}';">
+                    <img src="__NEWSHOP__/images/shop/nav4.png">
+                    <p>自营商城</p>
+                </li>
+                <li onClick="location.href='{:U('Shop/Index/nearShop')}';">
+                    <img src="__NEWSHOP__/images/shop/nav5.png">
+                    <p>实体商家</p>
+                </li>
+                <li class="tao_bao">
+                    <img src="__NEWSHOP__/images/shop/nav8.png">
+                    <p>天猫商城</p>
+                </li>
+                <li onClick="location.href='{:U('Shop/Home/mend',array('shop_type'=> 6))}';">
+                    <img src="__NEWSHOP__/images/shop/nav6.png">
+                    <p>爱心商城</p>
+                </li>
+                <li onClick="location.href='{:U('Home/Index/PurchaseRecord')}';">
+                    <img src="__NEWSHOP__/images/shop/nav15.png">
+                    <p>签到</p>
+                </li>
+
+                <li onClick="location.href='{:U('Home/Index/index')}';">
+                    <img src="__NEWSHOP__/images/shop/nav16.png">
+                    <p>我的资产</p>
+                </li>
+            </ul>
+        </div>
+        <div class="ann">
+            <img src="__NEWSHOP__/images/shop/lab.png">
+            <span style="color:#62ad00; font-size:.9rem;">[公告]</span>
+            <span>{$notice['title']}</span>
+            <span style="float:right; color:#999;">{$notice['create_time']|date="m-d",###}</span>
+        </div>
+        <div class="product-list">
+            <h3> 消费区 <a href="{:U('Shop/Home/mend',array('shop_type'=> 1))}"><span>更多》</span></a></h3>
+            <div class="giofhj">
+                <foreach name="bao_dan_product_list" item="vo" key="k">
+                    <ul onClick="location.href='{:U('Shop/Home/details',array('proid'=>$vo['id']))}';">
+                        <i><img style="width: 170.5px;height: 170.5px" src="{$vo.pic}"></i>
+                        <li>{$vo.name}</li>
+                    </ul>
+                </foreach>
+            </div>
+        </div>
+        <div class="shangc">
+            <h3><i><img src="__NEWSHOP__/images/shop/ss.png"></i> <em>更多、更好的热搜商家任你选!</em> <a href="{:U('Index/nearShop')}"><span>更多》</span></a></h3>
+            <foreach name="business_list" item="vo" key="k">
+                <ul onClick="location.href='{:U('Index/storeDetail',array('id'=>$vo['id']))}';">
+                    <i><img src="{$vo.store_phone}"></i>
+                    <li>{$vo.store_name}</li>
+                    <strong>{$vo.city_id}</strong>
+                </ul>
+            </foreach>
+        </div>
+        <div class="HotSearch" style="display:none">
+            <h3>热搜门店 <span>更多》</span></h3>
+            <div class="SH" onClick="location.href='datalis1.html';">
+                <div class="hot_a"><i><img src="__NEWSHOP__/images/shop/t01d0683477b52ead93.jpg"></i></div>
+                <div class="hot_b">
+                    <h2>广西万里商务大夏 <span>订</span></h2>
+                    <p>兴宁区望州路28号</p>
+                    <p>452人消费</p>
+                    <p>约<em style="color:#2caef8; font-style:normal;">5.2</em>km</p>
+                    <ul>
+                        <li>￥125<em>元起</em></li>
+                        <li style="border:solid 1px #ffcb9b; font-weight:normal; font-size:12px; text-align:center; line-height:16px;">
+                            多优惠+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="SH">
+                <div class="hot_a"><i><img src="__NEWSHOP__/images/shop/t0114b36f3d19e123a8.jpg"></i></div>
+                <div class="hot_b">
+                    <h2>亚斯特酒店（北湖南路店） <span>订</span></h2>
+                    <p>北湖南路34号</p>
+                    <p>253人消费</p>
+                    <p>约<em style="color:#2caef8; font-style:normal;">8.2</em>km</p>
+                    <ul>
+                        <li>￥100<em>元起</em></li>
+                        <li style="border:solid 1px #ffcb9b; font-weight:normal; font-size:12px; text-align:center; line-height:16px;">
+                            多优惠+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="SH">
+                <div class="hot_a"><i><img src="__NEWSHOP__/images/shop/t01ddaac426297ba62b.jpg"></i></div>
+                <div class="hot_b">
+                    <h2>欧艺大酒店</h2>
+                    <p>北湖南路37号</p>
+                    <p>225人消费</p>
+                    <p>约<em style="color:#2caef8; font-style:normal;">15.5</em>km</p>
+                    <ul>
+                        <li>￥140<em>元起</em></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="product-list">
+            <h3> 再生商城 <a href="{:U('Shop/Home/mend',array('shop_type'=> 2))}"><span>更多》</span></a></h3>
+            <div class="giofhj">
+                <foreach name="regenerate_product_list" item="vo" key="k">
+                    <ul onClick="location.href='{:U('Shop/Home/details',array('proid'=>$vo['id']))}';">
+                        <i><img style="width: 170.5px;height: 170.5px" src="{$vo.pic}"></i>
+                        <li>{$vo.name}</li>
+                    </ul>
+                </foreach>
+            </div>
+        </div>
+        <div class="product-list">
+            <h3> 自营商城 <a href="{:U('Shop/Home/mend',array('shop_type'=> 3))}"><span>更多》</span></a></h3>
+            <div class="giofhj">
+                <foreach name="self_support_product_list" item="vo" key="k">
+                    <ul onClick="location.href='{:U('Shop/Home/details',array('proid'=>$vo['id']))}';">
+                        <i><img style="width: 170.5px;height: 170.5px" src="{$vo.pic}"></i>
+                        <li>{$vo.name}</li>
+                        <strong> <em>生态总资产：{$vo.ecological_total_assets}</em> </strong>
+                    </ul>
+                </foreach>
+            </div>
+        </div>
+        <!--<div class="product-list">-->
+            <!--<h3>淘宝天猫商城 <span>更多》</span></h3>-->
+            <!--<div class="giofhj">-->
+                <!--<foreach name="tao_bao_list" item="vo" key="k">-->
+                    <!--<ul onClick="location.href='{$vo.product_url}';">-->
+                        <!--<i><img src="{$vo.pic_url}"></i>-->
+                        <!--<li>{$vo.product_name}</li>-->
+                        <!--<strong> <em>￥{$vo.discount_price}</em> &lt;!&ndash;<a>加入分享</a>&ndash;&gt; </strong>-->
+                    <!--</ul>-->
+
+                <!--</foreach>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="product-list">
+            <h3> 爱心商城 <a href="{:U('Shop/Home/mend',array('shop_type'=> 6))}"><span>更多》</span></a></h3>
+            <div class="giofhj">
+                <foreach name="love_product_list" item="vo" key="k">
+                    <ul onClick="location.href='{:U('Shop/Home/details',array('proid'=>$vo['id']))}';">
+                        <i><img style="width: 170.5px;height: 170.5px" src="{$vo.pic}"></i>
+                        <li>{$vo.name}</li>
+                        <strong> <em>生态总资产：{$vo.ecological_total_assets}</em> </strong>
+                    </ul>
+                </foreach>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="height:60px;"></div>
+
+<!--底部-->
+<include file="Public:shop_foot"/>
+<!--底部-->
+</div>
+</div>
+
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.touchSlider.js"></script>
+<script type="text/javascript" src="__JS__/js.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+
+<script>
+    $('.tao_bao').on('click',function () {
+        layer.msg('暂未开放');
+    })
+</script>
+
+</body>
+</html>

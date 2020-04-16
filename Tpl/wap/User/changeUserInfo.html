@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>修改未激活</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .sendmsgBtn{
+            position: absolute;
+            top: 0;
+            right: 15px;
+            font-size: 0.28rem;
+            text-align: center;
+            line-height: 34px;
+            height: 34px;
+        }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('activate/unactivated_list')}" class="go-back"></a>修改未激活</header>
+<div class="back"></div>
+<div class="container">
+    <div class="select-box">
+
+    </div>
+    <div ></div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">ID号：</div>
+        <input type="text" name="userid" value="{$userInfo['userid']}" readonly class="form-control input-border" />
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">账户姓名：</div>
+        <input type="text" name="username" value="{$userInfo['username']}" class="form-control input-border" />
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">身份证：</div>
+        <input type="text" name="identity_card" value="{$userInfo['identity_card']}"  class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">邮箱：</div>
+        <input type="text" name="email" value="{$userInfo['email']}"  class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">手机号：</div>
+        <input type="text" name="mobile" value="{$userInfo['mobile']}"  class="form-control input-border" />
+    </div>
+    <div class="select-box">
+        <div class="select-left select-left-sm">验证码：</div>
+        <input type="text" style="padding-right: 85px;" name="code" placeholder="请输入验证码"  class="form-control input-border" />
+        <p class="ii-ispan sendmsgBtn">获取验证码</p>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">登陆密码：</div>
+        <input type="password" name="login_pwd" class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">交易密码：</div>
+        <input type="password" name="safety_pwd" value=""  class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">推荐人：</div>
+        <input type="text" name="pid" value="{$userInfo['pid']}"  class="pid form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">接点人：</div>
+        <input type="text" readonly value="{$userInfo['junction_id']}" class="form-control input-border" />
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">投资级别：</div>
+        <select class="form-control input-border" id="investment_grade">
+            <foreach name="investment_grade" item="vo" key="k" >
+                <option value="{$k}" <if condition="$k eq $userInfo['investment_grade']">selected = "selected" </if>>
+                <if condition="$k eq 1">
+                    一星
+                    <elseif condition="$k eq 2"/>
+                    二星
+                    <elseif condition="$k eq 3"/>
+                    三星
+                    <elseif condition="$k eq 4"/>
+                    四星
+                    </if>
+                </option>
+            </foreach>
+        </select>
+    </div>
+
+    <div class="select-box">
+        <div class="select-left select-left-sm">服务中心：</div>
+        <input type="text" name="service_center_account" value="{$userInfo['service_center_account']}" readonly  class="form-control input-border" />
+    </div>
+
+    <div class="text-center"><button type="button" class="btn btn-jh submint-btn">确认提交</button></div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    //赋值服务中心账号
+    $('.pid').blur(function () {
+        var referral_id =$('.pid').val();
+        doajax("{:U('user/getServiceCenterAccount')}",{referral_id:referral_id},function (data) {
+            var service_center_account = '';
+            if(data.status == 1){
+                service_center_account = data.message;
+            }
+            $('input[name="service_center_account"]').val(service_center_account);
+        });
+    });
+
+    //发送短信事件
+    $('.sendmsgBtn').click(function () {
+        var Phone = $('input[name=mobile]').val();
+        if (!Phone.match(/^1[3-9]\d{9}$/)) {
+            layer.msg('请填写正确的手机号码');
+            $('input[name=mobile]').focus();
+            return false;
+        }
+
+        $('.sendmsgBtn').html('获取验证码').attr('disabled', true);
+
+        var time = 0;
+        time_obj = function () {
+            if (time >= 60) {
+                $('.sendmsgBtn').html('获取验证码').attr('disabled', false);
+                time = 0;
+                clearInterval(timer);
+            } else {
+                $('.sendmsgBtn').html('重新(' + (60 - time) + ')');
+                time++;
+            }
+        };
+        var timer = setInterval('time_obj()', 1000);
+        $.post("{:U('Login/sendCode')}",{'mobile':Phone},function(data){
+            if(data.status==1){
+                layer.msg(data.message);
+//                RemainTime();
+            }else{
+                layer.msg(data.message);
+            }
+        });
+        $('.sendmsgBtn').attr('disabled', true);
+    });
+
+    $('.submint-btn').click(function () {
+        var userid = $('input[name="userid"]').val();
+        var username = $('input[name="username"]').val();
+        var identity_card = $('input[name="identity_card"]').val();
+        var email = $('input[name="email"]').val();
+        var mobile = $('input[name="mobile"]').val();
+        var code = $('input[name="code"]').val();
+        var login_pwd = $('input[name="login_pwd"]').val();
+        var safety_pwd = $('input[name="safety_pwd"]').val();
+        var pid = $('input[name="pid"]').val();
+        var investment_grade = $('#investment_grade').val();
+        if(userid == '' || userid == 0){
+            layer.msg('用户不存在，请重新选择');
+            return false;
+        }
+        if(username == ''){
+            layer.msg('账户名称不能为空');
+            return false;
+        }
+        if(identity_card == ''){
+            layer.msg('请输入身份证');
+            return false;
+        }
+        if(identity_card.length < 10){
+            layer.msg('请输入正确的身份证号');
+            return false;
+        }
+        var res = /^[0-9A-Za-z][\.-_0-9A-Za-z]*@[0-9A-Za-z]+(\.[0-9A-Za-z]+)+$/;
+        if(email == ''){
+            layer.msg('请输入邮箱');
+            return false;
+        }
+        if (!res.test(email)) {
+            layer.msg('请输入正确的邮箱');
+            return false;
+        }
+        if(mobile == ''){
+            layer.msg('手机号码不能为空');
+            return false;
+        }
+        var  mobile_rex= /^1[3456789]\d{9}$/ ;
+        if (!mobile_rex.test(mobile)) {
+            layer.msg('请填写正确的手机号码');
+            return false;
+        }
+        if(code == ''){
+            layer.msg('验证码不能为空');
+            return false;
+        }
+        if(login_pwd == ''){
+            layer.msg('登录密码不能为空');
+            return false;
+        }
+        if(safety_pwd == ''){
+            layer.msg('交易密码不能为空');
+            return false;
+        }
+        if(pid == ''){
+            layer.msg('推荐人不能为空');
+            return false;
+        }
+        data = {
+            userid: userid,
+            username:username,
+            identity_card:identity_card,
+            email:email,
+            mobile:mobile,
+            code:code,
+            login_pwd:login_pwd,
+            safety_pwd:safety_pwd,
+            pid:pid,
+            investment_grade:investment_grade
+        }
+        var is_ajsx =$('.submint-btn').hasClass('ajax_btn');
+        if(is_ajsx){
+            layer.msg("请勿频繁操作");
+            return false;
+        }
+        $('.submint-btn').addClass('ajax_btn');
+
+        doajax("{:U('user/changeUserInfo')}",data,function (data) {
+            if(data.status==1){
+                layer.msg(data.message);
+                setTimeout(function () {
+                    window.location.href = data.url;
+                },1000)
+            } else{
+                layer.msg(data.message);
+            }
+            $('.submint-btn').removeClass('ajax_btn');
+        });
+
+
+    });
+</script>
+</html>

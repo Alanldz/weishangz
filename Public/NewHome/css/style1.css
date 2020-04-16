@@ -1,0 +1,66 @@
+body {
+    color: #030303;
+    font-size: 14px;
+    font-family: "微软雅黑",Helvetica,"黑体",Arial,Tahoma;
+	max-width:640px;
+	min-width:320px;
+	margin:0 auto;
+	position:relative;
+}
+li{ list-style:none;}
+ul{ padding:0; margin:0;}
+a{ color:#444;text-decoration:none}
+button:focus,button:hover,input:focus{ outline: none!important; }
+a:hover,a:focus{ text-decoration:none !important; color:#e70e16;}
+img{ max-width:100%;}
+header{ background: #d5a512; height: 40px; font-size: 16px; color: #fff; position: relative; line-height: 40px; }
+.go-back{ position: absolute; left: 15px; top: 0; bottom: 0; width: 10px; background: url(../img/icon01.png) center no-repeat; background-size: 10px auto; }
+.table > thead > tr > th{ border:none; text-align: center; font-size: 14px; font-weight: normal; }
+.table > tbody > tr > td{ font-size: 12px; text-align: center; border:none; }
+.list-header{ font-size: 15px; color: #fff; background: #f9c94d; border-radius: 10px 10px 0 0; padding:5px 15px; }
+.list-header span{ padding-left: 20px; }
+.ka-list li{ margin-top: 15px; padding:0 15px; }
+.ka-bottom{ background: #fff; padding:15px 10px 10px 10px; }
+.back{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: #f0f0f0; z-index: -1; }
+.ka-bottom a{ display: inline-block; margin-top: 10px; margin-left: 5px; font-size: 14px; color: #d5a512; border:solid 1px #d5a512; padding:2px 0; width: 64px; text-align: center; }
+.ka-list li.yy .list-header{ background: #787877; }
+.ka-list li.yy .ka-bottom a{ color: #111010; border-color: #111010; }
+.jh-list{ margin-top: 10px; }
+.jh-list li{ padding:0 30px; margin-bottom: 10px; }
+.jh-list li a{ display: block; position: relative; background: #fff; text-align: center; padding:10px 0; border-radius: 4px; font-size: 15px; color: #d5a512; display: block; }
+.jh-list li a span{ position: absolute; left: 10px; top: 0; bottom: 0; width: 19px; background: url(../img/icon-ka.png) center no-repeat; background-size: 100% auto; }
+.pagination li a{ border-radius: 4px; margin:0 5px; }
+.container{ padding:0 15px; width: 100%!important; }
+.select-box{ position: relative; padding-left: 100px; margin-bottom: 10px; }
+.select-left{ position: absolute; left: 0; top: 0; line-height: 40px; font-size: 15px; }
+.form-control{ border:none; box-shadow: none!important; background: none; border-radius: 0; font-size: 15px; height: 40px; color: #d5a512; }
+.lind{ border-bottom: solid 2px #333; margin-bottom: 10px;}
+.input-border{ border:solid 1px #d5a512; height: 34px; }
+.select-left-sm{ line-height: 34px; width: 90px; text-align: right; }
+.input-txt{ height: 34px; line-height: 34px; color: #d5a512; }
+.btn-jh{ background: #d5a512; color: #fff; font-size: 18px; border-radius: 0; border:none; padding:6px 50px; margin-top: 30px; }
+.btn-jh:hover,.btn-jh:focus{ color: #fff; }
+.mr-list li{ float: left; width: 33.333333%; padding:0 4px; }
+.mr-list{ margin:10px -4px; }
+.mr-list li a{ display: block; height: 34px; line-height: 34px; color: #fff; background: #d5a512; font-size: 16px; text-align: center; }
+.mr-list li a.sm{ font-size: 12px; }
+.gz-border{ border-top: solid 2px #ead289; border-bottom: solid 2px #ead289; padding:5px 0; }
+.gz-border p{ font-size: 12px; color: #f90314; margin:0; line-height: 22px; text-align: justify; }
+.left{ text-align: left!important; }
+.sy-txt{ padding:10px 0;  border-bottom: solid 2px #ead289; color: #d80707; font-size: 15px; margin-bottom: 5px;}
+.padding-a{ padding-top: 20px; }
+.ye-right{ line-height: 40px; font-size: 15px; }
+.lind-sm{ margin:0; }
+.form-control-color{ color: #333; font-size: 15px; }
+.btn-box .btn{ width: 100%; }
+.btn-box{ padding:0 30px; }
+.zz-p p{ font-size: 12px; color: #e50a0a; margin:0; line-height: 22px; }
+.zz-p{ padding:10px 0; }
+.input-txt-c{ color: #333; }
+.jh-tabs li{ float: left; width: 50%; border-bottom: solid 2px #f9c94d; margin-top: 20px; }
+.jh-tabs li a{ display: block; text-align: center; font-size: 18px; color: #060303; height: 40px;line-height: 40px; }
+.jh-tabs li.active a{ background: #f9c94d; color: #fff; }
+.lishi{ margin-top: 10px; }
+.lishi li{ padding:0 30px; margin-bottom: 10px; }
+.lishi li a{ display: block; position: relative; background: #fff; text-align: center; padding:10px 0; border-radius: 4px; font-size: 15px; color: #d5a512; display: block; }
+.lishi li a span{ position: absolute; left: 10px; top: 0; bottom: 0; width: 19px; background: url(../img/history_background.png) center no-repeat; background-size: 100% auto; }

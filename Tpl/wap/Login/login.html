@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html style="font-size: 353.6px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>登陆</title>
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style.css">
+</head>
+
+<body class="mainbg" style="height: 100%;background: #000000 url(&#39;__HOME__/img/loginbg.jpg&#39;) no-repeat top;background-size: 100%;">
+
+<div class="maindiv">
+    <form id="user_form" class="formlogin" method="post" action="{:U('Login/checkLogin')}">
+        <div class="logologin"><img src="__HOME__/img/logo.png" alt=""></div>
+        <div class="logoinput">
+            <span>
+                <i class="icon iconfont icon-user"></i>账号：
+            </span>
+            <input type="text" name="account" notnull="" placeholder="请输入账号">
+        </div>
+        <div class="logoinput" style="margin-top: 0.5rem">
+            <span>
+                <i class="icon iconfont icon-mima"></i> 密码：
+            </span>
+            <input name="password" type="password" notnull="" placeholder="请输入登录密码">
+        </div>
+
+        <div class="loginbtn"><a id="logbtn">登录</a></div>
+        <div class="loginbottom">
+            <a href="{:U('login/getpsw')}">忘记密码</a>
+            <a href="{:U('Shop/Index/index')}">商城首页</a>
+            <a href="{:U('login/register')}">注册账号</a>
+        </div>
+    </form>
+</div>
+
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/global.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script>
+    var deviceWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+</script>
+<script>
+    //登陆
+    $('#logbtn').on('click', function () {
+        var account = $('input[name="account"]').val();
+        var password = $('input[name="password"]').val();
+        if (account == '') {
+            layer.msg('账号不能为空');
+            return;
+        }
+        if (password == '') {
+            layer.msg('密码不能为空');
+            return;
+        }
+        var post_url = $('.formlogin').attr('action');
+        $.ajax({
+            type: "POST",
+            url: post_url,
+            data: {
+                account: account,
+                password: password
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.message);
+                    window.location = data.url;
+                } else {
+                    layer.msg(data.message);
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,minimal-ui">
+    <title>商品支付</title>
+    <link rel="stylesheet" href="__CSS__/3db_style.css">
+    <link rel="stylesheet" href="__ICON__/3db_iconfont.css">
+    <link rel="stylesheet" href="__CSS__/dizhi.css">
+    <style type="text/css">
+        label {
+            width: 80%;
+            display: inline-block;
+        }
+
+        .methods p {
+            line-height: 8vmin;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 轮播图 -->
+<div class="fxm_header">
+    <div class="fxm_left">
+        <a href="javascript:history.back(-1)"><img src="__IMG__/b1.png" alt=""></a>
+    </div>
+    <div class="fxm_center">{$title|default='支付'}</div>
+</div>
+<body style="background: #f6f5fb;">
+
+<div style="margin-top: 13vmin"></div>
+
+<div class="commoditys">
+    <div class="commoditys-right" style="float: left;">
+        <h3 style="color: black">订单号：{$order['order_no']}</h3>
+    </div>
+    <if condition="$order['shop_type'] eq 1">
+        <div class="commoditys-right" style="float: left;">
+            <h3 style="color: black;">感恩ID：<input type="text" id="thankful_id" style="height: 28px;width: 70%"></h3>
+        </div>
+    </if>
+</div>
+<div class="clear"></div>
+
+<div class="methods">
+    <h1>支付方式</h1>
+    <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">消费通证+生态总资产</br><span style="font-size: 3.5vmin;">消费通证：{$orderPrice['price']|formatNum2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生态总资产：{$orderPrice['ecological_total_assets']|formatNum2}</span></label>
+            <input type="radio" name="payway" value="1" checked>
+        </p>
+    </if>
+    <if condition="$order['shop_type'] eq 3">
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">生态总资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
+            <input type="radio" name="payway" value="2" checked>
+        </p>
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">生态总资产+流动通证</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_one'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动通证：{$orderPrice['flow_pass_card'] | formatNum2})</span></label>
+            <input type="radio" name="payway" value="3">
+        </p>
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">生态总资产+流动资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets_two'] | number_format =2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;流动资产：{$orderPrice['flow_amount'] | formatNum2})</span></label>
+            <input type="radio" name="payway" value="4">
+        </p>
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">产品积分</br><span style="font-size: 3.5vmin;">（产品积分：{$orderPrice['product_integral'] | number_format =2})</span></label>
+            <input type="radio" name="payway" value="5">
+        </p>
+    </if>
+    <if condition="$order['shop_type'] eq 6">
+        <p>
+            <i class="iconfont" style="color: #f04f37; float: left; ">&#xe60e;</i>
+            <label style="margin-left: 10px">生态总资产</br><span style="font-size: 3.5vmin;">（生态总资产：{$orderPrice['ecological_total_assets'] | number_format =2})</span></label>
+            <input type="radio" name="payway" value="2" checked>
+        </p>
+    </if>
+    <p>
+        <label style="width: 25%">交易密码：</label>
+        <input type="password" name="safe_pwd" style="margin-top: 0px;margin-right: 94px; height: 30px;">
+    </p>
+    <input type="hidden" id="order_id" value="{$order['order_id']}">
+</div>
+
+<div class="lijizhifu">
+    <a id="pay_submit"> 立即支付</a>
+</div>
+
+<script type="text/javascript" src="__JS__/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__RZCSS__/layer.js"></script>
+<script type="text/javascript">
+    $("#pay_submit").click(function () {
+        //验证数据
+        var pay_type = $("input[name='payway']:checked").val();
+        var oid = $('#order_id').val();
+        var thankful_id = $('#thankful_id').val();
+        var safe_pwd = $("input[name='safe_pwd']").val();
+
+        if(safe_pwd == ''){
+            $("input[name='safe_pwd']").focus();
+            layer.msg('请输入交易密码', {shift: -1, time: 1500});
+            return false;
+        }
+
+        var is_ajax = $('#pay_submit').hasClass('is_ajax');
+        if (is_ajax) {
+            layer.msg('请无频繁操作', {shift: -1, time: 1500});
+            return false;
+        }
+        $('#pay_submit').addClass('is_ajax');
+
+        $.post("{:U('Pay/pays')}", {pay_type: pay_type, oid: oid,safe_pwd:safe_pwd, thankful_id: thankful_id}, function (data) {
+            if (data.status === 1) {
+                layer.msg(data.msg);
+                setTimeout(function () {
+                    window.location.href = "{:U('Shop/Member/allorder',array('s'=> 1))}";
+                }, 1000);
+            } else {
+                $('#pay_submit').removeClass('is_ajax');
+                layer.msg(data.msg, {shift: -1, time: 1500});
+            }
+        }, "json");
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<extend name="Public/layout"/>
+<block name="style" >
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+    <link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <style type="text/css">
+        .tree li {
+            list-style-type:none;
+            margin:0;
+            padding:10px 5px 0 5px;
+            position:relative
+        }
+        .tree li::before, .tree li::after {
+            content:'';
+            left:-20px;
+            position:absolute;
+            right:auto
+        }
+        .tree li::before {
+            border-left:1px solid #999;
+            bottom:50px;
+            height:100%;
+            top:0;
+            width:1px
+        }
+        .tree li::after {
+            border-top:1px solid #999;
+            height:20px;
+            top:25px;
+            width:25px
+        }
+        .tree li span {
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            border:1px solid #999;
+            border-radius:5px;
+            display:inline-block;
+            padding:3px 8px;
+            text-decoration:none
+        }
+        .tree li.parent_li>span {
+            cursor:pointer
+        }
+        .tree>ul>li::before, .tree>ul>li::after {
+            border:0
+        }
+        .tree li:last-child::before {
+            height:30px
+        }
+        .tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
+            background:#eee;
+            border:1px solid #94a0b4;
+            color:#000
+        }
+        .tree > ul> li{
+            display: block !important;
+        }
+        #account_type input{
+            -webkit-appearance: radio;
+            width: 13px;
+        }
+        #account_type{
+            margin: 50px 0 0 80px;
+        }
+    </style>
+</block>
+
+<block name="main">
+    <div id="main" class="col-xs-12 col-sm-9 main" style="overflow-y: scroll;">
+        <!-- 面包屑导航 -->
+        <ul class="breadcrumb">
+            <li><i class="fa fa-map-marker"></i></li>
+            <foreach name="_menu_tab['name']" item="tab_v" >
+                <li class="text-muted">{$tab_v}</li>
+            </foreach>
+        </ul>
+
+        <!-- 主体内容区域 -->
+        <div class="tab-content ct-tab-content">
+            <div class="panel-body">
+                <div class="builder formbuilder-box">
+
+                    <div class="form-group"></div>
+
+                    <!-- 顶部工具栏按钮 -->
+                    <div class="builder-toolbar">
+                        <div class="row">
+                            <!-- 搜索框 -->
+                            <div class="col-xs-12 col-sm-4 clearfix">
+                                <form class="form" method="get" action="{:U('Tree/map')}">
+                                    <div class="form-group">
+                                        <div class="input-group search-form">
+                                            <input type="text" name="user_id" class="search-input form-control" value="{$_GET.user_id}" placeholder="请输入ID">
+                                            <span class="input-group-btn"><a class="btn btn-default search-btn"><i class="fa fa-search"></i></a></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据列表 STEAR-->
+                    <div id="views" style="padding-top:100px; padding-left:15px;">
+                        <div id="view view-main">
+                            <input type="hidden" id="user_id" value="{$user_id}">
+                            <div id="tabs_config" class="tabsbox">
+                                <div class="pages navbar-through toolbar-through">
+                                    <div style="background-color:#FFF">
+                                        <TABLE border=0 cellSpacing=0 cellPadding=0 width="300px" align="center" style="    margin: 0 auto;">
+                                            <TBODY>
+                                            <TR>
+                                                <TD>
+                                                    <br>
+                                                    <TABLE cellSpacing=0 cellPadding=0 wIDth="99%" align=center
+                                                           border=0>
+                                                        <TBODY>
+                                                        <TR>
+                                                            <TD colSpan=3 height=1><IMG height=1 src="__HOME__/css/dot.gif" wIDth=1></TD>
+                                                        </TR>
+                                                        <TR>
+                                                            <TD wIDth=1><IMG height=10 src="__HOME__/css/dot.gif" wIDth=1></TD>
+                                                            <TD height="50">
+                                                                <!-- 内页开始--><!---------------结束头部--------------->
+                                                                <TABLE cellSpacing=0 cellPadding=0 wIDth="100%" align=center border=0 id="contern">
+
+                                                                </TABLE>
+                                                                <!--                      ffffffffffffffffffff                              -->
+                                                                <TABLE cellSpacing=0 cellPadding=0 wIDth="98%" align=center border=0>
+                                                                    <TBODY>
+
+                                                                    <TD height="20" align=left
+                                                                        style="padding-top:18px; font-size:16px; color:#000;">
+                                                                        <div align="center">
+                                                                            <input class='T1 getlastleftUser' type=button value="左区底部">
+                                                                            <input class='T1 first_user' type=button value=" 返回第一代 ">
+                                                                            <input class='T1 return_superior'  type=button value=" 返回上一级">
+                                                                            <input class='T1 getlastRightUser' type=button value="右区底部">
+                                                                        </div>
+                                                                    </TD>
+                                                                </TABLE>
+                                                                <TABLE height="20" cellPadding=0 cellSpacing=3 style=" padding-top:19px; ">
+                                                                    <TBODY style=" padding-top:19px;  ">
+                                                                    <TR align="left" style=" padding-top:19px;  ">
+                                                                        <TD wIDth="100" style=" padding-top:19px;  ">&nbsp;图例：</TD>
+                                                                        <TD wIDth="100" align="center" bgcolor="#29B409" >一星</TD>
+                                                                        <TD wIDth="100" align="center" bgcolor="#1154DB">二星</TD>
+                                                                        <TD wIDth="100" align="center" bgcolor="#AF0ADF">三星</TD>
+                                                                        <TD wIDth="100" align="center" bgcolor="#D5A512">四星</TD>
+                                                                        <TD wIDth="100" align="center" bgcolor="#CCCCCC">未激活</TD>
+                                                                    </TR>
+                                                                    </TBODY>
+                                                                </TABLE>
+                                                                <!-------------------------尾部------------------------></TD>
+                                                        </TR>
+                                                        </TBODY>
+                                                    </TABLE>
+                                                </TD>
+                                            </TR>
+                                            </TBODY>
+                                        </TABLE>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 数据列表 END-->
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__PUBLIC__/home/common/layer/layer.js"></script>
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+    <script>
+        $(function () {
+            var user_id = $('#user_id').val();
+            tree(user_id);
+        });
+
+        //查询
+        $('.search').click(function () {
+            var id = $('input[name=member_ID]').val();
+            tree(id);
+        });
+
+        //返回第一级
+        $('.first_user').click(function () {
+            getSuperiorid('founder');
+        });
+
+        //返回上一级
+        $('.return_superior').click(function () {
+            getSuperiorid('superior');
+        });
+
+        //左区底部
+        $('.getlastleftUser').click(function () {
+            $.ajax({
+                type: 'post',
+                url: "/user/getUserLeftId",
+                data:{type:'left'},
+                dataType: "json",
+                success: function(data){
+                    if(data.status == 1){
+                        tree(data.message.userid);
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        });
+
+        //右区底部
+        $('.getlastRightUser').click(function () {
+            $.ajax({
+                type: 'post',
+                url: "/user/getUserLeftId",
+                data:{type:'right'},
+                dataType: "json",
+                success: function(data){
+                    if(data.status == 1){
+                        tree(data.message.userid);
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        });
+
+        //获取上级id
+        function getSuperiorid(type) {
+            var first_id =$('.first_id').val();
+            $.ajax({
+                type: 'post',
+                url: "/user/getSuperiorid",
+                data:{type:type,id:first_id,'is_admin':'admin'},
+                dataType: "json",
+                success: function(data){
+                    if(data.status == 1){
+                        tree(data.message);
+                    }else {
+                        msg_alert(data.message);
+                        return false;
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        }
+        //公共提示框
+        function msg_alert(message,url){
+            if(url){
+                layer.msg(message,{time:1000},function(){
+                    window.location.href=url;
+                });
+            }else{
+                layer.msg(message,{time:1500});
+            }
+        }
+
+        //树
+        function tree(user_id){
+            $.ajax({
+                type: 'post',
+                url: "{:U('Tree/map')}",
+                data:{'user_id': user_id},
+                dataType: "json",
+                success: function(data){
+                    var str = '';
+                    if (data.status == 1) {
+                        var info = data.message;
+                        var childs = info.childs;
+                        var son ={};
+                        //第一层
+                        str += '<TBODY><TR align="center"><TD colSpan=8>';
+                        str += '<table width="85" height="80" border="1" cellpadding="0" cellspacing="0"><tr align="center">';
+                        str += '<input type="hidden" value="'+info.userid+'" class="first_id">';
+                        str += '<td colspan="3" style="background-color:'+getBgcolor(info.level)+' "> <A style="color:#FFF;" title="点击查看(成员)的系谱图" href="#">'+info.userid+'</A><br>'+getGradeName(info.level)+'<br>'+info.username;
+                        str += '<tr align="center"> <td>'+info.left_results+'</td><td>总</td><td>'+info.right_results+'</td></tr> <tr align="center"><td>'+info.left_num+'</td><td>量</td> <td>'+info.right_num+'</td> </tr>';
+                        str += '</tr> </table></TD> </TR>';
+                        str += '<tr align="center">';
+                        str += '<td colspan="8"><img alt="height=30" src="__HOME__/css/t_tree_bottom_l.gif"/>';
+                        str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                        str += '<img alt="父节点" src="__HOME__/css/t_tree_mid.gif" width="10" height="30"/>';
+                        str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                        str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_r.gif"/></td></tr>';
+                        //第二层
+                        $.each(childs, function (key, val) {
+                            str += '<TD align=mIDdle colSpan=4><table width="85" height="80" border="1" cellpadding="0" cellspacing="0">';
+                            str += '<tr><td colspan="3" align="center" style="background-color:'+getBgcolor(val.level)+'">';
+                            if(val.userid != 0){
+                                str += '<a style="color:#FFF;" title="点击查看(公司)的系谱图" href="javascript:void(0);" onclick="tree('+val.userid+')">'+val.userid+'</a><br>'+getGradeName(val.level)+'<br>'+val.username;
+                                str += '<tr align="center"> <td>'+val.left_results+'</td><td>总</td><td>'+val.right_results+'</td></tr> <tr align="center"><td>'+val.left_num+'</td><td>量</td> <td>'+val.right_num+'</td> </tr>';
+                            }else {
+                                str += '<a style="color:#000;" title="点击查看(公司)的系谱图" href="javascript:void(0);"  onclick="tankuang('+val.junction_id+','+val.zone+','+val.junction_level+')">注册</a>';
+                            }
+                            str += '</td> </tr> </table></TD>';
+                        });
+                        str += ' </TR>';
+                        if(info.is_childs != 'not'){
+                            son = info.son;
+                        }
+                        //连接线
+                        if(info.is_childs == 'all'){
+                            str += '<tr><td colspan="4" align="center">';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_l.gif"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="父节点" src="__HOME__/css/t_tree_mid.gif" width="10" height="30"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_r.gif"/>';
+                            str += '</td><td colspan="4" align="center">';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_l.gif"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="父节点" src="__HOME__/css/t_tree_mid.gif" width="10" height="30"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_r.gif"/>';
+                            str += '</td></tr>';
+                            $.each(son, function (k,s ) {
+                                str += '<TD align=mIDdle colSpan=2>';
+                                str += '<table width="85" height="80" border="1" cellpadding="0" cellspacing="0">';
+                                str += '<tr><td colspan="3" align="center" style="background-color:'+getBgcolor(s.level)+'">';
+                                if(s.userid != 0){
+                                    str += '<A style="color:#FFF;" title="点击查看(公司)的系谱图" href="javascript:void(0);" onclick="tree('+s.userid+')">'+s.userid+'</A><br>'+getGradeName(s.level)+'<br>'+s.username;
+                                    str += '<tr align="center"> <td>'+s.left_results+'</td><td>总</td><td>'+s.right_results+'</td></tr> <tr align="center"><td>'+s.left_num+'</td><td>量</td> <td>'+s.right_num+'</td> </tr>';
+                                }else {
+                                    str += '<A style="color:#000;" title="点击查看(公司)的系谱图" href="javascript:void(0);"  onclick="tankuang('+s.junction_id+','+s.zone+','+s.junction_level+')">注册</A>';
+                                }
+                                str += ' </td></tr></table></TD>';
+                            });
+                        }else if(info.is_childs == 'left'){
+                            str += '<tr><td colspan="4" align="center">';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_l.gif"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="父节点" src="__HOME__/css/t_tree_mid.gif" width="10" height="30"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_r.gif"/></td></tr>';
+                            $.each(son, function (k,s ) {
+                                str += '<TD align=mIDdle colSpan=2>';
+                                str += '<table width="85" height="80" border="1" cellpadding="0" cellspacing="0">';
+                                str += '<tr><td colspan="3" align="center" style="background-color:'+getBgcolor(s.level)+'">';
+                                if(s.userid != 0){
+                                    str += '<A style="color:#FFF;" title="点击查看(公司)的系谱图" href="javascript:void(0);" onclick="tree('+s.userid+')">'+s.userid+'</A<br>'+getGradeName(s.level)+'<br>'+s.username;
+                                    str += '<tr align="center"> <td>'+s.left_results+'</td><td>总</td><td>'+s.right_results+'</td></tr> <tr align="center"><td>'+s.left_num+'</td><td>量</td> <td>'+s.right_num+'</td> </tr>';
+                                }else {
+                                    str += '<A style="color:#000;" title="点击查看(公司)的系谱图" href="javascript:void(0);"  onclick="tankuang('+s.junction_id+','+s.zone+','+s.junction_level+')">注册</A>';
+                                }
+                                str += ' </td></tr></table></TD>';
+                            });
+
+                        }else if(info.is_childs == 'right'){
+                            str += '<tr><td colspan="4" align="center">';
+                            str += '</td><td colspan="4" align="center">';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_l.gif"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="父节点" src="__HOME__/css/t_tree_mid.gif" width="10" height="30"/>';
+                            str += '<img src="__HOME__/css/t_tree_line.gif" width="24%" height="30"/>';
+                            str += '<img alt="height=30" src="__HOME__/css/t_tree_bottom_r.gif"/>';
+                            str += '</td></tr>';
+                            str += '<td align=mIDdle colSpan=2></td><td align=mIDdle colSpan=2></td>';
+                            $.each(son, function (k,s ) {
+                                str += '<TD align=mIDdle colSpan=2>';
+                                str += '<table width="85" height="80" border="1" cellpadding="0" cellspacing="0">';
+                                str += '<tr><td colspan="3" align="center" style="background-color:'+getBgcolor(s.level)+'">';
+                                if(s.userid != 0){
+                                    str += '<A style="color:#FFF;" title="点击查看(公司)的系谱图" href="javascript:void(0);" onclick="tree('+s.userid+')">'+s.userid+'</A><br>'+getGradeName(s.level)+'<br>'+s.username;
+                                    str += '<tr align="center"> <td>'+s.left_results+'</td><td>总</td><td>'+s.right_results+'</td></tr> <tr align="center"><td>'+s.left_num+'</td><td>量</td> <td>'+s.right_num+'</td> </tr>';
+                                }else {
+                                    str += '<A style="color:#000;" title="点击查看(公司)的系谱图" href="javascript:void(0);"  onclick="tankuang('+s.junction_id+','+s.zone+','+s.junction_level+')">注册</A>';
+                                }
+                                str += ' </td></tr></table></TD>';
+                            });
+                        }
+
+                        str += '</TR></TBODY>';
+                        $('#contern').html(str);
+                    }else{
+                        msg_alert(data.message);
+                        return false;
+                    }
+                },
+                error: function () {
+                    console.log('error');
+                }
+            });
+        }
+
+        //账户类型弹窗
+        function tankuang(junction_id,zone,level) {
+            msg_alert('后台暂未开放注册');
+            return  false;
+            if(level == 0){
+                msg_alert('接点人未激活');
+                return false;
+            }
+            //页面
+            layer.open({
+                title:'账目类型',
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['300px', '200px'], //宽高
+                content: '<div id="account_type"><input type="radio" class="get-epay" checked="checked" name="account_type" value="2"/> 主账号<input type="radio" class="get-epay"  name="account_type" value="1" style="margin-left: 30px;"/> 子账号  </div>',
+                btn :['确定'],
+                yes: function (index) {
+                    var account_type = $("input[name='account_type']:checked").val();
+                    layer.close(index);
+                    window.location.href = "{:U('Login/register')}?junction_id="+junction_id+"&zone="+zone+"&account_type="+account_type;
+                }
+            });
+        }
+
+        //星级
+        function getGradeName(level) {
+            var grade_name = '';
+            if(level == 1){
+                grade_name = '一星';
+            }else if(level == 2){
+                grade_name = '二星';
+            }else if(level == 3){
+                grade_name = '三星';
+            }else if(level == 4){
+                grade_name = '四星';
+            }else if(level == 5){
+                grade_name = '五星';
+            }
+            return grade_name;
+        }
+
+        //等级颜色
+        function getBgcolor(level) {
+            var bgcolor = '#CCCCCC';
+            if(level == 1){
+                bgcolor = '#29B409';
+            }else if(level == 2){
+                bgcolor = '#1154DB';
+            }else if(level == 3){
+                bgcolor = '#AF0ADF';
+            }else if(level == 4){
+                bgcolor = '#D5A512';
+            }
+            return bgcolor;
+        }
+
+    </script>
+</block>

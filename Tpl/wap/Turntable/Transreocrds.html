@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>买入记录</title>
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/meCen.css">
+<link rel="stylesheet" href="__WCSS__/digital.css">
+<link rel="stylesheet" href="__LAYERUI__/css/layui.css">
+<script src="__WJS__/jquery1.11.1.min.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script src="__LAYERUI__/layui.js"></script>
+<body class="bg96">
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('Turntable/Transaction')}"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c"><h2>买入记录</h2></div>
+</div>
+
+<div class="big_width100">
+    <div class="yugejil" style="width: 100%;position: absolute;top:51px;">
+        <!--<p style="width:15%;">{$Think.lang.leix}</p>-->
+        <p style="width:10%;">卖家</p>
+        <p style="width:25%;">{$Think.lang.sl}</p>
+        <p style="width:15%;">交易类型</p>
+        <p style="width:25%;">{$Think.lang.sj}</p>
+        <p style="width:20%;">状态</p>
+
+    </div>
+
+    <div id="wrapper" style="width: 100%;position: absolute;top:91px;">
+        <div class="scroller">
+            <ul>
+
+                <foreach name="list" item="v">
+                    <li>
+                        <!--<p style="width:15%;">-->
+                            <!--<eq name="v['type']" value='2'>{$Think.lang.chushou}-->
+                                <!--<else/>-->
+                                <!--{$Think.lang.purchase}-->
+                            <!--</eq>-->
+                        <!--</p>-->
+                        <p style="width:10%;">{$v['sell_id']}</p>
+                        <p style="width:25%;">{$v['num']}</p>
+                        <p style="line-height:160%;width:15%;padding-right:0.3rem;">
+                            <if condition="$v['sell_type'] eq 1">
+                            生态总资产交易
+                            <else/>
+                            消费通证交易
+                             </if>
+                        </p>
+                        <p style="line-height:160%;width:25%;padding-right:0.3rem;">{$v['create_time']|date='Y-m-d H:i:s',###}</p>
+                        <p style="width:20%;">
+                            <if condition="$v['status'] eq 1">
+                                待付款
+                                <elseif condition="$v['status'] eq 2"/>
+                                等待收款
+                                <elseif condition="$v['status'] eq 3"/>
+                                交易完成
+                                <else/>
+                                取消交易
+                            </if>
+
+                        </p>
+                    </li>
+                </foreach>
+            </ul>
+
+            <!--   <div class="more"><i class="pull_icon"></i><span>上拉加载...</span></div> -->
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#hide").click(function () {
+            $("#p1").toggle(); //toggle() 方法切换元素的可见状态。 如果被选元素可见,则隐藏这些元素,如果被选元素隐藏,则显示这些元素。
+        });
+    });
+
+    $('.reveal-modal-bg').click(function () {
+        $("#p1").toggle();
+    })
+
+    $('.coin').click(function () {
+        $("#p1").toggle();
+    })
+</script>
+
+
+</body>
+
+</html>
+

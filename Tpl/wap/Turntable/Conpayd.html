@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>卖家中心</title>
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/meCen.css">
+<script src="__WJS__/jquery1.11.1.min.js"></script>
+<script type="text/javascript" src="__WJS__/responsive.tabs.js"></script>
+<script src="__WJS__/iscroll.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__WJS__/jquery.form.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+
+
+<body class="bg96">
+<div class="header">
+	<div class="header_l">
+		<a href="#" onClick="javaScript:history.go(-1)"><img src="__WIMG__/jiant.png" alt=""></a>
+	</div>
+	<div class="header_c"><h2>确认收款</h2></div>
+	<div class="header_r"></div>
+</div>
+<!--  -->
+<div class="demo">
+	<div class="accordion">
+
+		<foreach name="orders" item="v">
+			<div class="changeclass">
+				<div class="accordion-handle">
+					<h4>
+						<p class="accmrp">{$Think.lang.Buyamount}：{$v['num']}RMB
+							<span class="acco_con_spana">
+                                <if condition="$v['status'] == 1">
+								   	等待买家付款
+									<elseif condition="$v['status'] == 2" />
+									 {$Think.lang.ddsks}
+									<elseif condition="$v['status'] == 3" />
+                                 	交易完成
+							    	<else/>
+                                   	取消交易
+						        </if>
+                        </span>
+						</p>
+						<p>{$v['create_time']|date="Y-m-d H:i:s",###}<span>{$Think.lang.skr}：{$v['uname']}</span></p>
+					</h4>
+					<i></i>
+				</div>
+				<div class="accordion-content por">
+					<div class="acco_con_up">
+						<p>{$Think.lang.skrxm1}：<span> {$v['uname']}</span></p>
+						<p>{$Think.lang.sjhm}：<span>{$v['umobile']}</span></p>
+						<if condition="$v['pay_way'] eq 1">
+							<p>{$Think.lang.bankname}：<span>{$v['bname']}</span></p>
+							<p>{$Think.lang.cardnum}：<span>{$v['cardnum']}</span></p>
+							<p>{$Think.lang.openbranch}：<span>{$v['openrds']}</span></p>
+							<elseif condition="$v['pay_way'] eq 2" />
+							<p style="height: 110px;">支付宝二维码：<img style="width: 100px;height: 100px;float: right;" src="{$v['pay_img']}"></p>
+							<else/>
+							<p style="height: 110px;">微信二维码：<img style="width: 100px;height: 100px;float: right;" src="{$v['pay_img']}"></p>
+						</if>
+						<p>应付金额：<span>{$v['num']}RMB</span></p>
+						<p>交易类型：<span><if condition="$v['sell_type'] eq 1">生态总资产交易<else/>消费通证交易</if></span></p>
+						<p>{$Think.lang.zt}：<span class="acco_con_spana">
+							<if condition="$v['status'] == 1">
+								   	等待买家付款
+									<elseif condition="$v['status'] == 2" />
+									{$Think.lang.ddsks}
+									<elseif condition="$v['status'] == 3" />
+									{$Think.lang.ysk}
+							    	<else/>
+                                   	取消交易
+						        </if>
+					</span></p>
+					</div>
+					<if condition="$v['status'] neq 1">
+						<div class="acco_con_upa">
+							<h3>{$Think.lang.dkjt}</h3>
+							<div class="shangcjt">
+								<div class="containera">
+									<if condition="$v['img']">
+										<a href="{:U('Turntable/Paidimg',array('id'=>$v['id']))}"><img src="{$v['img']}"></a>
+									</if>
+								</div>
+							</div>
+						</div>
+					</if>
+
+					<if condition="$v['status'] == 2">
+						<a href="javascript:void(0)" class="lanseanna" data-id="{$v['id']}">{$Think.lang.confirm}</a>
+					</if>
+				</div>
+			</div>
+		</foreach>
+
+		<notempty name="page">
+			<ul class="pagination">{$page}</ul>
+		</notempty>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.accordion,.changeclass').respTabs({
+			model: 'accordions'
+		});
+	});
+
+	$('.lanseanna').click(function () {
+		var old = $(this);
+		var deals_id = $(this).attr('data-id');
+		if(deals_id == ''){
+			msg_alert('请选择正确的收款');
+			$('.lanseanna').removeClass('sumbit-ajax');
+			return ;
+		}
+		var is_ajax = old.hasClass('sumbit-ajax');
+		if(is_ajax){
+			msg_alert('请勿频繁操作');
+			return ;
+		}
+		old.addClass('sumbit-ajax');
+		var name = old.text();
+		if(name == '已收款'){
+			old.removeClass('sumbit-ajax');
+			return ;
+		}
+		$.ajax({
+			url:'/Turntable/Conpayd',
+			type:'post',
+			data:{'deals_id':deals_id},
+			datatype:'json',
+			success:function (mes) {
+				$('.lanseanna').removeClass('sumbit-ajax');
+				if(mes.status == 1){
+					old.parents('.changeclass').find('.acco_con_spana').text('交易完成');
+					old.text('已收款');
+					old.addClass('paid').removeClass('lanseanna');
+					msg_alert(mes.message);
+                    window.location.reload();
+				}else{
+					msg_alert(mes.message);
+				}
+			}
+		})
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title>归集EP余额</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <link rel="stylesheet" href="__WCSS__/digital.css">
+
+
+</head>
+<body>
+<header class="text-center"><a href="{:U('Growth/index')}" class="go-back"></a>归集EP余额</header>
+<table class="table">
+    <thead>
+    <tr>
+        <th><input type="checkbox" id="quanxuan" /></th>
+        <th>ID号</th>
+        <th>级别</th>
+        <th>激活时间</th>
+        <th>EP余额</th>
+    </tr>
+    </thead>
+    <tbody id="user-list">
+    <if condition="$list">
+            <foreach name="list" item="v">
+                <tr>
+                    <td><input type="checkbox" name="userid" value="{$v['userid']}" class="qx" /></th>
+                    <td>{$v['userid']}</th>
+                    <td>
+                        <if condition="$v['level'] eq 1">
+                            一星
+                            <elseif condition="$v['level'] eq 2"/>
+                            二星
+                            <elseif condition="$v['level'] eq 3"/>
+                            三星
+                            <elseif condition="$v['level'] eq 4"/>
+                            四星
+                        </if>
+                    </td>
+                    <td> {$v['activation_time']|date='Y-m-d H:i:s',###}</td>
+                    <td>{$v['cangku_num']| Showtwo}</td>
+                </tr>
+            </foreach>
+    </if>
+    </tbody>
+</table>
+
+<if condition="$list">
+    <div class="text-center">
+        <p>当前按市场调控,归集倍数为:{$multiple}</p>
+        <div class="fill_styaa">
+            <p>交易密码：</p>
+            <input type="password" size="40" name="pwd" id="pwd" class="" placeholder="请输入交易密码">
+        </div>
+        <button type="button" style="margin-top: 0px" class="btn btn-jh">归集EP余额</button>
+    </div>
+    </if>
+</body>
+
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type=text/javascript src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+</html>
+<script type="text/javascript">
+    $("#quanxuan").click(function(){
+        var xz = $(this).prop("checked");//判断全选按钮的选中状态
+        var ck = $(".qx").prop("checked",xz); //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+    });
+
+    $('.btn').click(function () {
+        var ids = [];
+        $.each($('#user-list input:checkbox:checked'),function(){
+            if(this.checked){
+                ids.push($(this).val());
+            }
+        });
+        if(ids.length == 0){
+            msg_alert('请选择一条数据');
+            return false;
+        }
+        var pwd = $('#pwd').val();
+        if(pwd == ''){
+            msg_alert('请输入交易密码');
+            return false;
+        }
+        var is_ajax = $('.btn').hasClass('btn-submit');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.btn').addClass('btn-submit');
+        doajax("{:U('store/collection')}", {ids:ids,pwd:pwd}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    location.reload();
+                },1000);
+            } else {
+                msg_alert(data.message);
+            }
+            $('.btn').removeClass('btn-submit');
+        });
+
+    });
+</script>

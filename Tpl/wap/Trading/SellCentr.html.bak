@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html class="pixel-ratio-2 retina ios ios-9 ios-9-1 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state"
+      style="font-size: 42.6667px;">
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>卖出</title>
+    <!-- 使用iOS CSS主题样式-->
+
+
+    <script type="text/javascript" charset="utf-8">
+
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+
+        } else {
+
+
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css">
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <!--<link rel="stylesheet" href="__WCSS__/style.css">-->
+    <link rel="stylesheet" href="__WCSS__/meCen.css">
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <style>
+        .zf_num, .zf_empty, .zf_del {
+            font-size: 100%;
+        }
+    </style>
+    <script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="__COM__/layer/layer.js"></script>
+
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+<body>
+
+<!-- 所有的Views视图 -->
+<div class="views" style="z-index: 5;">
+    <!-- 主视图（需要有"view-main"样式） -->
+    <div class="view view-main" data-page="DrawMoney">
+        <!-- 页面容器（Pages container）由于我们使用了固定位置的navbar和toolbar，
+        所以这里添加额外样式（navbar-through和toolbar-through）-->
+        <div class="pages navbar-through toolbar-through">
+            <!-- 首页, "data-page" 里设置页面名字 -->
+            <div class="page page-on-center" data-page="DrawMoney">
+                <!--<div class="titlediv">-->
+                    <!--<p><a href="{:U('Index/index')}"><i class="icon iconfont icon-fanhui"></i></a>卖出-->
+                    <!--</p>-->
+                <!--</div>-->
+
+                <div class="header">
+                    <div class="header_l">
+                        <a href="/Index/index.html"><img src="/Public/home/wap/images/jiant.png" alt=""></a>
+                    </div>
+                    <div class="header_c"><h2>卖出</h2></div>
+                    <div class="header_r"><a href="javascript:void(0)" id="hide"><img src="/Public/home/wap/images/moer_icon.png" alt=""></a>
+                        <div id="p1" style="display: none;z-index: 1;">
+                            <div class="down"></div>
+                            <ul>
+                                <li><a href="/Trading/Nofinsh.html">未完成订单</a></li>
+                                <li><a href="/Trading/Conpayd.html">确认收款</a></li>
+                                <li><a href="/Trading/Dofinsh.html">已完成订单</a></li>
+                                <li><a href="/Trading/Sellerrecords.html">卖出记录</a></li>
+                                <li class="not"><a href="/Trading/Selldets.html">卖出中心</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="caiwulist" style="margin-top:0;">
+                    <div class="cwl-item celchong">卖出 <i class="icon iconfont icon-iconfontxiangxia"></i></div>
+                    <div class="cwl-ichild chongzhiinput">
+                        <form id="DrawMoney_Form">
+
+
+                            <input id="id" name="id" type="hidden" value="">
+                            <div class="cwlic-item"><span>我的EP</span> <input type="text" name="Money" readonly
+                                                                             value="{$moneyinfo['cangku_num']|Showtwo}">
+                            </div>
+                            <div class="cwlic-item">
+                                <span>卖出金额</span>
+                                <!--<input type="text" placeholder="请输入挂卖金额[100的倍数]" style="width:3.5rem;" notnull id="num" name="num" />-->
+                                <select id="num" name="num" style="height: 0.6rem; font-size:0.28rem;">
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                    <option value="3000">3000</option>
+                                    <option value="5000">5000</option>
+                                </select>
+                            </div>
+                            <div class="cwlic-item">
+                                <span>转入银行卡</span>
+                                <select style="height: 0.6rem; font-size:0.2rem;" id="carnumber" name="carnumber">
+                                    <foreach name="morecars" item="v">
+                                        <option value="{$v['id']}">
+                                            {$v['banq_genre']}:<?php echo substr($v['card_number'],-4);?></option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+                            <div class="cwlic-item"><span>手续费</span> <font style="color:blue; font-size:0.25rem"
+                                                                           class="DrawMoney_sxf"> </font></div>
+                            <if condition="!in_array(4,$quanxian)">
+                                <div class="cwlic-btn">
+                                    <a href="javaScript:void (0)" id="DrawMoneybtn" name="DrawMoneybtn"> 确认卖出</a>
+                                </div>
+                            </if>
+                        </form>
+                    </div>
+                    <div class="cwl-item celchongzhi">挂卖列表 <i class="icon iconfont icon-iconfontxiangxia"></i></div>
+                    <div class="cwl-ichild chongzhilist">
+                        <div class="cwlic-item yxui-flex" style="padding-left: 0;">
+                            <div class="cell">编号</div>
+                            <div class="cell">金额</div>
+                            <div class="cell">状态</div>
+                        </div>
+                        <div id="mainlist"  style="overflow-y: auto;" class="show_main">
+                            <notempty name="orders">
+                                <foreach name="orders" item="v">
+                                    <div class='cwlic-item yxui-flex' style='padding-left: 0;'>
+                                        <div class='cell'><?php echo C.substr($v['pay_no'],-4);?></div>
+                                        <div class='cell'>{$v['pay_nums']}</div>
+                                        <div class='cell'>
+                                            <if condition="$v['pay_state'] eq 0">
+                                                排队中
+                                            </if>
+                                            <if condition="$v['pay_state'] eq 1">
+                                               交易中
+                                            </if>
+                                            <if condition="$v['pay_state'] eq 2">
+                                                确认收款
+                                            </if>
+                                            <if condition="$v['pay_state'] eq 3">
+                                                完成
+                                            </if>
+                                        </div>
+                                    </div>
+                                 </foreach>
+                            <else />
+                                <div class="big_width100">
+                                    <div class="annalWa"><p >没找到相关记录</p></div>
+                                </div>
+                            </notempty>
+
+                            <notempty name="page">
+                                <ul class="pagination" style="color:#666;padding-left:2vmin;margin-top:3vmin">{$page}</ul>
+                            </notempty>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--浮动层-->
+<div class="ftc_wzsf" style="font-size: 100%;">
+    <div class="srzfmm_box">
+        <div class="qsrzfmm_bt clear_wl">
+            <img src="__WIMG__/xx_03.jpg" class="tx close fl">
+
+            <span class="fl" style="font-size: 100%">请输入支付密码</span></div>
+        <div class="zfmmxx_shop">
+
+        </div>
+        <ul class="mm_box">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="numb_box">
+        <div class="xiaq_tb">
+            <img src="__WIMG__/jftc_14.jpg" height="10"></div>
+        <ul class="nub_ggg">
+            <li><a href="javascript:void(0);" class="zf_num">1</a></li>
+            <li><a href="javascript:void(0);" class="zj_x zf_num">2</a></li>
+            <li><a href="javascript:void(0);" class="zf_num">3</a></li>
+            <li><a href="javascript:void(0);" class="zf_num">4</a></li>
+            <li><a href="javascript:void(0);" class="zj_x zf_num">5</a></li>
+            <li><a href="javascript:void(0);" class="zf_num">6</a></li>
+            <li><a href="javascript:void(0);" class="zf_num">7</a></li>
+            <li><a href="javascript:void(0);" class="zj_x zf_num">8</a></li>
+            <li><a href="javascript:void(0);" class="zf_num">9</a></li>
+            <li><a href="javascript:void(0);" class="zf_empty">{$Think.lang.emptya}</a></li>
+            <li><a href="javascript:void(0);" class="zj_x zf_num">0</a></li>
+            <li><a href="javascript:void(0);" class="zf_del">{$Think.lang.deleteo}</a></li>
+        </ul>
+    </div>
+    <div class="hbbj"></div>
+</div>
+<script>
+    //挂卖滚动
+    var height = $(document.body).height();
+    var vheight = height - $(".celchong").height() * 2 - $(".chongzhiinput").height() - $(".titlediv").height() * 1.2 - $(".yxui-flex").height();
+    $("#mainlist").css('height', vheight);
+
+    $('#DrawMoneybtn').click(function () {
+        var cardid = $('#carnumber').val();//银行卡id
+        if (cardid == '' || cardid == null) {
+            layer.alert('请您先绑定银行卡', {
+                time: 0 //不自动关闭
+                , btn: ['好']
+                , yes: function (index) {
+                    layer.close(index);
+                    window.location.href = "{:U('Growth/Cardinfos')}";
+                }
+            });
+            return;
+        }
+        var num =  $('#num').val();
+        var Money = $('input[name=Money]').val();
+        allNum = num*(1+0.1);
+        if(allNum > Money){
+            layer.msg('您当前账户暂无这么多余额');
+            return false;
+        }
+        $('.ftc_wzsf').show();
+    });
+    $('#num').change(function () {
+        var num = $(this).val();
+        poundage = num * 0.2;
+        $('.DrawMoney_sxf').text(poundage);
+    });
+
+    $(function () {
+        var cardid = $('#carnumber').val();//银行卡id
+        if (cardid == '' || cardid == null) {
+            layer.alert('请您先绑定银行卡', {
+                time: 0 //不自动关闭
+                , btn: ['好']
+                , yes: function (index) {
+                    layer.close(index);
+                    window.location.href = "{:U('Growth/Cardinfos')}";
+                }
+            });
+        }
+
+       var num =  $('#num').val();
+        poundage = num*0.2;
+        $('.DrawMoney_sxf').text(poundage);
+
+        //关闭浮动
+        $(".close").click(function () {
+            $(".ftc_wzsf").hide();
+            $(".mm_box li").removeClass("mmdd");
+            $(".mm_box li").attr("data", "");
+            i = 0;
+        });
+        //数字显示隐藏
+        $(".xiaq_tb").click(function () {
+            $(".numb_box").slideUp(500);
+        });
+        $(".mm_box").click(function () {
+            $(".numb_box").slideDown(500);
+        });
+        //----
+        var i = 0;
+        $(".nub_ggg li .zf_num").click(function () {
+
+            if (i < 6) {
+                $(".mm_box li").eq(i).addClass("mmdd");
+                $(".mm_box li").eq(i).attr("data", $(this).text());
+                i++
+                if (i == 6) {
+                    setTimeout(function () {
+                        var pwd = "";
+                        $(".mm_box li").each(function () {
+                            pwd += $(this).attr("data");
+                        });
+                        //AJAX提交数据
+                        var sellnums = $('#num').val();//账号  //.trim() 去空格判断
+                        var cardid = $('#carnumber').val();//银行卡id
+                        var messge = '';
+                        var exg = /^[1-9]\d*|0$/;
+                        if (!exg.test(sellnums)) {
+                            msg_alert('请选择买入金额~');
+                            return;
+                        }
+                        if (cardid == '' || cardid == null) {
+                            msg_alert('请选择银行卡');
+                            return;
+                        }
+                        $.ajax({
+                            url: '/Trading/SellCentr',
+                            type: 'post',
+                            data: {'sellnums': sellnums, 'pwd': pwd, 'cardid': cardid, 'messge': messge},
+                            datatype: 'json',
+                            success: function (mes) {
+                                if (mes.status == 1) {
+                                    msg_alert(mes.message);
+                                    $(".ftc_wzsf").hide();
+                                    $(".mm_box li").removeClass("mmdd");
+                                    $(".mm_box li").attr("data", "");
+                                    i = 0;
+                                    window.location.reload()
+                                } else {
+                                    msg_alert(mes.message);
+                                    $(".mm_box li").removeClass("mmdd");
+                                    $(".mm_box li").attr("data", "");
+                                    i = 0;
+                                }
+                            }
+                        })
+                    }, 100);
+                }
+                ;
+            }
+        });
+
+        $(".nub_ggg li .zf_del").click(function () {
+            if (i > 0) {
+                i--
+                $(".mm_box li").eq(i).removeClass("mmdd");
+                $(".mm_box li").eq(i).attr("data", "");
+            }
+        });
+
+        $(".nub_ggg li .zf_empty").click(function () {
+            $(".mm_box li").removeClass("mmdd");
+            $(".mm_box li").attr("data", "");
+            i = 0;
+        });
+        $('#hide').click(function () {
+            $('#p1').toggle();
+        });
+
+        //公共提示框
+        function msg_alert(message, url) {
+
+            if (url) {
+                layer.msg(message, {time: 1000}, function () {
+                    window.location.href = url;
+                });
+            } else {
+                layer.msg(message, {time: 1500});
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

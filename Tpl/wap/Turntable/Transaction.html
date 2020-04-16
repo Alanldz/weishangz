@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>交易大厅</title>
+<link rel="stylesheet" href="__WCSS__/style.css">
+<link rel="stylesheet" href="__WCSS__/digital.css">
+<link rel="stylesheet" href="__WCSS__/zhifu.css">
+
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<style>
+    .pay-input input {
+        -webkit-appearance: radio;
+    }
+
+    .swiper-container {
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+</style>
+<body class="bg96">
+
+<div class="header">
+    <div class="header_l">
+        <a href="{:U('User/found')}"><img src="__WIMG__/jiant.png" alt=""></a>
+    </div>
+    <div class="header_c" id="dig_xiala">
+        <h2 style="line-height:36px;">交易大厅</h2>
+    </div>
+    <div class="header_r"></div>
+</div>
+
+<div class="big_width100">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <a href="javaScript:void(0)"><img style="width: 100%" src="__HOME__/img/addressimg.jpg" alt=""></a>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <a href="javaScript:void(0)"><img style="width: 100%" src="__HOME__/img/maijia1.jpg" alt=""></a>
+        </div>
+    </div>
+
+    <div class="wpzicicon_buy">
+        <ul class="clear_wl">
+            <li>
+                <a href="{:U('Turntable/Salesell')}">
+                    <img src="__HOME__/img/sale.png" alt="">
+                    <p>我的交易</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Turntable/Conpayd')}">
+                    <img src="__HOME__/img/queren1.png" alt="">
+                    <p>确认收款</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Turntable/sellRecords')}">
+                    <img src="__HOME__/img/maichu.png" alt="">
+                    <p>出售记录</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Shop/member/recharge')}">
+                    <img src="__HOME__/img/maichu.png" alt="">
+                    <p>开通交易</p>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <a href="javaScript:void(0)"><img style="width: 100%" src="__HOME__/img/maijia2.jpg" alt=""></a>
+        </div>
+    </div>
+    <div class="wpzicicon_buy">
+        <ul class="clear_wl">
+            <li>
+                <a href="{:U('Turntable/buySharesList',array('sell_type'=>1))}">
+                    <img src="__HOME__/img/mairuliebiao.png" alt="">
+                    <p>买入生态总资产</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Turntable/buySharesList',array('sell_type'=>2))}">
+                    <img src="__HOME__/img/mairuliebiao.png" alt="">
+                    <p>买入消费通证</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Turntable/ConpayList')}">
+                    <img src="__HOME__/img/queren2.png" alt="">
+                    <p>确认付款</p>
+                </a>
+            </li>
+            <li>
+                <a href="{:U('Turntable/Transreocrds')}">
+                    <img src="__HOME__/img/mairu.png" alt="">
+                    <p>买入记录</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+
