@@ -37,7 +37,7 @@ body{ text-align: left;}
 .fill_stya{ position: relative; }
 .fill_stya a{ font-size: 14px; color: #ea3328; position: absolute; display: block; top: 15px; right: 15px; }
 .buttonGeoup{ width: 94%; margin: 0 auto; margin-top: 30px;}
-.buttonGeoup .not_next{ width: 100%; display: block; text-align: center; background: #eeb634;  height: 40px; line-height: 40px; color: #fff; font-size: 16px; border-radius: 5px; margin-bottom: 10px;}
+.buttonGeoup .not_next{ width: 100%; display: block; text-align: center; background: #000000;  height: 40px; line-height: 40px; color: #fff; font-size: 16px; border-radius: 5px; margin-bottom: 10px;}
 .buttonGeoup .exchange{ width: 100%; display: block; text-align: center; background: #2ac988;  height: 40px; line-height: 40px; color: #fff; font-size: 16px; border-radius: 5px; margin-bottom: 10px;}
 .pad10{ width: 100%; height:15px;}
 .pad9{ width: 100%; height:10px;}
