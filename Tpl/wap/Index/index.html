@@ -220,18 +220,9 @@
 
                     </div>
                 </div>
-                <div class="bottombar yxui-flex">
-                    <div class="cell active"><a href="javascript:void(0)"><i class="icon iconfont icon-shouye"></i><p>首页</p></a></div>
-                    <div class="cell"><a href="{:U('Growth/index')}"><i class="icon iconfont icon-qiandai"></i><p class="msg_caiwu">资金</p></a></div>
-                    <div class="cell"><a href="{:U('User/found')}">
-                        <i class="icon iconfont icon-jichuguanli" <if condition="$totalNum gt 0 ">style="margin-left: 40px;"</if> ></i>
-                        <if condition="$totalNum gt 0 ">
-                            <div style="margin: 5px 29px 0 0;float: right;width:10px;height:10px;border-radius:50%;background-color:red;"></div>
-                        </if>
-                        <p>市场</p></a></div>
-                    <div class="cell"><a href="{:U('User/Personal')}"><i class="icon iconfont icon-wode"></i><p class="msg_member">我的</p></a></div>
-                </div>
-            </div>
+                <!--底部-->
+                <include file="Public:footer" />
+                <!--底部-->
 
         </div>
         <style>
