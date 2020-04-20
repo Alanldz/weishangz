@@ -130,13 +130,13 @@
                             <div class="im-item">
                                 <a href="{:U('Index/Bancerecord')}">
                                     <img src="__HOME__/img/indexmain1.png" alt="">
-                                    <p><span>EP</span><span id="Money">{$moneyinfo['cangku_num']|Showtwo}</span></p>
+                                    <p><span>EP</span><span id="Money">{$storeInfo.cangku_num}</span></p>
                                 </a>
                             </div>
                             <div class="im-item">
-                                <a href="{:U('Index/ucoinsRecord')} ">
+                                <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
                                     <img src="__HOME__/img/indexmain2.png" alt="">
-                                    <p><span>SP</span><span id="MoneyJy"> {$minecoins['c_nums']|Showtwo}</span></p>
+                                    <p><span>SP</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
                                 </a>
                             </div>
                             <div class="im-item">
@@ -398,73 +398,3 @@
 
 
 
-
-
-<!DOCTYPE html>
-<html class="pixel-ratio-3 retina ios ios-11 ios-11-0 ios-gt-10 ios-gt-9 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
-<head>
-    <!-- meta标签设置-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta content="email=no" name="format-detection">
-    <title>我的钱包</title>
-    <!-- 使用iOS CSS主题样式-->
-    <script type="text/javascript" charset="utf-8">
-        var browser = {
-            versions: function () {
-                var u = navigator.userAgent, app = navigator.appVersion;
-                return { //移动终端浏览器版本信息
-                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-                    iPad: u.indexOf('iPad') > -1, //是否iPad
-                };
-            }(),
-        };
-        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
-            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
-        } else {
-            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
-        }
-    </script>
-    <!-- 自定义样式-->
-    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
-    <link rel="stylesheet" href="__HOME__/css/style2.css">
-</head>
-
-<body>
-
-<div class="views">
-    <div class="view view-main" data-page="FaXian">
-        <div class="pages navbar-through toolbar-through">
-            <div class="page page-on-center" data-page="FaXian">
-                <div class="titlediv" style="z-index: 10;">
-                    <p> <a href="{:U('User/found')}">
-                        <i class="icon iconfont icon-fanhui"></i>
-                    </a>我的钱包</p>
-                </div>
-                <div style="overflow-y: auto; height: 100%;z-index: 5;">
-                    <div class="moneylist " style="margin-top: 1.1rem;">
-                        <div class="ml-item">
-                            <a href="{:U('Index/Bancerecord')}">
-                                <span><i class="icon iconfont icon-jishufuwu" style="color: #c56352"></i></span>可用余额：{$storeInfo.cangku_num}
-                            </a>
-                        </div>
-                        <!--原有名称  产品积分替换成我的仓库-->
-
-                        <div class="ml-item">
-                            <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
-                                <span><i class="icon iconfont icon-zhunbeiliangchan" style="color: #c56352"></i></span>我的仓库：{$storeInfo.product_integral}
-                            </a>
-                        </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-</html>
