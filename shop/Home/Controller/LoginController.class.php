@@ -67,7 +67,6 @@ class LoginController extends Controller
     }
 
     /**
-     * 注册用户
      * @time 2020/2/9 17:17
      */
     public function register()
