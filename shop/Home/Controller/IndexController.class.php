@@ -15,6 +15,9 @@ class IndexController extends CommonController
     public function index()
     {
         $user_id = session('userid');
+        $uinfo = M('user')->where($where)->field('userid,user_credit,quanxian,level,activation_time')->find();
+
+
 
         $storeInfo = M('store')->where(['uid' => $user_id])->find();
         $storeInfo['pass_card_amount'] = UcoinsModel::getAmount($user_id);//生态通证数量

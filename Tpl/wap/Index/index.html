@@ -127,40 +127,14 @@
                             <div class="im-item">
                                 <a href="{:U('Index/Bancerecord')}">
                                     <img src="__HOME__/img/indexmain1.png" alt="">
-                                    <p><span>EP</span><span id="Money">{$storeInfo.cangku_num}</span></p>
+                                    <p><span>余额</span><span id="Money">{$storeInfo.cangku_num}</span></p>
                                 </a>
                             </div>
                             <div class="im-item">
                                 <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
                                     <img src="__HOME__/img/indexmain2.png" alt="">
-                                    <p><span>SP</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
+                                    <p><span>仓库数</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
                                 </a>
-                            </div>
-                            <div class="im-item">
-                                <a href=" {:U('Index/PurchaseRecord')}" >
-                                    <img src="__HOME__/img/indexmain5.png" alt="">
-                                    <p><span>RP</span><span id="MoneyFt"> {$moneyinfo['purchase_integral']|Showtwo}</span></p>
-                                </a>
-                            </div>
-                            <div class="im-item">
-                                <a href="{:U('Index/ComplexRecord')}">
-                                    <img src="__HOME__/img/indexmain4.png" alt="">
-                                    <p><span>EF</span><span id="MoneyDs">{$moneyinfo['complex_integral']|Showtwo}</span></p>
-                                </a>
-                            </div>
-
-
-                            <div class="im-item">
-                                <a href="{:U('Index/charityScoreRecord')}">
-                                    <img src="__HOME__/img/indexmain3.png" alt="">
-                                    <p><span>AC</span><span id="MoneyAC">{$moneyinfo['charity_points']|Showtwo}</span></p>
-                                </a>
-                            </div>
-                            <div class="im-item">
-
-                                <img src="__HOME__/img/indexmain6.png" alt="">
-                                <p><span>当前价格</span><span id="MoneyJy"> {$coin_price}</span></p>
-
                             </div>
 
 
