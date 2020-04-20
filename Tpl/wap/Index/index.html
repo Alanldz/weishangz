@@ -1,3 +1,405 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- meta标签设置-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <!-- app标题 -->
+    <title>BAT</title>
+    <!-- 使用iOS CSS主题样式-->
+    <script type="text/javascript" charset="utf-8">
+        var browser = {
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+                return { //移动终端浏览器版本信息
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                };
+            }(),
+        };
+        if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.ios.min.css"/>');
+        } else {
+            document.write('<link rel="stylesheet" type="text/css" href="__HOME__/css2/framework7.android.min.css"/>');
+        }
+
+    </script>
+    <!-- iOS related颜色样式 -->
+    <link rel="stylesheet" href="__HOME__/css2/framework7.ios.colors.min.css">
+    <!-- 自定义样式-->
+    <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css" />
+    <link rel="stylesheet" href="__HOME__/css/style2.css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+    <style>
+        .news {
+            height:35px;
+            background:#fff;
+            overflow:hidden;
+        }
+        .news .t_news {
+            height:20px;
+            overflow:hidden;
+            position:relative;
+            margin: 7px 0 0 20px;
+        }
+        .news .news_li,.swap {
+            line-height:20px;
+            display:inline-block;
+            position:absolute;
+            top:0;
+        }
+        .news .swap {
+            top:20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 所有的Views视图 -->
+<div class="views">
+    <!-- 主视图（需要有"view-main"样式） -->
+    <div class="view view-main">
+        <!-- 页面容器（Pages container）由于我们使用了固定位置的navbar和toolbar，
+        所以这里添加额外样式（navbar-through和toolbar-through）-->
+        <div class="pages navbar-through toolbar-through">
+            <!-- 首页, "data-page" 里设置页面名字 -->
+            <div data-page="index" class="page">
+
+                <div class="titlediv titlebg" style="z-index: 10;"><p>首页 </p></div>
+                <div style="overflow-y: auto; height: 100%;z-index: 5;">
+                    <div class="indexmessage">
+                        <div class="im-img"><img class="divheadimg" src="__HOME__/img/img.png" alt=""></div>
+                        <div class="immess">
+                            <p class="ft_eid">会员ID:{$uinfo['userid']}</p>
+                            <p style="line-height: 0.3rem;"> 投资级别：
+                                <if condition="$uinfo['level'] eq 0 ">
+                                    未激活
+                                    <elseif condition="$uinfo['level'] eq 1 " />
+                                    一星
+                                    <elseif condition="$uinfo['level'] eq 2 "/>
+                                    二星
+                                    <elseif condition="$uinfo['level'] eq 3 "/>
+                                    三星
+                                    <elseif condition="$uinfo['level'] eq 4 "/>
+                                    四星
+                                </if>
+                            </p>
+                            <p class="ft_xinyong">
+                                信用：
+                                <for start="0" end="$uinfo['user_credit']">
+                                    <i class='icon iconfont icon-jintiao'></i>
+                                </for>
+                            </p>
+                            <p style="line-height: 0.3rem;"> 激活时间：{$uinfo['activation_time']|date='Y-m-d H:i:s',###}</p>
+                        </div>
+                    </div>
+                    <div class="indexaddress" style="margin-bottom: 1rem;">
+                        <div class="news">
+                            <div class="t_news">
+                                <ul class="news_li">
+                                    <foreach name="new_user_list" item="v">
+                                        <li style=" font-size: 0.28rem;">
+                                            恭喜{$v['userid']} 成功激活,携手BAT,共赢财富！！！
+                                        </li>
+                                    </foreach>
+                                </ul>
+                                <ul class="swap"></ul>
+                            </div>
+                        </div>
+
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><a href=""><img src="__HOME__/img/addressimg.jpg" alt=""></a></div>
+                            </div>
+                            <!-- Add Pagination -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+
+
+                        <div class="indexmain1">
+                            <div class="im-item">
+                                <a href="{:U('Index/Bancerecord')}">
+                                    <img src="__HOME__/img/indexmain1.png" alt="">
+                                    <p><span>EP</span><span id="Money">{$moneyinfo['cangku_num']|Showtwo}</span></p>
+                                </a>
+                            </div>
+                            <div class="im-item">
+                                <a href="{:U('Index/ucoinsRecord')} ">
+                                    <img src="__HOME__/img/indexmain2.png" alt="">
+                                    <p><span>SP</span><span id="MoneyJy"> {$minecoins['c_nums']|Showtwo}</span></p>
+                                </a>
+                            </div>
+                            <div class="im-item">
+                                <a href=" {:U('Index/PurchaseRecord')}" >
+                                    <img src="__HOME__/img/indexmain5.png" alt="">
+                                    <p><span>RP</span><span id="MoneyFt"> {$moneyinfo['purchase_integral']|Showtwo}</span></p>
+                                </a>
+                            </div>
+                            <div class="im-item">
+                                <a href="{:U('Index/ComplexRecord')}">
+                                    <img src="__HOME__/img/indexmain4.png" alt="">
+                                    <p><span>EF</span><span id="MoneyDs">{$moneyinfo['complex_integral']|Showtwo}</span></p>
+                                </a>
+                            </div>
+
+
+                            <div class="im-item">
+                                <a href="{:U('Index/charityScoreRecord')}">
+                                    <img src="__HOME__/img/indexmain3.png" alt="">
+                                    <p><span>AC</span><span id="MoneyAC">{$moneyinfo['charity_points']|Showtwo}</span></p>
+                                </a>
+                            </div>
+                            <div class="im-item">
+
+                                <img src="__HOME__/img/indexmain6.png" alt="">
+                                <p><span>当前价格</span><span id="MoneyJy"> {$coin_price}</span></p>
+
+                            </div>
+
+
+                        </div>
+                        <div class="indexmain2">
+                            <php>$quanxian=explode("-",$uinfo['quanxian']);</php>
+
+                            <div class="im-item-s">
+                                <if condition="in_array(2,$quanxian)">
+                                    <a href="###"   class="quanxian">
+                                        <else/>
+                                        <a href="{:U('user/map')}">
+                                </if>
+                                <img src="__HOME__/img/indexlist1.png" alt="">
+                                <p>会员图谱</p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a href=" ">
+                                    <img src="__HOME__/img/indexlist2.png" alt="">
+                                    <p>一键归集 </p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a href="{:U('Turntable/Transaction')}">
+                                    <img src="__HOME__/img/indexlist3.png" alt="">
+                                    <p>交易大厅</p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <if condition="in_array(4,$quanxian)">
+                                    <a href="###"   class="quanxian">
+                                        <else/>
+                                        <a href="{:U('Trading/SellCentr')}">
+                                </if>
+                                <img src="__HOME__/img/indexlist4.png" alt="">
+                                <p>卖出EP</p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a href=" ">
+                                    <img src="__HOME__/img/indexlist5.png" alt="">
+                                    <p>卖出SP </p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a class="sc_login" href="{:U('activate/activate_card')}">
+                                    <img src="__HOME__/img/indexlist6.png" alt="">
+                                    <p>激活卡</p>
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="bottombar yxui-flex">
+                    <div class="cell active"><a href="javascript:void(0)"><i class="icon iconfont icon-shouye"></i><p>首页</p></a></div>
+                    <div class="cell"><a href="{:U('Growth/index')}"><i class="icon iconfont icon-qiandai"></i><p class="msg_caiwu">资金</p></a></div>
+                    <div class="cell"><a href="{:U('User/found')}">
+                        <i class="icon iconfont icon-jichuguanli" <if condition="$totalNum gt 0 ">style="margin-left: 40px;"</if> ></i>
+                        <if condition="$totalNum gt 0 ">
+                            <div style="margin: 5px 29px 0 0;float: right;width:10px;height:10px;border-radius:50%;background-color:red;"></div>
+                        </if>
+                        <p>市场</p></a></div>
+                    <div class="cell"><a href="{:U('User/Personal')}"><i class="icon iconfont icon-wode"></i><p class="msg_member">我的</p></a></div>
+                </div>
+            </div>
+
+        </div>
+        <style>
+            #cover_layer {
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                z-index: 1;
+                background: #000;
+                filter: alpha(opacity=20);
+                opacity: 0.2;
+                -moz-opacity: 0.2;
+                position: fixed;
+                overflow: hidden;
+            }
+
+            .qd {
+                box-sizing: border-box;
+                width: 100%;
+                margin: 0px auto;
+                position: fixed;
+                z-index: 1000;
+                bottom: 25%;
+                font-size: 15px;
+            }
+
+            .qd_content {
+                width: 320px;
+                margin: 0px auto;
+                background-image: url('__HOME__/img/qdbg.png');
+                background-size: 100% 100%;
+                height: 354px;
+            }
+
+            .zhezhao {
+                background-color: #ccc;
+                width: 100%;
+                position: absolute;
+                height: 100%;
+                opacity: 0.5;
+                z-index: 1;
+            }
+        </style>
+
+
+
+    </div>
+</div>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/member.js"></script>
+<script src="__HOME__/js/global.js"></script>
+<script src="__HOME__/js2/StringUtil.js"></script>
+<!-- Framework7框架的js-->
+<!--<script type="text/javascript" src="__HOME__/js2/framework7.min.js"></script>-->
+<!-- 你的应用的js -->
+<!--<script type="text/javascript" src="__HOME__/js2/app28.js"></script>-->
+<script src="__HOME__/appcan/js/appcan.js">
+</script>
+<script src="__HOME__/appcan/js/appcan.control2.js">
+</script>
+
+<script src="__HOME__/jQueryFileUpload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="__HOME__/jQueryFileUpload/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="__HOME__/jQueryFileUpload/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="__HOME__/jQueryFileUpload/js/jquery.fileupload.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script language="javascript">$(document).ready(member_obj.member_index_init);</script>
+
+<script>
+    $('.index_qd').click(function () {
+        var is_ajax = $('.index_qd').hasClass('ajax_redPacket');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.index_qd').addClass('ajax_redPacket');
+        var Money = Number($('#Money').text());
+        var MoneyJy = Number($('#MoneyJy').text());
+        var getnum = Number($('.dayR').html());
+        var releasey = (Money + getnum).toFixed(2);
+        var releasej = (MoneyJy - getnum).toFixed(2);
+        $.ajax({
+            url:'Index/index',
+            type:'post',
+            data:{'getnums':getnum},
+            datatype:'json',
+            success:function (mes) {
+                if(mes.status == 1){
+                    msg_alert(mes.message,mes.url);
+                    $("#hide_none").hide(1000);
+                    //加余额-减少积分
+                    $('.yue').text(releasey);
+                    $('.jifen').text(releasej);
+                }else{
+                    msg_alert(mes.message);
+                }
+                $('.index_qd').removeClass('ajax_redPacket');
+            }
+        });
+    });
+    //公共提示框
+    function msg_alert(message,url){
+
+        if(url){
+            layer.msg(message,{time:1000},function(){
+                window.location.href=url;
+            });
+        }else{
+            layer.msg(message,{time:1500});
+        }
+
+    }
+</script>
+<script>
+    $('.swap').html($('.news_li').html());
+    x = $('.news_li');
+    y = $('.swap');
+    h = $('.news_li li').length * 20; //20为每个li的高度
+    var hh = $('.news_li li').length;
+    if (hh > 1)
+    //setTimeout(b,3000);//滚动间隔时间 现在是3秒
+        b();
+    b();
+
+    function b() {
+        t = parseInt(x.css('top'));
+        //alert(t)
+        y.css('top', '20px');
+        x.animate({
+            top: t - 20 + 'px'
+        }, 'slow'); //20为每个li的高度
+        if (Math.abs(t) == h - 20) { //20为每个li的高度
+            y.animate({
+                top: '0px'
+            }, 'slow');
+            z = x;
+            x = y;
+            y = z;
+        }
+        setTimeout(b, 3000); //滚动间隔时间 现在是3秒
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html class="pixel-ratio-3 retina ios ios-11 ios-11-0 ios-gt-10 ios-gt-9 ios-gt-8 ios-gt-7 ios-gt-6 watch-active-state" style="font-size: 50px;">
 <head>
