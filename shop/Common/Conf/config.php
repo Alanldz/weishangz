@@ -1,7 +1,7 @@
 <?php
 return array(
     'MODULE_ALLOW_LIST'    =>    array('Home','Admin','Shop'),
-    'DEFAULT_MODULE'       =>    'Shop',
+    'DEFAULT_MODULE'       =>    'Home',
     'URL_MODULE_MAP'       =>    array('admin'=>'admin'),  //模块映射
 
     'URL_MODEL'=>2, //去掉index.php

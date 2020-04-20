@@ -28,7 +28,7 @@ define('HTML_CACHE_ON',false);//www.phpernote.com/
 //define('RUNTIME_PATH', './Runtime/');
 
 // 定义应用目录
-define('APP_PATH','./Home/');
+define('APP_PATH','./shop/');
 
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
