@@ -12,6 +12,123 @@
     <link rel="stylesheet" href="__CSS__/style1.css">
     <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css"/>
     <style>
+        .head {
+            line-height: 50px;
+            text-align: center;
+            color: #fff;
+            font-size: 1.1rem;
+            position: fixed;
+            width: 100%;
+            /*background: linear-gradient(rgb(16, 49, 103), rgb(80, 107, 152));*/
+            background: #2a38e9;
+            top: 0;
+            max-width: 378px;
+            margin: 0 auto;
+            frameborder = no;
+        }
+
+
+        .head a {
+            display: block;
+            width: 50px;
+            font-size: .9rem;
+            color: #fff;
+        }
+
+        .head a.wzi {
+            height: 30px;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 100px;
+            line-height: 30px;
+            border: solid 1px #ef6e34;
+            text-indent: -10px;
+            font-size: 1rem;
+            border-radius: 50px;
+            background: url(../images/shop/ion.png) no-repeat;
+            background-position: 76px -33px;
+            background-repeat: repeat-x;
+            color: #ef6e34;
+            outline: none;
+        }
+
+        .head a.pgv {
+            /*width:25%;*/
+            height: 30px;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            line-height: 30px;
+            text-indent: -10px;
+            font-size: 1rem;
+            border-radius: 50px;
+            background: url(../images/shop/fx1.png) no-repeat;
+            color: #fff;
+        }
+
+
+        .head a.wzi ul li {
+            color: #fff;
+        }
+
+        .head a.yup {
+            /*background:url(../images/shop/yh1.png) no-repeat;*/
+            background-position: -0px 5px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            line-height: 30px;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .head a.g {
+            background-image: url(../images/shop/jil.png);
+            background-repeat: no-repeat;
+            background-position: 10px;
+        }
+
+        .head a img {
+            /*width:50%;*/
+            vertical-align: middle;
+        }
+
+        .head a ul {
+            display: none;
+        }
+
+        .head a.wzi:hover ul {
+            display: block;
+        }
+
+
+        .head a strong {
+            display: none;
+            font-size: .9rem;
+            width: 100px;
+            position: absolute;
+            right: -5px;
+            top: 30px;
+            text-align: center;
+            background-image: url(../images/shop/ff_03.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            color: #f53e34;
+            padding-top: 10px;
+        }
+
+        .head a strong span {
+            display: block;
+            width: 80%;
+            margin: 0 auto;
+            border-bottom: solid 1px #f5827b;
+        }
+
+        .head a.yup:hover strong {
+            display: block;
+        }
+
         .fxm_left img {width: 4vmin;margin-top: 9vmin;height: 6vmin;float: left;margin-left: 3vmin;}
         .user-order-box ul li {width: 25%;}
         .member-info .user-name .info-fan {display: flex;}
@@ -25,18 +142,10 @@
     </style>
 </head>
 <body>
-<div class="member-top">
-    <div class="fxm_left"></div>
-    <div class="header-r" style="float: right;margin: 10px;"></div>
-    <div class="member-info">
-        <div class="user-avatar">
-            <img src="__WIMG__/toux-icon.png"></div>
-        <div class="user-name" style="margin-left: 80px; width: 70%;">
-            <div class="info-fan">账号：{$userInfo.account}</div>
-            <div class="info-fan">ID号：{$userInfo.userid}</div>
-            <div class="info-fan">会员状态：{$userInfo.level|getUserLevelItems}</div>
-
-        </div>
+<div class="head" style="z-index:9999999 !important;">
+    <div style="height:50px;">
+        <a href="{:U('Home/Index/index')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
+        <div>会员中心</div>
     </div>
 </div>
 <div class="user-order-box">
@@ -105,12 +214,6 @@
         </dl>
     </a>
 
-    <a href="{:U('Home/User/News')}"> <em class="user-info-icongg"></em>
-        <dl>
-            <dt>公告</dt>
-            <dd></dd>
-        </dl>
-    </a>
 
 
 
@@ -121,12 +224,6 @@
         </dl>
     </a>
 
-    <a href="{:U('member/recharge')}"> <em class="recharge-card-icon"></em>
-        <dl>
-            <dt>注册积分充值</dt>
-            <dd></dd>
-        </dl>
-    </a>
 
     <a href="{:U('Member/addresslist')}"> <em class="consignee-address-icon"></em>
         <dl class="border_bottm">
@@ -145,22 +242,7 @@
         </a>
     </if>
 
-    <eq name="member['status']" value="1"><a href="{:U('Shop/Home/Business')}"> <em class="product-upload-icon"></em>
-        <dl>
-            <dt>产品上传</dt>
-        </dl>
-    </a>
-        <a href="{:U('Shop/Home/Minepros')}"> <em class="product-manage-icon"></em>
-            <dl>
-                <dt>产品管理</dt>
-            </dl>
-        </a>
-        <a href="{:U('Shop/Dianpu/dp_info')}"> <em class="myshop-icon"></em>
-            <dl>
-                <dt>我的店铺</dt>
-            </dl>
-        </a>
-    </eq>
+
 </div>
 
 <div class="uset-center-content">

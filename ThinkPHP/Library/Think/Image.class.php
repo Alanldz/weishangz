@@ -183,7 +183,7 @@ class Image{
      * @param  integer $angle  文字倾斜角度
      * @return Object          当前图片处理库对象
      */
-    public function text($text, $font, $size, $color = '#00000000', 
+    public function text($text, $font, $size, $color = '#2a38e900',
         $locate = self::IMAGE_WATER_SOUTHEAST, $offset = 0, $angle = 0){
         $this->img->text($text, $font, $size, $color, $locate, $offset, $angle);
         return $this;

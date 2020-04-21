@@ -10,7 +10,7 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="email=no" name="format-detection">
     <!-- app标题 -->
-    <title>谐和</title>
+    <title>谐和生物</title>
     <!-- 使用iOS CSS主题样式-->
     <script type="text/javascript" charset="utf-8">
         var browser = {
@@ -82,22 +82,8 @@
                         <div class="immess">
                             <p style="line-height: 0.3rem;"> 姓名：{$userInfo['username']}</p>
                             <p class="ft_eid">手机号:{$uinfo['mobile']}</p>
-                            <p style="line-height: 0.3rem;"> 级别：{$userInfo.level|getUserLevelItems}
-                                <if condition="$uinfo['level'] eq 0 ">
-                                    未激活
-                                    <elseif condition="$uinfo['level'] eq 1 " />
-                                    一星
-                                    <elseif condition="$uinfo['level'] eq 2 "/>
-                                    二星
-                                    <elseif condition="$uinfo['level'] eq 3 "/>
-                                    三星
-                                    <elseif condition="$uinfo['level'] eq 4 "/>
-                                    四星
-                                </if>
-                            </p>
-
-
-                            <p style="line-height: 0.3rem;"> 注册时间：{$userInfo['reg_date']|toDate}</p>
+                            <p style="line-height: 0.3rem;"> 级别：         </p>
+                            <p style="line-height: 0.6rem;"> 注册时间：{$userInfo['reg_date']|toDate}</p>
                         </div>
                     </div>
                     <div class="indexaddress" style="margin-bottom: 1rem;">
@@ -133,7 +119,7 @@
                             <div class="im-item">
                                 <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
                                     <img src="__HOME__/img/indexmain2.png" alt="">
-                                    <p><span>仓库数</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
+                                    <p><span>云库</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
                                 </a>
                             </div>
 
@@ -146,44 +132,62 @@
                                 <if condition="in_array(2,$quanxian)">
                                     <a href="###"   class="quanxian">
                                         <else/>
-                                        <a href="{:U('user/map')}">
+                                        <a href="{:U('Login/register')}?mobile={$v.mobile}">
                                 </if>
                                 <img src="__HOME__/img/indexlist1.png" alt="">
-                                <p>会员图谱</p>
+                                <p>注册会员</p>
                                 </a>
                             </div>
                             <div class="im-item-s">
                                 <a href=" ">
                                     <img src="__HOME__/img/indexlist2.png" alt="">
-                                    <p>一键归集 </p>
+                                    <p>进货确认 </p>
                                 </a>
                             </div>
                             <div class="im-item-s">
-                                <a href="{:U('Turntable/Transaction')}">
+                                <a href="{:U('Shop/Member/withdrawal')}">
                                     <img src="__HOME__/img/indexlist3.png" alt="">
-                                    <p>交易大厅</p>
+                                    <p>提现</p>
                                 </a>
                             </div>
                             <div class="im-item-s">
-                                <if condition="in_array(4,$quanxian)">
-                                    <a href="###"   class="quanxian">
-                                        <else/>
+
+                                        <a href="{:U('User/News')}">
+                                 <img src="__HOME__/img/indexlist4.png" alt="">
+                                <p>最新公告</p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a href=" {:U('User/SystemMsg')}">
+                                    <img src="__HOME__/img/indexlist5.png" alt="">
+                                    <p>我的消息 </p>
+                                </a>
+                            </div>
+                            <div class="im-item-s">
+                                <a class="sc_login" href="{:U('User/Complaint')}">
+                                    <img src="__HOME__/img/indexlist6.png" alt="">
+                                    <p>意见反馈</p>
+                                </a>
+                            </div>
+
+                            <div class="im-item-s">
+
                                         <a href="{:U('Trading/SellCentr')}">
-                                </if>
-                                <img src="__HOME__/img/indexlist4.png" alt="">
-                                <p>卖出EP</p>
+
+                                <img src="__HOME__/img/sj.png" alt="">
+                                <p>我要升级</p>
                                 </a>
                             </div>
                             <div class="im-item-s">
                                 <a href=" ">
-                                    <img src="__HOME__/img/indexlist5.png" alt="">
-                                    <p>卖出SP </p>
+                                    <img src="__HOME__/img/xx.png" alt="">
+                                    <p>金牌学院 </p>
                                 </a>
                             </div>
                             <div class="im-item-s">
                                 <a class="sc_login" href="{:U('activate/activate_card')}">
-                                    <img src="__HOME__/img/indexlist6.png" alt="">
-                                    <p>激活卡</p>
+                                    <img src="__HOME__/img/sq.png" alt="">
+                                    <p>我的授权</p>
                                 </a>
                             </div>
                         </div>

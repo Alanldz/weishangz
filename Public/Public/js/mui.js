@@ -2061,7 +2061,7 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 					height: "100%"
 				},
 				styles: {
-					color: "#000000",
+					color: "#2a38e9",
 					align: "center",
 					family: "'Helvetica Neue',Helvetica,sans-serif",
 					size: "17px",

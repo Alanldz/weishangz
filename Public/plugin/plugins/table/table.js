@@ -13,7 +13,7 @@ KindEditor.plugin('table', function(K) {
 	function _setColor(box, color) {
 		color = color.toUpperCase();
 		box.css('background-color', color);
-		box.css('color', color === '#000000' ? '#FFFFFF' : '#000000');
+		box.css('color', color === '#2a38e9' ? '#FFFFFF' : '#2a38e9');
 		box.html(color);
 	}
 	// 初始化取色器
@@ -295,7 +295,7 @@ KindEditor.plugin('table', function(K) {
 			colorBox = K('.ke-input-color', div);
 			_initColorPicker(div, colorBox.eq(0));
 			_initColorPicker(div, colorBox.eq(1));
-			_setColor(colorBox.eq(0), '#000000');
+			_setColor(colorBox.eq(0), '#2a38e9');
 			_setColor(colorBox.eq(1), '');
 			// foucs and select
 			rowsBox[0].focus();
@@ -447,7 +447,7 @@ KindEditor.plugin('table', function(K) {
 			colorBox = K('.ke-input-color', div);
 			_initColorPicker(div, colorBox.eq(0));
 			_initColorPicker(div, colorBox.eq(1));
-			_setColor(colorBox.eq(0), '#000000');
+			_setColor(colorBox.eq(0), '#2a38e9');
 			_setColor(colorBox.eq(1), '');
 			// foucs and select
 			widthBox[0].focus();

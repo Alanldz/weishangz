@@ -79,7 +79,7 @@ i {
 }
 
 .header_r a {
-    color: #000000;
+    color: #2a38e9;
     text-align: center;
     font-size: 3.5vmin;
     float: right;
@@ -1088,7 +1088,7 @@ div.flicking_con a.on {
     display: block;
     width: 100%;
     height: 13vmin;
-    background: #000000;
+    background: #2a38e9;
     border-radius: 5px;
     line-height: 13vmin;
     text-align: center;

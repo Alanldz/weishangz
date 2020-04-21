@@ -14,7 +14,7 @@
 <body style="max-width:640px;">
 <div class="head" style="z-index:9999999 !important;">
     <div style="height:50px;">
-        <a href="{:U('Index/index')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
+        <a href="{:U('Home/Index/index')}" class="pgv" style="background:none;"><img src="__NEWSHOP__/images/shop/fh5.png"></a>
         <div>E城e家</div>
     </div>
 </div>
@@ -44,17 +44,15 @@
         <if condition="$list">
             <foreach name="list" item="vo" key="k">
                 <div class="q-all">
-                     <div class="all-list2">
-                        <h2>{$vo.store_name}
-                         </h2>
-                        <p>{$vo.province_id}{$vo['city_id']}{$vo['country_id']}{$vo['shore_address']}</p>
-                        <p>营业时间：{$vo.business_hours}</p>
-                        <p>{$vo.buy_num}人消费</p>
-                        </div>
+                     <div class="">
+                        <h2>店主姓名：林先生 </h2>
+                         <p>联系电话：13***590000</p>
+                        <p>店铺区域：{$vo.province_id}{$vo['city_id']}{$vo['country_id']}</p>
+                          </div>
                 </div>
             </foreach>
             <else/>
-            <p class="empty">暂无商家</p>
+            <p class="empty">暂无店家</p>
         </if>
     </div>
     <!--底部-->

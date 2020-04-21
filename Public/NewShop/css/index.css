@@ -102,7 +102,7 @@ html body {
     position: fixed;
     width: 100%;
     /*background: linear-gradient(rgb(16, 49, 103), rgb(80, 107, 152));*/
-    background: #000000;
+    background: #2a38e9;
     top: 0;
     max-width: 378px;
     margin: 0 auto;
@@ -671,7 +671,7 @@ select::-ms-expand {
 }
 
 .hot_b ul li {
-    color: #000000;
+    color: #2a38e9;
     font-weight: 700;
     line-height: 25px;
 }
@@ -756,7 +756,7 @@ select::-ms-expand {
 
 .giofhj ul strong {
     font-size: .8rem;
-    color: #000000;
+    color: #2a38e9;
     display: block;
     margin-top: 8px;
 }
@@ -811,7 +811,7 @@ select::-ms-expand {
 }
 
 .shpin p {
-    color: #000000;
+    color: #2a38e9;
     margin: 5px 0;
     font-weight: bold;
 }
@@ -1393,7 +1393,7 @@ select::-ms-expand {
 }
 
 .biaoti p {
-    color: #000000;
+    color: #2a38e9;
     font-weight: bold;
 }
 
@@ -1406,7 +1406,7 @@ select::-ms-expand {
 .quer a {
     color: #fff;
     padding: 5px 15px;
-    background: #000000;
+    background: #2a38e9;
     margin-right: 20px;
     border-radius: 3px;
     float: right;
@@ -2093,7 +2093,7 @@ select::-ms-expand {
 
 .allca dl dt {
     margin-bottom: 10px;
-    color: #000000;
+    color: #2a38e9;
 }
 
 .allca dl strong {
