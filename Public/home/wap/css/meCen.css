@@ -9,7 +9,7 @@ body{ text-align: left;}
 .userInfo .uid_xy  p span{ margin-left: 1px;}
 .userInfo .uid_xy  p span img{ width: 12px; }
 
-.shaomZ{ width: 100%; background: #D5A512; padding:30px 0;}
+.shaomZ{ width: 100%; background: #2a38e9; padding:30px 0;}
 .shaomZ .shaom{ width: 90px; margin: 0 auto; display: block;}
 .shaomZ .shaom img { width: 100%; display: block;}
 .shaomZ .shaom p{ font-size: 14px; color: #fff;letter-spacing:5px; text-align: center; margin-top: 10px; padding-left: 5px;}
@@ -159,23 +159,23 @@ body{ text-align: left;}
 .mlr_pm{margin-right:4.35%;}
 
 /*转入*/
-.bg_blue{background: #D5A512;}
+.bg_blue{background: #2a38e9;}
 .qrCodeGro{     width: 84%; padding: 8% 8%;margin-top: 20px; background: #fff; border-radius: 10px;}
 .qrCodeGro img{ width: 90%; margin: 10px auto ; display: block;}
 .qrCodeGro p{ font-size: 15px; color: #000; line-height: 40px; text-align: center;}
 .intoButt{ width: 100%; margin-top: 7rem;}
 .intoButt a{ width: 100%; text-align:center; color: #fff; display: block;}
-.zhuanrua{ color:#D5A512 !important;}
+.zhuanrua{ color:#2a38e9 !important;}
 
 /*买入*/
 .buy_aminy{ background: #fff; width: 90%; padding: 10px 5%;  }
 .buy_aminy h4{ line-height: 30px; color: #999; border-bottom: 1px solid #ddd; font-size: 15px;}
 .buy_aminy ul{ width: 100%; padding-top: 10px;}
-.buyChecked{ height: 30px; line-height: 30px; width: 27.5%; float: left;  margin: 10px 2.5%; background: #fff; border: 1px solid #D5A512; color: #D5A512; 
+.buyChecked{ height: 30px; line-height: 30px; width: 27.5%; float: left;  margin: 10px 2.5%; background: #fff; border: 1px solid #2a38e9; color: #2a38e9;
   text-align: center; border-radius: 5px;}
-.buy_aminy .on{ background: #D5A512; border:1px solid #D5A512; color: #fff;}
+.buy_aminy .on{ background: #2a38e9; border:1px solid #2a38e9; color: #fff;}
 #p1{width: 100px;  position: absolute;top:50px; right: 10px;  display: none;}
-#p1 ul{ background: #D5A512; border-radius: 4px;}
+#p1 ul{ background: #2a38e9; border-radius: 4px;}
 #p1 li{ line-height: 34px;     border-bottom: 1px solid rgba(255, 255, 255, 0.3); width: 100%; text-align: center;}
 #p1 li a{ float: none; line-height: 34px; color: #fff; font-size: 12px; margin: 0; text-align: center;}
 #p1 li .not{ border-bottom: none;}
@@ -183,7 +183,7 @@ body{ text-align: left;}
     width: 0;
     height: 0;
     border: 7px solid transparent;
-    border-bottom-color: #D5A512;
+    border-bottom-color: #2a38e9;
     margin-left: 80px;
 }  
 
@@ -206,7 +206,7 @@ body{ text-align: left;}
 .myBankCard_snac a{ border-radius: 3px; border: 1px solid #999; padding: 0 12px; display: block; height: 22px;width: auto !important;
   line-height: 22px;color: #999; font-size: 14px; margin-bottom:10px;}
 
-.addBankCard{ width: 94%; border-radius: 5px; background: #D5A512; padding: 5px 3%; margin-bottom: 30px;}
+.addBankCard{ width: 94%; border-radius: 5px; background: #2a38e9; padding: 5px 3%; margin-bottom: 30px;}
 .addBankCard a{ width: 100%; display: block; }
 .addBankCard img{ float: left; display: block; width: 40px; }
 .addBankCard p{ line-height: 40px; font-size: 16px; color: #fff; margin-left: 15px;  float: left; }
@@ -413,7 +413,7 @@ body{ text-align: left;}
 .nic_xiu{ width: 90%; padding: 12px 5%; border-bottom: 1px solid #ddd; background: #fff; }
 .nic_xiu input{font-size: 14px; border:none; color: #000;  line-height:24px; margin:0; padding: 0; width: 100%; height: 24px; }
 .nic_xiu input=[placeholder]{ color: #999;}
-.wangjmim_se{ text-align: right; line-height: 24px; margin-top: 10px; font-size: 12px; color: #D5A512; margin-right: 10px;}
+.wangjmim_se{ text-align: right; line-height: 24px; margin-top: 10px; font-size: 12px; color: #2a38e9; margin-right: 10px;}
 .wangjmim_se a{ color: #f30000}
 
 /*公告*/
@@ -538,7 +538,7 @@ body{ text-align: left;}
         }
 
 .sett_tuic{ width: 100%; margin-top: 30px; margin-bottom: 50px;}
-.sett_tuic a{ line-height: 46px; text-align: center; background: #fff; display: block; font-size: 16px; color: #D5A512; height: 46px;}
+.sett_tuic a{ line-height: 46px; text-align: center; background: #fff; display: block; font-size: 16px; color: #2a38e9; height: 46px;}
 
 /*banner*/
 .slider {
@@ -724,8 +724,8 @@ background:url(img/.png) no-repeat;
 
 .lanseanna{ display: block; text-align: center; width:30% ; height: 36px; line-height: 36px; font-size: 16px;  border-radius: 40px;
     position: absolute; right: 15px; bottom: 15px;
-    border: 1px solid #D5A512;
-    background-color:#D5A512;
+    border: 1px solid #2a38e9;
+    background-color:#2a38e9;
     color: #fff;
 }
 .dakpztp{ width: 100%; display: block;}

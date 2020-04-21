@@ -350,7 +350,7 @@ body{ text-align: left; }
 
           margin:0 auto;}
 
-.buy_Wpayzu{ width: 100%;padding: 15px 0; background: #D5A512; position: relative;}
+.buy_Wpayzu{ width: 100%;padding: 15px 0; background: #2a38e9; position: relative;}
 
 .buy_Wpayzu .buy_Wpayzu_l{ float: left; width: 50%; font-size: 16px; text-align: center; line-height: 30px;}
 
@@ -396,9 +396,9 @@ body{ text-align: left; }
 
 .investment_f{ width:100%;}
 
-.investment_f .investment_title{ width: 80%; border-radius: 34px; margin: 15px auto; border: 1px solid #D5A512; overflow:hidden}
+.investment_f .investment_title{ width: 80%; border-radius: 34px; margin: 15px auto; border: 1px solid #2a38e9; overflow:hidden}
 
-.investment_title div{ width:50%; height:34px; float:left;  display:inline; font-size:14px; font-weight:bold; text-align:center; line-height:36px; color:#D5A512; background-color: #fff; /*cursor:pointer;*/}
+.investment_title div{ width:50%; height:34px; float:left;  display:inline; font-size:14px; font-weight:bold; text-align:center; line-height:36px; color:#2a38e9; background-color: #fff; /*cursor:pointer;*/}
 
 .investment_title a,.investment_title a:link,.investment_title a:visited,.investment_title a:hover{ color:#ff2929;height:44px;display:inline-block; width: 100%;}
 
