@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>index</title>
+
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .safety_salt {
+            border: none;
+            outline: none;
+            background: no-repeat;
+            font-size: 0.28rem;
+        }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('activate/activate_card')}" class="go-back"></a>制作激活卡</header>
+<div class="back"></div>
+<div class="container">
+
+
+
+    <div class="select-box lind-sm">
+        <div class="select-left">我的云库：</div>
+        <div class="ye-right user-ep">100盒</div>
+    </div>
+    <div class="lind"></div>
+
+
+    <div class="select-box lind-sm">
+        <div class="select-left">邮寄数量：</div>
+        <div class="ye-right user-ep">输入盒数</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">邮寄地址：</div>
+        <div class="ye-right user-ep">显示默认地址</div>
+    </div>
+    <div class="lind"></div>
+
+
+    <div class="select-box lind-sm">
+        <div class="select-left">交易密码：</div>
+        <div class="ye-right">
+            <input class="safety_salt" type="password" placeholder="请输入交易密码" notnull="" name="safety_salt">
+        </div>
+    </div>
+    <div class="text-center btn-box">
+        <button type="button" class="btn btn-jh confirm">确定邮寄</button>
+    </div>
+</div>
+</body>
+<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script>
+    //选择级别
+    $('.level').change(function () {
+        var level = $(this).val();
+        var price = 100;
+        if (level == 2) {
+            price = 300;
+        } else if (level == 3) {
+            price = 500;
+        } else if (level == 4) {
+            price = 1000;
+        }
+        $('.expend-ep').text(price);
+    });
+
+    $('.confirm').click(function () {
+        var user_ep = $('.user-ep').text();
+        var expend_ep = $('.expend-ep').text();
+
+        if (parseFloat(expend_ep) > parseFloat(user_ep)) {
+            msg_alert('您的ep金额不足');
+            return false;
+        }
+        var level = $('.level').val();
+        var safety_salt = $('.safety_salt').val();
+        if(level == ''){
+            msg_alert('请选择生成级别');
+            return false;
+        }
+        if(safety_salt == ''){
+            msg_alert('请输入您的交易密码');
+            return false;
+        }
+
+        var is_ajax = $('.confirm').hasClass('btn-submit');
+        if(is_ajax){
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        $('.confirm').addClass('btn-submit');
+
+        var data = {
+            level:level,
+            safety_salt:safety_salt
+        };
+
+        doajax("{:U('activate/markCard')}", data, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message);
+                setTimeout(function(){
+                    location.reload();
+                },1000);
+            } else {
+                msg_alert(data.message);
+            }
+            $('.confirm').removeClass('btn-submit');
+        });
+    });
+
+</script>
+</html>
