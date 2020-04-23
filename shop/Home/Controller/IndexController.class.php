@@ -21,6 +21,7 @@ class IndexController extends CommonController
         $this->assign([
             'userInfo' => $userInfo,
             'storeInfo' => $storeInfo,
+            'methods' => 'index'
         ]);
         $this->display();
     }

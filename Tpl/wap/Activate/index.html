@@ -12,24 +12,24 @@
     <link href="__HOME__/css/style1.css" rel="stylesheet">
 </head>
 <body>
-<header class="text-center"><a href="{:U('user/found')}" class="go-back"></a>激活账户</header>
+<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>激活账户</header>
 <div class="back"></div>
 <div class="container">
     <div class="select-box lind-sm">
         <div class="select-left">当前账户：</div>
-        <div class="ye-right user-ep">林先生</div>
+        <div class="ye-right user-ep">{$userInfo['username']}</div>
     </div>
     <div class="lind"></div>
 
     <div class="select-box lind-sm">
         <div class="select-left">手机号：</div>
-        <div class="ye-right user-ep">1333333333</div>
+        <div class="ye-right user-ep">{$userInfo['mobile']}</div>
     </div>
     <div class="lind"></div>
 
     <div class="select-box lind-sm">
         <div class="select-left">当前级别：</div>
-        <div class="ye-right user-ep">分销</div>
+        <div class="ye-right user-ep">{$userInfo['level']|getUserLevelItems}</div>
     </div>
     <div class="lind"></div>
 

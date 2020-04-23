@@ -43,10 +43,6 @@
                 </div>
                 <div style="overflow-y: auto; height: 100%;z-index: 5;">
                     <div class="moneylist " style="margin-top: 1.1rem;">
-
-
-
-
                         <div class="ml-item">
                             <a href="{:U('Shop/member/transfer')}">
                                 <span><i class="icon iconfont icon-zhuanzhang" style="color: #c56352"></i></span>转账
@@ -55,37 +51,26 @@
                     </div>
 
                     <div class="moneylist " style="margin-top: 0.2rem;margin-bottom: 1rem;">
-
                         <div class="ml-item">
                             <a href="javascript:void(0)">
-                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队业绩：伞下团队卖出盒数乘以自身的价格累计
+                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队业绩：{$storeInfo['total_amount']}
                             </a>
                         </div>
-
                         <div class="ml-item">
                             <a href="javascript:void(0)">
-                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>个人累计销售：卖出的盒数
+                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队累计总销售：{$storeInfo['total_num']}
                             </a>
                         </div>
-
                         <div class="ml-item">
                             <a href="javascript:void(0)">
-                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队累计销售：自己伞下团队卖出的盒数
+                                <span><i class="icon iconfont icon-renwujincheng" style="color: #c56352"></i></span>团队累计月销售：{$storeInfo['month_num']}
                             </a>
                         </div>
-
-
-
-
                         <div class="ml-item">
                             <a href="{:U('Home/User/Friends')}">
                                 <span><i class="icon iconfont icon-wode" style="color: #c56352"></i></span>我的直推
                             </a>
                         </div>
-
-
-
-
                     </div>
                 </div>
                 <!--底部-->

@@ -110,9 +110,9 @@ class ActivateController extends CommonController
     public function index()
     {
         $uid = session('userid');
-        $store = M('store')->where(['uid' => $uid])->field('cangku_num,complex_integral')->find();
+        $userInfo = M('user')->where(['userid' => $uid])->field('username,mobile,level')->find();
 
-        $this->assign('store', $store);
+        $this->assign('userInfo', $userInfo);
         $this->display();
     }
 

@@ -780,7 +780,6 @@ function exportExcel($list, $indexKey, $filename = '', $headArr = array(), $exce
 
 }
 
-
 /**
  * 二维数组根据某个字段排序
  * @param array $array 要排序的数组
