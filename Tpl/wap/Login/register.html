@@ -10,12 +10,9 @@
     <title>谐和生物会员注册</title>
     <link rel="stylesheet" href="__HOME__/iconfont/iconfont.css">
     <link rel="stylesheet" href="__HOME__/css/style.css">
-
     <style>
-        .pay-input input {
-            -webkit-appearance: radio;
-            width: 13px;
-        }
+        .pay-input input {width: 13px;-webkit-appearance: radio;}
+        .select-d{width: 221px;height: 33px;color: #fff;border-radius: 6px;border: 0;background: #463a86;padding-left: 10px;}
     </style>
 </head>
 <body class="mainbg loginbg">
@@ -25,18 +22,13 @@
             <p><a href="{:U('Home/index')}"><i class="icon iconfont icon-fanhui"></i></a>谐和生物会员注册</p>
         </div>
         <div class="logoinput" style="margin-top: 0.2rem">
-            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 用户账号：</span>
-            <input type="text" name="account" notnull="" value="" placeholder="请输入用户账号">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 姓名：</span>
+            <input type="text" name="username" value="" placeholder="请输入真实姓名">
         </div>
-
         <div class="logoinput" style="margin-top: 0.2rem">
-            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 真实姓名：</span>
-            <input type="text" name="username" notnull="" value="" placeholder="请输入真实姓名">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 身份证：</span>
+            <input type="text" name="identity_card" value="" placeholder="请输入身份证">
         </div>
-        <!--<div class="logoinput" style="margin-top: 0.2rem">-->
-            <!--<span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 身份证：</span>-->
-            <!--<input type="text" name="identity_card" notnull="" value="" placeholder="请输入身份证">-->
-        <!--</div>-->
         <div class="logoinput" style="margin-top: 0.25rem;">
             <span><i class="icon iconfont icon-shouji"></i> 手机号码：</span>
             <input type="text" name="mobile" maxlength="11" placeholder="请输入手机号码" notnull="">
@@ -46,6 +38,67 @@
             <input type="text" placeholder="请输入验证码" name="code" notnull="">
             <p class="ii-ispan sendmsgBtn" onclick="sendModile()">获取验证码</p>
         </div>
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 微信号：</span>
+            <input type="text" name="wx_no" value="" placeholder="请输入微信号">
+        </div>
+
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i>选择级别 ：</span>
+            <select class="select-d" name="product_id" id="product_id">
+                <option value="-1" data-level="-1">请选择</option>
+                <foreach name="productList" item="vo">
+                    <option value="{$vo[id]}" data-level="{$vo['level']}">{$vo['level']|getUserLevelItems}（{$vo['activate_buy_num']}）盒</option>
+                </foreach>
+            </select>
+        </div>
+
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i>货运方式 ：</span>
+            <select class="select-d" name="delivery_type" id="delivery_type">
+                <option value="-1">未选择</option>
+            </select>
+        </div>
+
+        <div style="display: none" class="addressInfo">
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 收货人：</span>
+                <input type="text" name="address[name]" value="" placeholder="请输入收货人">
+            </div>
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 收货手机号：</span>
+                <input type="text" name="address[telephone]" value="" placeholder="请输入收货手机号">
+            </div>
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i>省：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <select class="select-d" name="address[province_id]" id="province">
+                    <option value="" selected="selected">--请选择省份--</option>
+                </select>
+            </div>
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i>市：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <select class="select-d" name="address[city_id]" id="city">
+                    <option value="" selected="selected">--请选择市--</option>
+                </select>
+            </div>
+
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i>区域：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <select class="select-d" name="address[country_id]" id="district">
+                    <option value="" selected="selected">--请选择区--</option>
+                </select>
+            </div>
+            <div class="logoinput" style="margin-top: 0.2rem">
+                <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 详细地址：</span>
+                <input type="text" name="address[address]" value="" placeholder="请输入详细地址">
+            </div>
+        </div>
+
+        <div class="logoinput" style="margin-top: 0.2rem">
+            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 推荐人：</span>
+            <input type="text" readonly value="{$userInfo['mobile']}">
+        </div>
+
         <div class="logoinput" style="margin-top: 0.25rem;">
             <span><i class="icon iconfont icon-mima" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 登录密码：</span>
             <input type="password" name="login_pwd" maxlength="25" placeholder="请输入登陆密码" notnull="">
@@ -58,10 +111,7 @@
             <span><i class="icon iconfont icon-mima" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 交易密码：</span>
             <input type="password" name="safety_pwd" maxlength="25" placeholder="请输入交易密码" notnull="">
         </div>
-        <div class="logoinput" style="margin-top: 0.2rem">
-            <span><i class="icon iconfont icon-message" style="font-size: 0.4rem; margin-right: 0.18rem;"></i> 推荐人：</span>
-            <input type="text" name="pid" notnull="" class="pid" value="{$mobile}" placeholder="请输入推荐人手机号">
-        </div>
+
         <div class="loginbtn"><a href="javascript:void(0)" id="subbtn">立即注册</a></div>
 
     </form>
@@ -71,11 +121,42 @@
 <script type="text/javascript" src="__HOME__/js/user4.js"></script>
 <script type="text/javascript" src="__COM__/layer/layer.js"></script>
 <script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript" src="__PUBLIC__/verify/address.js"></script>
 <script>
     var deviceWidth = document.documentElement.clientWidth;
     document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    addressInit('province', 'city', 'district', '福建', '', '');//添加
 </script>
 <script>
+
+    $('#product_id').change(function () {
+       var level = $(this).find("option:selected").attr("data-level");
+       var str = '';
+       if(level == -1){
+           str += ' <option value="-1">未选择</option>';
+           $('.addressInfo').hide();
+       }else if(level == 1){
+           str += ' <option value="2">邮寄</option>';
+           $('.addressInfo').show();
+       }else {
+           str += ' <option value="1">云库</option>';
+           str += ' <option value="2">邮寄</option>';
+           $('.addressInfo').hide();
+       }
+       $('#delivery_type').html(str);
+    });
+
+    $('#delivery_type').change(function () {
+        var delivery_type = $(this).val();
+        console.log(delivery_type);
+        if(delivery_type == 2){
+            $('.addressInfo').show();
+        }else {
+            $('.addressInfo').hide();
+        }
+    });
+
+
     //发送短信事件
     function sendModile() {
         var Phone = $('#user_form input[name=mobile]').val();
@@ -112,70 +193,14 @@
 
     //提交注册
     $('#subbtn').click(function () {
-        var mobile_rex = /^1[3456789]\d{9}$/;
-        var account = $('#user_form input[name=account]').val();
-        var username = $('#user_form input[name=username]').val();
-        var identity_card = $('#user_form input[name=identity_card]').val();
-        var mobile = $('#user_form input[name=mobile]').val();
-        var code = $('#user_form input[name=code]').val();
-        var login_pwd = $('#user_form input[name=login_pwd]').val();
-        var relogin_pwd = $('#user_form input[name=relogin_pwd]').val();
-        var safety_pwd = $('#user_form input[name=safety_pwd]').val();
-        var pid = $('#user_form input[name=pid]').val();
-
-        if (account == '') {
-            layer.msg('请输入用户账号');
-            return false;
-        }
-        if (username == '') {
-            layer.msg('请输入姓名');
-            return false;
-        }
-        // if (identity_card == '') {
-        //     layer.msg('请输入身份证');
-        //     return false;
-        // }
-        if (mobile == '') {
-            layer.msg('手机号码不能为空');
-            return false;
-        }
-        if (code == '') {
-            layer.msg('验证码不能为空');
-            return false;
-        }
-
-        if (login_pwd == '') {
-            layer.msg('登录密码不能为空');
-            return false;
-        }
-        if (login_pwd != relogin_pwd) {
-            layer.msg("两次输入登录密码不一致");
-            return false;
-        }
-        if (pid == '') {
-            layer.msg('请输推荐人ID');
-            return false;
-        }
-
         var is_ajsx = $('#subbtn').hasClass('ajax_btn');
         if (is_ajsx) {
             layer.msg("请勿频繁操作");
             return false;
         }
-        $('#subbtn').addClass('ajax_btn');
+        // $('#subbtn').addClass('ajax_btn');
         var post_url = $("#user_form").attr('action');
-        var data;
-        data = {
-            account : account,
-            username: username,
-            identity_card: identity_card,
-            mobile: mobile,
-            code: code,
-            login_pwd: login_pwd,
-            relogin_pwd: relogin_pwd,
-            safety_pwd: safety_pwd,
-            pid: pid,
-        };
+        var data = $("#user_form").serialize();
         doajax(post_url, data, function (data) {
             if (data.status == 1) {
                 layer.alert(data.message, {
@@ -191,6 +216,11 @@
                 });
             } else {
                 layer.msg(data.message);
+                if(data.url){
+                    setTimeout(function () {
+                        window.location.href = data.url;
+                    },500)
+                }
             }
             $('#subbtn').removeClass('ajax_btn');
         });

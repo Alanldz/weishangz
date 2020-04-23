@@ -2,6 +2,7 @@
 
 namespace Home\Controller;
 
+use Common\Util\Constants;
 use Home\Model\UserModel;
 use Think\Controller;
 
@@ -15,7 +16,7 @@ class LoginController extends Controller
         //判断网站是否关闭
         $close = is_close_site();
         if (session('userid')) {
-            $this->redirect('/Shop/Index/index');
+            $this->redirect('/Home/Index/index');
         }
         if ($close['value'] == 0) {
             $this->assign('message', $close['tip'])->display('closesite');
@@ -50,7 +51,7 @@ class LoginController extends Controller
             if (0 < $uid && $user_info['userid'] === $uid) {
                 M('config')->where(['name' => 'online_number'])->setInc('value');
                 session('in_time', time());
-                ajaxReturn('登录成功', 1, U('shop/index/index'));
+                ajaxReturn('登录成功', 1, U('Home/index/index'));
             }
         }
     }
@@ -67,6 +68,7 @@ class LoginController extends Controller
     }
 
     /**
+     * 注册
      * @time 2020/2/9 17:17
      */
     public function register()
@@ -75,13 +77,21 @@ class LoginController extends Controller
             $user = new UserModel();
             $res = $user->register();
             if (!$res) {
-                ajaxReturn($user->getError(), 0);
+                ajaxReturn($user->getError(), 0, $user->url);
             }
             ajaxReturn('注册成功', 1, U('Login/login'));
         }
 
-        $mobile = trim(I('mobile'));
-        $this->assign('mobile', $mobile);
+        $user_id = session('userid');
+        if (empty($user_id)) {
+            $this->redirect('Login/login');
+        }
+
+        $userInfo = M('user')->where(['userid' => $user_id])->field('mobile')->find();
+        $productList = M('product_detail')->where(['status' => Constants::YesNo_Yes])->field('id,name,level,activate_buy_num')->order('level asc')->select();
+
+        $this->assign('userInfo', $userInfo);
+        $this->assign('productList', $productList);
         $this->display();
     }
 

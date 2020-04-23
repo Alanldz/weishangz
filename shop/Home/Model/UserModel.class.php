@@ -13,6 +13,14 @@ class UserModel extends \Common\Model\UserModel
 
     public $user_id;
 
+    public $url;
+
+    const one_box_money = 20;//推荐奖一盒金额
+
+    const shareholder_bonus = 10; //股东分红一盒金额
+
+    const shareholder_profit = 5; //股东收益一盒金额
+
     /**
      * 自动验证规则
      *
@@ -30,24 +38,27 @@ class UserModel extends \Common\Model\UserModel
         // array('activatecode', 'require', '激活码不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_INSERT),
 
         //推荐人
-        array('pid', 'require', '推荐人手机不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
-        array('pid', '/^1[3456798]\d{9}$/', '推荐人手机错误', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
-        array('pid', 'check_parent', '推荐人手机错误或不存在', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
+//        array('pid', 'require', '推荐人手机不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
+//        array('pid', '/^1[3456798]\d{9}$/', '推荐人手机错误', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
+//        array('pid', 'check_parent', '推荐人手机错误或不存在', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
         //接点人
 //        array('junction_id', 'check_parent', '接点人ID错误或不存在', self::MUST_VALIDATE, 'callback', self::MODEL_INSERT),
-
-        //验证手机号码
-        array('mobile', 'require', '手机号码不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
-        array('mobile', '/^1[3456798]\d{9}$/', '手机号码格式不正确', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
-        array('mobile', '', '手机号码已存在', self::MUST_VALIDATE, 'unique', self::MODEL_INSERT),
-
-        array('identity_card', '', '身份证已存在', self::MUST_VALIDATE, 'unique', self::MODEL_INSERT),
-        //验证用户名
-        array('account', '', '该账号已被使用', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
-        array('account', '/^[A-Za-z0-9]+$/', '用户名只可含有数字、字母、下划线且不以下划线开头结尾，不以数字开头！', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
-        array('username', 'require', '姓名不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
+        array('username', 'require', '姓名不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
 //		array('username', '2,8', '姓名长度为2-8个字', self::MUST_VALIDATE, 'length', self::MODEL_INSERT),
 
+        array('identity_card', 'require', '身份证不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+//        array('identity_card', '', '身份证已存在', self::MUST_VALIDATE, 'unique', self::MODEL_INSERT),
+
+        //验证手机号码
+        array('mobile', 'require', '手机号码不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('mobile', '/^1[3456798]\d{9}$/', '手机号码格式不正确', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+        array('mobile', '', '手机号码已存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
+
+        array('wx_no', 'require', '微信号不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
+
+        //验证用户名
+//        array('account', '', '该账号已被使用', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH),
+//        array('account', '/^[A-Za-z0-9]+$/', '用户名只可含有数字、字母、下划线且不以下划线开头结尾，不以数字开头！', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
 
         //验证登录密码
         array('login_pwd', 'require', '登录密码不能为空', self::MUST_VALIDATE, 'regex', self::MODEL_INSERT),
@@ -71,7 +82,7 @@ class UserModel extends \Common\Model\UserModel
      */
     protected $_auto = array(
         array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function'),
-        array('pid', 'check_parent', self::MODEL_BOTH, 'callback'),
+//        array('pid', 'check_parent', self::MODEL_BOTH, 'callback'),
 //        array('junction_id', 'check_parent', self::MODEL_BOTH, 'callback'),
         array('reg_date', 'time', self::MODEL_INSERT, 'function'),
         array('status', '1', self::MODEL_INSERT),
@@ -175,7 +186,7 @@ class UserModel extends \Common\Model\UserModel
         //去除前后空格
         $account = trim($account);
         if (!isset($account) || empty($account)) {
-            $this->error = '账号不能为空';
+            $this->error = '账户不能为空';
             return false;
         }
         if (!isset($password) || empty($password)) {
@@ -187,7 +198,7 @@ class UserModel extends \Common\Model\UserModel
         // if (preg_match("/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/", $account)) {
         //     $map['email'] = array('eq', $account); // 邮箱登陆
         // if (preg_match("/^1\d{10}$/", $account)) {
-        $map['userid|account|mobile'] = array('eq', $account); // 用户ID登录
+        $map['account|mobile'] = array('eq', $account); // 用户ID登录
         // } else {
         //     $map['account'] = array('eq', $account); // 用户名登陆
         // }
@@ -439,216 +450,22 @@ class UserModel extends \Common\Model\UserModel
      */
     public function changeUserInfo()
     {
-        $userid = session('userid');
-        $userModel = D('user');
-        $data = $this->ChangeInfocheckFiled();
-        $changeID = intval(I('userid'));
-        $changeUser = $userModel->where(['userid' => $changeID])->find();
-        //验证码验证
-        $code = I('code');
-        $mobile = I('mobile');
-        if (!check_sms($code, $mobile)) {
-            $this->error = '验证码错误或已过期';
-            return false;
-        }
-        if (empty($changeUser)) {
-            $this->error = '修改用户不存在，请重新选择';
-            return false;
-        }
-        if ($changeUser['pid'] != $userid && $changeUser['junction_id'] != $userid && $changeUser['service_center_account'] != $userid) {
-            $this->error = '您没有权限修改该用户信息';
-            return false;
-        }
-        if ($changeUser['level'] != 0) {
-            $this->error = '该用户已激活，不能修改该用户信息';
-            return false;
-        }
-        $accountID = $userModel->where(['mobile' => $data['mobile'], 'account_type' => 2])->getField('userid');
-        if (!empty($accountID) && $accountID != $changeID) {
-            $this->error = '该手机号已被其他主账户占用';
-            return false;
-        }
-        $IdentityCard = $userModel->where(['identity_card' => $data['identity_card'], 'account_type' => 2])->getField('userid');
-        if (!empty($IdentityCard) && $IdentityCard != $changeID) {
-            $this->error = '该身份证已被其他主账户占用';
-            return false;
-        }
-
-        $arrJunctionPath = explode('-', $changeUser['junction_path']);
-        array_shift($arrJunctionPath);   //移除头部
-        array_pop($arrJunctionPath);      //移除尾部
-        if (!in_array($data['pid'], $arrJunctionPath)) {
-            $this->error = '推荐必须是接点人上面的接点人';
-            return false;
-        }
-        try {
-            M()->startTrans();   //开启事务
-            $data['account'] = $data['mobile'];
-            //密码加密
-            $salt = substr(md5(time()), 0, 3);
-            $data['login_pwd'] = $userModel->pwdMd5($data['login_pwd'], $salt);
-            $data['login_salt'] = $salt;
-
-            $data['safety_pwd'] = $userModel->pwdMd5($data['safety_pwd'], $salt);
-            $data['safety_salt'] = $salt;
-
-            //推荐人
-            $pid = $data['pid'];
-            $last['userid'] = $pid;
-            $p_info = $userModel->where(array('userid' => $pid))->field('userid,pid,gid,username,account,mobile,path,deep,service_center,service_center_account,account_type')->find();
-            if (empty($p_info)) {
-                throw new \Exception('推荐人不存在，请重新输入');
-            }
-            if ($p_info['account_type'] == 1) {
-                ajaxReturn('推荐人必须为主账户', 0);
-            }
-            //服务中心账号
-            if ($p_info['service_center']) {
-                $service_center_account = $pid;
-            } else {
-                $service_center_account = $p_info['service_center_account'];
-            }
-            if (!$service_center_account) {
-                ajaxReturn('服务中心不存在，请留言', 0);
-            }
-
-            if ($changeUser['service_center_account'] != $service_center_account) {
-                ajaxReturn('修改失败：推荐人与原有的不在同一个服务中心', 0);
-            }
-
-            $gid = $p_info['pid'];//上上级ID
-            $ggid = $p_info['gid'];//上上上级ID
-
-            if ($gid) {
-                $data['gid'] = $gid;
-            }
-            if ($ggid) {
-                $data['ggid'] = $ggid;
-            }
-
-            //拼接路径
-            $path = $p_info['path'];
-            $deep = $p_info['deep'];
-            if (empty($path)) {
-                $data['path'] = '-' . $pid . '-';
-            } else {
-                $data['path'] = $path . $pid . '-';
-            }
-            $data['deep'] = $deep + 1;
-
-            $res = $userModel->where(['userid' => $changeID])->save($data);
-            if (!$res) {
-                ajaxReturn('修改失败，请重试', 0);
-            }
-
-            M()->commit();
-            return true;
-        } catch (\Exception $e) {
-            M()->rollback();
-            $this->error = $e->getMessage();
-            return false;
-        }
+        return true;
     }
 
     /**
-     * 子账号注册-验证字段
+     * 注册
+     * @return bool
      */
-    public function checkFiled()
-    {
-        $data = I('post.');
-        if (empty($data['pid'])) {
-            ajaxReturn('推荐人不能为空');
-        }
-        $userInfo = M('user')->where(['userid' => $data['pid']])
-            ->field('userid,mobile,username,email,identity_card')->find();
-        if (empty($userInfo)) {
-            ajaxReturn('推荐人ID错误或者不存在');
-        }
-        if (empty($data['login_pwd'])) {
-            ajaxReturn('请输入登录密码');
-        }
-        $login_pwd_len = strlen($data['login_pwd']);
-        if ($login_pwd_len < 6 || $login_pwd_len > 20) {
-            ajaxReturn('登录密码长度为6-20位');
-        }
-        if ($data['login_pwd'] != $data['relogin_pwd']) {
-            ajaxReturn('两次输入登录密码不一致');
-        }
-        if (empty($data['safety_pwd'])) {
-            ajaxReturn('交易密码不能为空');
-        }
-
-        $data['mobile'] = $userInfo['mobile'];
-        $data['username'] = $userInfo['username'];
-        $data['email'] = $userInfo['email'];
-        $data['identity_card'] = $userInfo['identity_card'];
-        $data['status'] = 1;
-        $data['reg_date'] = time();
-        return $data;
-    }
-
-    /**
-     * 修改未激活用户信息-字段验证
-     * @return array
-     */
-    public function ChangeInfocheckFiled()
-    {
-        $data = I('post.');
-
-        if ($data['username'] == '') {
-            ajaxReturn('账户姓名不能为空');
-        }
-        if ($data['identity_card'] == '') {
-            ajaxReturn('身份证不能空');
-        }
-        $identity_card = trim($data['identity_card']);
-        if (strlen($identity_card) < 10) {
-            ajaxReturn('请输入正确的身份证号');
-        }
-        $mobile = trim($data['mobile']);
-        if ($mobile == '') {
-            ajaxReturn('手机号码不能为空');
-        }
-        $search = '/^0?1[3|4|5|6|7|8][0-9]\d{8}$/';
-        if (!preg_match($search, $mobile)) {
-            ajaxReturn('请填写正确的手机号码');
-        }
-        if ($data['code'] == '') {
-            ajaxReturn('验证码不能为空');
-        }
-        if ($data['login_pwd'] == '') {
-            ajaxReturn('登录密码不能为空');
-        }
-        if (strlen($data['login_pwd']) < 6 || strlen($data['login_pwd']) > 20) {
-            ajaxReturn('登录密码长度为6-20位');
-        }
-        if ($data['safety_pwd'] == '') {
-            ajaxReturn('交易密码不能为空');
-        }
-        if (strlen($data['safety_pwd']) < 6 || strlen($data['safety_pwd']) > 20) {
-            ajaxReturn('交易密码长度为6-20位');
-        }
-        if ($data['pid'] == '') {
-            ajaxReturn('推荐人不能为空');
-        }
-
-        $param = [
-            'username' => trim($data['username']),
-            'identity_card' => $identity_card,
-            'email' => trim($data['email']),
-            'mobile' => $mobile,
-            'login_pwd' => trim($data['login_pwd']),
-            'safety_pwd' => trim($data['safety_pwd']),
-            'pid' => trim($data['pid']),
-            'investment_grade' => intval($data['investment_grade'])
-        ];
-        return $param;
-    }
-
     public function register()
     {
         M()->startTrans();//开启事务
         try {
+            $user_id = session('userid');
+            if (empty($user_id)) {
+                $this->url = U('Home/Login/login');
+                throw new Exception('您还未登录，请先登录');
+            }
             //接收数据
             $data = $this->create();
             if (!$data) {
@@ -661,6 +478,9 @@ class UserModel extends \Common\Model\UserModel
 //                throw new Exception('验证码错误或已过期');
 //            }
 
+            //验证
+            list($productInfo, $address) = $this->validateAddData();
+
             //密码加密
             $salt = $this->getSalt();
             $data['login_pwd'] = $this->pwdMd5($data['login_pwd'], $salt);
@@ -670,11 +490,13 @@ class UserModel extends \Common\Model\UserModel
             $data['safety_salt'] = $salt;
 
             //推荐人
-            $pid = $data['pid'];
-            $p_info = $this->where(array('userid' => $pid))->field('pid,gid,path,deep,is_share')->find();
-
-            if ($p_info['is_share'] == 0) {
-                throw new Exception('该推荐人没有推荐权限');
+            $pid = $data['pid'] = $user_id;
+            $p_info = M('user')->where(array('userid' => $pid))->field('pid,gid,path,deep,level')->find();
+            if (empty($p_info)) {
+                throw new Exception('推荐人不存在');
+            }
+            if ($p_info['level'] < Constants::USER_LEVEL_A_ONE) {
+                throw new Exception('推荐人必须是总代或总代以上才能注册');
             }
 
             $gid = $p_info['pid'];//上上级ID
@@ -700,11 +522,9 @@ class UserModel extends \Common\Model\UserModel
             $data['junction_path'] = '';
             $data['activation_time'] = 0;
             $data['get_touch_layer'] = '';
-            $data['quanxian'] = 4;
-            $data['level'] = Constants::USER_LEVEL_NOT_ACTIVATE;
-            $data['two_thousand_multiple_ratio'] = self::two_thousand_multiple_ratio;
-            $data['five_thousand_multiple_ratio'] = self::five_thousand_multiple_ratio;
-            $data['multiple_ratio'] = self::multiple_ratio;
+            $data['level'] = $productInfo['level'];
+            $data['activate'] = 1;
+            $data['activation_time'] = time();
             $data['is_share'] = 1;
             $uid = $this->add($data);
             if (!$uid) {
@@ -730,9 +550,28 @@ class UserModel extends \Common\Model\UserModel
                 throw new Exception('创建用户钱包失败');
             }
 
-            //赠送流动资产
-            $reg_send_flow = D('Config')->getValue('reg_send_flow');
-            StoreRecordModel::addRecord($pid, 'current_assets', $reg_send_flow, Constants::STORE_TYPE_CURRENT_ASSETS, 4, $uid);
+            $user_id = session('userid');
+            $storeInfo = M('store')->where(['uid' => $user_id])->field('cangku_num,cloud_library')->find();
+            if ($productInfo['activate_buy_num'] > $storeInfo['cloud_library']) {
+                throw new Exception('您的云库不足');
+            }
+            //扣除用户的云库数量
+            StoreRecordModel::addRecord($user_id, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 0, $this->user_id);
+
+            $arrayPath = array_reverse(getArray($data['path']));
+            //增加业绩
+            $this->achievement($arrayPath, $productInfo['activate_buy_num']);
+            //推荐奖
+            $this->recommendAward($user_id, $productInfo['activate_buy_num']);
+            //用户升级
+            $this->upgradeUserLevel($arrayPath);
+            //股东分红和股东收益
+            $this->shareholderBonus($arrayPath, $productInfo['activate_buy_num'], $address);
+            if (empty($address)) {//云库
+                StoreRecordModel::addRecord($this->user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
+            } else {//邮寄，创建订单
+                $this->createOrder($productInfo, $address);
+            }
 
             M()->commit();
             return true;
@@ -742,6 +581,274 @@ class UserModel extends \Common\Model\UserModel
             return false;
         }
     }
+
+    /**
+     * 验证
+     * @return array
+     * @throws Exception
+     */
+    private function validateAddData()
+    {
+        $product_id = intval(I('product_id'));
+        if ($product_id == -1) {
+            throw new Exception('请选择级别');
+        }
+
+        $productInfo = M('product_detail')->where(['id' => $product_id])->field('id,level,price,activate_buy_num,name,pic')->find();
+        if (empty($productInfo)) {
+            throw new Exception('您选择的级别不存在');
+        }
+
+        $delivery_type = I('delivery_type', 1);
+        if ($delivery_type == -1) {
+            throw new Exception('请选择货运方式');
+        }
+        $address = [];
+        if ($delivery_type == 2) {
+            $address = I('address');
+            if (empty($address['name'])) {
+                throw new Exception('请输入收货人姓名');
+            }
+            if (empty($address['telephone'])) {
+                throw new Exception('请输入收货人手机号');
+            }
+            if (!isMobile($address['telephone'])) {
+                throw new Exception('收货人手机号有误');
+            }
+
+            if ($address['province_id'] == '' || $address['province_id'] == '--请选择省份--') {
+                throw new Exception('请选择省份');
+            }
+
+            if ($address['city_id'] == '' || $address['city_id'] == '--请选择市--') {
+                throw new Exception('请选择市');
+            }
+
+            if ($address['country_id'] == '' || $address['country_id'] == '--请选择区--') {
+                throw new Exception('请选择区');
+            }
+            if (empty($address['address'])) {
+                throw new Exception('请输入详细地址');
+            }
+        }
+
+        return [$productInfo, $address];
+    }
+
+    /**
+     * 邮寄，创建订单
+     * @param $productInfo
+     * @param $address
+     * @throws Exception
+     */
+    private function createOrder($productInfo, $address)
+    {
+        //创建收货地址
+        $address['member_id'] = $this->user_id;
+        $res = M('address')->add($address);
+        if (!$res) {
+            throw new Exception('创建收货地址失败');
+        }
+
+        //创建订单
+        $order = array();
+        $order_no = "M" . date("YmdHis") . rand(100000, 999999);
+        $order['order_no'] = $order_no;
+        $order['uid'] = $this->user_id;
+        $order['buy_price'] = $productInfo['price'];
+        $order['buy_name'] = $address['name'];
+        $order['buy_phone'] = $address['telephone'];
+        $order['buy_address'] = $address['province_id'] . $address['city_id'] . $address['country_id'] . $address['address'];
+        $order['status'] = 1;
+        $order['time'] = time();
+        $order_id = M("order")->add($order);
+
+        if (!$order_id) {
+            throw new Exception('订单创建失败');
+        }
+
+        //添加订单明细
+        $detail = array();
+        $detail["order_id"] = $order_id;
+        $detail["com_id"] = $productInfo['id'];
+        $detail["com_name"] = $productInfo['name'];
+        $detail["com_price"] = $productInfo['price'];
+        $detail["com_num"] = 1;
+        $detail["com_img"] = $productInfo['pic'];
+        $detail["uid"] = $this->user_id;
+        $res = M("order_detail")->add($detail);
+        if (!$res) {
+            throw new Exception('订单明细创建失败');
+        }
+    }
+
+    /**
+     * 增加上级的业绩和销量
+     * @param $arrPath
+     * @param $activate_buy_num
+     * @throws Exception
+     */
+    private function achievement($arrPath, $activate_buy_num)
+    {
+        $level = M('user')->where(['userid' => $arrPath[0]])->getField('level');
+        if ($level == Constants::USER_LEVEL_A_FOUR) {
+            $level = Constants::USER_LEVEL_A_THREE;
+        }
+
+        $price = M('product_detail')->where(['level' => $level])->getField('price');
+        $total_amount = $activate_buy_num * $price; //业绩
+
+        foreach ($arrPath as $pid) {
+            $update['total_amount'] = array('exp', 'total_amount + ' . $total_amount);
+            $update['total_num'] = array('exp', 'total_num + ' . $activate_buy_num);
+            $update['month_num'] = array('exp', 'month_num + ' . $activate_buy_num);
+            $res = M('store')->where(['uid' => $pid])->save($update);
+            if (!$res) {
+                throw new Exception('业绩新增失败');
+            }
+        }
+    }
+
+    /**
+     * 推荐奖
+     * @param $user_id
+     * @param $activate_buy_num
+     * @throws Exception
+     */
+    private function recommendAward($user_id, $activate_buy_num)
+    {
+        $awardMoney = self::one_box_money * $activate_buy_num;
+        //推荐人获得
+        StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
+        $pid_info = M('user')->where(['pid' => $user_id])->field('level')->find();
+        if ($pid_info && $pid_info['level'] >= Constants::USER_LEVEL_A_THREE) {
+            //上上级获得间推奖
+            StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 6, 1, $this->user_id);
+        }
+    }
+
+    /**
+     * 股东分红和股东收益
+     * @param $path
+     * @param $activate_buy_num
+     * @param $address
+     * @throws Exception
+     */
+    private function shareholderBonus($path, $activate_buy_num, $address)
+    {
+        $bonus = self::shareholder_bonus * $activate_buy_num;//分红
+        $profit = self::shareholder_profit * $activate_buy_num;//收益
+        foreach ($path as $pid) {
+            $level = M('user')->where(['userid' => $pid])->getField('level');
+            if ($level == Constants::USER_LEVEL_A_FOUR) {
+                //股东分红
+                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, $this->user_id);
+                //股东收益
+                $verify_list = M('verify_list')->where(['uid' => $pid, 'status' => Constants::YesNo_Yes])->field('province_id,city_id')->find();
+                if ($address && $verify_list && ($verify_list['province_id'] == $address['province_id']) && ($verify_list['city_id'] == $address['city_id'])) {
+                    StoreModel::changStore($pid, 'cangku_num', $profit, 10, $this->user_id);
+                }
+            }
+        }
+    }
+
+    /**
+     * 用户升级
+     * @param $path
+     * @throws Exception
+     */
+    private function upgradeUserLevel($path)
+    {
+        foreach ($path as $pid) {
+            $old_level = M('user')->where(['userid' => $pid])->getField('level');
+            if ($this->shareholderLevel($pid)) {
+                $level = Constants::USER_LEVEL_A_FOUR;
+            } elseif ($this->branchOfficeLevel($pid)) {
+                $level = Constants::USER_LEVEL_A_THREE;
+            } elseif ($this->directorLevel($pid)) {
+                $level = Constants::USER_LEVEL_A_TWO;
+            } else {
+                $level = $old_level;
+            }
+
+            if ($level > $old_level) {
+                $res = M('user')->where(['userid' => $pid])->save(['level' => $level]);
+                if ($res === false) {
+                    throw new Exception('用户升级失败');
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 判断用户是否达到董事级别
+     * @param $uid
+     * @return bool
+     * @author ldz
+     * @time 2020/4/23 20:52
+     */
+    private function directorLevel($uid)
+    {
+        $num = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_ONE])->count();
+        if (count($num) < 6) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 判断用户是否达到分公司级别
+     * @param $uid
+     * @return bool
+     * @author ldz
+     * @time 2020/4/23 20:52
+     */
+    private function branchOfficeLevel($uid)
+    {
+        $num = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_TWO])->count();
+        if (count($num) < 4) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 判断用户是否达到股东级别
+     * @param $uid
+     * @return bool
+     */
+    private function shareholderLevel($uid)
+    {
+        $arrID = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_THREE])->getField('userid');
+        if (count($arrID) < 3) {
+            return false;
+        }
+
+        $arrData = [];
+        foreach ($arrID as $pid) {
+            $arrData[] = [
+                'uid' => $pid,
+                'month_num' => M('store')->where(['uid' => $pid])->getField('month_num')
+            ];
+        }
+        $arrData = arraySort($arrData, 'month_num');//按月销量从大到小排序
+
+        if ($arrData[0]['month_num'] < 3450) {
+            return false;
+        }
+        array_shift($arrData);//移除最大
+        $sum = array_sum(array_column($arrData, 'month_num'));
+        if ($sum < 3450) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * 激活二维码

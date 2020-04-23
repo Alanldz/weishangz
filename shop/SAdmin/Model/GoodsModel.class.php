@@ -98,21 +98,22 @@ class GoodsModel extends Model
      */
     public static function show_goods_page($search)
     {
-        $sql = 'SELECT pd.id,pd.type_id,pd.name,pd.price,pd.ecological_total_assets,pd.pic,pd.status,pd.shangjia,pd.stock,pd.ctime,pc.id as cid,pc.name as cname FROM ' . C('DB_PREFIX') . 'product_detail pd,'
-            . C('DB_PREFIX') . 'product_cate pc WHERE pd.type_id=pc.id';
+//        $sql = 'SELECT pd.id,pd.type_id,pd.name,pd.price,pd.level,pd.activate_buy_num,pd.ecological_total_assets,pd.pic,pd.status,pd.shangjia,pd.stock,pd.ctime,pc.id as cid,pc.name as cname FROM ' . C('DB_PREFIX') . 'product_detail pd,'
+//            . C('DB_PREFIX') . 'product_cate pc WHERE pd.type_id=pc.id';
+        $sql = 'SELECT pd.id,pd.name,pd.price,pd.level,pd.activate_buy_num,pd.ctime FROM ' . C('DB_PREFIX') . 'product_detail pd';
 
-        if (isset($search['name'])) {
-            $sql .= " and pd.name like '%" . $search['name'] . "%'";
-        }
-        if (isset($search['category'])) {
-            $sql .= " and pc.id=" . $search['category'];
-        }
-        if (isset($search['status'])) {
-            $sql .= " and pd.status=" . $search['status'];
-        }
-        if (isset($search['shop_type'])) {
-            $sql .= " and pd.shop_type=" . $search['shop_type'];
-        }
+//        if (isset($search['name'])) {
+//            $sql .= " and pd.name like '%" . $search['name'] . "%'";
+//        }
+//        if (isset($search['category'])) {
+//            $sql .= " and pc.id=" . $search['category'];
+//        }
+//        if (isset($search['status'])) {
+//            $sql .= " and pd.status=" . $search['status'];
+//        }
+//        if (isset($search['shop_type'])) {
+//            $sql .= " and pd.shop_type=" . $search['shop_type'];
+//        }
 
         $count = count(M()->query($sql));
         $Page = new \Think\Page($count, C('BACK_PAGE_NUM'));
@@ -121,10 +122,10 @@ class GoodsModel extends Model
         $sql .= ' order by pd.status desc,pd.ctime desc LIMIT ' . $Page->firstRow . ',' . $Page->listRows;
 
         $list = M()->query($sql);
-        foreach ($list as $key => $value) {
-            $list[$key]['status_name'] = Constants::getYesNoItems($value['status']);
-            $list[$key]['time'] = toDate($value['ctime']);
-        }
+//        foreach ($list as $key => $value) {
+//            $list[$key]['status_name'] = Constants::getYesNoItems($value['status']);
+//            $list[$key]['time'] = toDate($value['ctime']);
+//        }
 
         return array(
             'empty' => '<tr><td colspan="20" style="text-align: center">~~暂无商品</td></tr>',
@@ -247,7 +248,7 @@ class GoodsModel extends Model
     }
 
     /**
-     * 新增或编辑消费区商品
+     * 新增或编辑仓库区商品
      * @return array
      */
     public function edit_Goods()
@@ -261,26 +262,14 @@ class GoodsModel extends Model
             $goods['id'] = $data['id'];
         } else {
             $goods['ctime'] = time();
-            $goods['shop_type'] = Constants::SHOP_TYPE_BAO_DAN;
         }
 
         $goods['id'] = $data['id'];
         $goods['name'] = $data['name'];
-        $goods['type_id'] = $data['category'];
         $goods['price'] = $data['price'];
-        $goods['ecological_total_assets'] = $data['ecological_total_assets'];
-        $business_id = M('user')->where(['mobile' => $data['business_phone']])->getField('userid');
-        $goods['shangjia'] = $business_id;
-        $goods['pic'] = $data['pic'];
-        $goods['pic1'] = $data['pic1'];
-        $goods['pic2'] = $data['pic2'];
-        $goods['pic3'] = $data['pic3'];
-        $goods['pic4'] = $data['pic4'];
-        $goods['pic5'] = $data['pic5'];
-        $goods['is_sort'] = $data['is_sort'];
-        $goods['stock'] = $data['stock'];
-        $goods['content'] = $data['content'];
-        $goods['status'] = $data['status'];
+        $goods['activate_buy_num'] = $data['activate_buy_num'];
+
+        $goods['status'] = 1;
         if ($goods['id']) {
             $res = M('product_detail')->save($goods);
             $operation = '修改';
@@ -480,40 +469,38 @@ class GoodsModel extends Model
     }
 
     /**
-     * 消费区和再生商城字段验证
+     * 仓库区字段验证
      * @param $data
      * @return array
      */
     private function bao_dan_validate($data)
     {
-        $error = $this->validate($data);
-        if ($error) {
+        $error = array('status' => 'back');
+        if (empty($data['name'])) {
+            $error['message'] = '商品名称必填';
             return $error;
         }
-
-        $error = array('status' => 'back');
         if (empty($data['price'])) {
-            $error['message'] = '消费通证必填';
+            $error['message'] = '价格必填';
             return $error;
         }
         if ($data['price'] <= 0) {
-            $error['message'] = '消费通证必须大于零';
+            $error['message'] = '价格必须大于零';
             return $error;
         }
 
-        if (empty($data['ecological_total_assets'])) {
-            $error['message'] = '可用余额不能为空';
-            return $error;
-        }
-        if ($data['ecological_total_assets'] <= 0) {
-            $error['message'] = '可用余额不能小于零';
+        if ($data['price'] <= 0) {
+            $error['message'] = '价格必须大于零';
             return $error;
         }
 
-        $total_money = $data['price'] + $data['ecological_total_assets'];
-        $array_money = [2000, 5000, 10000];
-        if (!in_array($total_money, $array_money)) {
-            $error['message'] = '总金额必须等于</br>2000或者5000或者10000';
+        if (empty($data['activate_buy_num'])) {
+            $error['message'] = '激活起订盒数必填';
+            return $error;
+        }
+
+        if ($data['activate_buy_num'] <= 0) {
+            $error['message'] = '激活起订盒数必须大于零';
             return $error;
         }
 

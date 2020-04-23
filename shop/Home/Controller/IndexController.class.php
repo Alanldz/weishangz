@@ -3,7 +3,6 @@
 namespace Home\Controller;
 
 use Common\Model\DealsRecordModel;
-use Common\Model\UcoinsModel;
 use Common\Util\Constants;
 use Home\Model\StoreRecordModel;
 
@@ -14,18 +13,14 @@ class IndexController extends CommonController
      */
     public function index()
     {
+        $where = [];
         $user_id = session('userid');
-        $uinfo = M('user')->where($where)->field('userid,user_credit,quanxian,level,activation_time')->find();
+        $userInfo = M('user')->where($where)->field('userid,username,mobile,level,reg_date')->find();
 
-
-
-        $storeInfo = M('store')->where(['uid' => $user_id])->find();
-        $storeInfo['pass_card_amount'] = UcoinsModel::getAmount($user_id);//生态通证数量
-        $coin_price = UcoinsModel::getCoinPrice(); //生态通证当前价格
-
+        $storeInfo = M('store')->field('cangku_num,cloud_library')->where(['uid' => $user_id])->find();
         $this->assign([
+            'userInfo' => $userInfo,
             'storeInfo' => $storeInfo,
-            'coin_price' => $coin_price
         ]);
         $this->display();
     }
@@ -768,53 +763,17 @@ class IndexController extends CommonController
 
             $remark = $v['remark'] ? '(' . $v['remark'] . ')' : '';
             switch ($v['get_type']) {
-                case '0':
-                    $Chan_info[$k]['type_name'] = '资产卖出';
-                    break;
                 case '2':
                     $Chan_info[$k]['type_name'] = '平台操作';
                     break;
                 case '4':
-                    $Chan_info[$k]['type_name'] = '资产买入';
+                    $Chan_info[$k]['type_name'] = '推荐奖' . $remark;
                     break;
                 case '6':
-                    $Chan_info[$k]['type_name'] = '激活二维码' . $remark;
+                    $Chan_info[$k]['type_name'] = '间推奖' . $remark;
                     break;
                 case '8':
-                    $Chan_info[$k]['type_name'] = '流动宝箱' . $remark;
-                    break;
-                case 10:
-                    $Chan_info[$k]['type_name'] = '兑换';
-                    break;
-                case 12:
-                    $Chan_info[$k]['type_name'] = '转账' . $remark;
-                    break;
-                case 14:
-                    $Chan_info[$k]['type_name'] = '兑换资产';
-                    break;
-                case 16:
-                    $Chan_info[$k]['type_name'] = '购物';
-                    break;
-                case 18:
-                    $Chan_info[$k]['type_name'] = '提现';
-                    break;
-                case 20:
-                    $Chan_info[$k]['type_name'] = '提现失败';
-                    break;
-                case 22:
-                    $Chan_info[$k]['type_name'] = '分享宝箱';
-                    break;
-                case 24:
-                    $Chan_info[$k]['type_name'] = '绩效宝箱';
-                    break;
-                case 26:
-                    $Chan_info[$k]['type_name'] = '感恩宝箱';
-                    break;
-                case 28:
-                    $Chan_info[$k]['type_name'] = '回馈宝箱';
-                    break;
-                case 30:
-                    $Chan_info[$k]['type_name'] = '实体消费' . $remark;
+                    $Chan_info[$k]['type_name'] = '股东分红' . $remark;
                     break;
                 default:
                     $Chan_info[$k]['type_name'] = '';
@@ -1001,7 +960,7 @@ class IndexController extends CommonController
                 ajaxReturn('暂无记录', 0);
             }
         }
-        $this->assign('today_sign_num',today_sign_num($uid));
+        $this->assign('today_sign_num', today_sign_num($uid));
         $this->assign('record_list', $record_list);
         $this->display();
     }

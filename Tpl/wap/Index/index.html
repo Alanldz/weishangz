@@ -117,9 +117,9 @@
                                 </a>
                             </div>
                             <div class="im-item">
-                                <a href="{:U('Index/storeRecord',array('store_type'=>8))}">
+                                <a href="{:U('Index/storeRecord',array('store_type'=>10))}">
                                     <img src="__HOME__/img/indexmain2.png" alt="">
-                                    <p><span>云库</span><span id="MoneyJy"> {$storeInfo.product_integral}</span></p>
+                                    <p><span>云库</span><span id="MoneyJy"> {$storeInfo.cloud_library}</span></p>
                                 </a>
                             </div>
 
@@ -129,13 +129,9 @@
                             <php>$quanxian=explode("-",$uinfo['quanxian']);</php>
 
                             <div class="im-item-s">
-                                <if condition="in_array(2,$quanxian)">
-                                    <a href="###"   class="quanxian">
-                                        <else/>
-                                        <a href="{:U('Login/register')}?mobile={$v.mobile}">
-                                </if>
-                                <img src="__HOME__/img/indexlist1.png" alt="">
-                                <p>注册会员</p>
+                                <a href="{:U('Home/Login/register')}">
+                                    <img src="__HOME__/img/indexlist1.png" alt="">
+                                    <p>注册会员</p>
                                 </a>
                             </div>
                             <div class="im-item-s">

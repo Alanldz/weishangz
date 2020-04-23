@@ -25,6 +25,9 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
             ->field('amount,type,remark,create_time')->order('id desc')->select();
 
         switch ($where['store_type']) {
+            case Constants::STORE_TYPE_CLOUD_LIBRARY : //云库
+                $list = self::getCloudLibraryItems($list);
+                break;
             case Constants::STORE_TYPE_MERITS_REWARD : //绩效奖（百宝箱）
                 $list = self::getMeritsRewardItems($list);
                 break;
@@ -325,6 +328,31 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
                     break;
                 case 1:
                     $list[$k]['type_name'] = '提现';
+                    break;
+                default :
+                    $list[$k]['type_name'] = '';
+                    break;
+            }
+        }
+        return $list;
+    }
+
+    /**
+     * 获取云库类型
+     * @param $list
+     * @return mixed
+     */
+    public static function getCloudLibraryItems($list)
+    {
+        foreach ($list as $k => $v) {
+            $list[$k]['create_time'] = toDate($v['create_time']);
+            $remark = $v['remark'] ? '(' . $v['remark'] . ')' : '';
+            switch ($v['type']) {
+                case 0:
+                    $list[$k]['type_name'] = '激活' . $remark;
+                    break;
+                case 1:
+                    $list[$k]['type_name'] = '注册';
                     break;
                 default :
                     $list[$k]['type_name'] = '';

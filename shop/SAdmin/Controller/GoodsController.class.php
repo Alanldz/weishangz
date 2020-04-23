@@ -18,38 +18,38 @@ class GoodsController extends CommonController
     }
 
     /**
-     * 消费区商品列表
+     * 仓库区商品列表
      * @throws \Think\Exception
      * @author ldz
      * @time 2020/2/21 10:33
      */
     public function index()
     {
-        $filter = I('get.');
-        $search = array('shop_type' => Constants::SHOP_TYPE_BAO_DAN);
-        if (isset($filter['name'])) {
-            $search['name'] = trim($filter['name']);
-        }
-        if (isset($filter['category'])) {
-            $search['category'] = $filter['category'];
-            $this->assign('get_category', $search['category']);
-        }
-        if (isset($filter['status'])) {
-            $search['status'] = $filter['status'];
-            $this->assign('get_status', $search['status']);
-        }
-
+//        $filter = I('get.');
+//        $search = array('shop_type' => Constants::SHOP_TYPE_BAO_DAN);
+//        if (isset($filter['name'])) {
+//            $search['name'] = trim($filter['name']);
+//        }
+//        if (isset($filter['category'])) {
+//            $search['category'] = $filter['category'];
+//            $this->assign('get_category', $search['category']);
+//        }
+//        if (isset($filter['status'])) {
+//            $search['status'] = $filter['status'];
+//            $this->assign('get_status', $search['status']);
+//        }
+        $search = [];
         $data = GoodsModel::show_goods_page($search);
         $this->assign('empty', $data['empty']);// 赋值数据集
         $this->assign('list', $data['list']);  // 赋值数据集
         $this->assign('page', $data['page']);  // 赋值分页输出
-        $this->assign('breadcrumb2', '消费区');
+        $this->assign('breadcrumb2', '仓库区');
         $this->assign('category', GoodsModel::getGoodsCategoryByShopType());
         $this->display();
     }
 
     /**
-     * 消费区商品编辑
+     * 仓库区商品编辑
      * @author ldz
      * @time 2020/2/21 13:47
      */
@@ -65,11 +65,11 @@ class GoodsController extends CommonController
         $crumbs = $product_id ? '编辑' : '新增';
         $goodsInfo = $product_id ? M("product_detail")->where(array("id" => $product_id))->find() : [];
 
-        $this->assign("breadcrumb2", '消费区');
+        $this->assign("breadcrumb2", '仓库区');
         $this->assign("crumbs", $crumbs);
         $this->assign("id", $product_id);
         $this->assign("goods", $goodsInfo);
-        $this->assign("category", GoodsModel::getGoodsCategoryByShopType());
+//        $this->assign("category", GoodsModel::getGoodsCategoryByShopType());
         $this->display();
     }
 

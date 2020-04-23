@@ -42,8 +42,6 @@ class Constants
     const USER_LEVEL_A_TWO = 3;
     const USER_LEVEL_A_THREE = 4;
     const USER_LEVEL_A_FOUR = 5;
-    const USER_LEVEL_A_FIVE = 6;
-    const USER_LEVEL_A_SIX = 7;
 
     /**
      * 用户等级
@@ -55,13 +53,11 @@ class Constants
     {
         $items = array(
             self::USER_LEVEL_NOT_ACTIVATE => '未激活',
-            self::USER_LEVEL_ACTIVATE => '已激活',
-            self::USER_LEVEL_A_ONE => 'A1',
-            self::USER_LEVEL_A_TWO => 'A2',
-            self::USER_LEVEL_A_THREE => 'A3',
-            self::USER_LEVEL_A_FOUR => 'A4',
-            self::USER_LEVEL_A_FIVE => 'A5',
-            self::USER_LEVEL_A_SIX => 'A6',
+            self::USER_LEVEL_ACTIVATE => '分销',
+            self::USER_LEVEL_A_ONE => '总代',
+            self::USER_LEVEL_A_TWO => '董事',
+            self::USER_LEVEL_A_THREE => '分公司',
+            self::USER_LEVEL_A_FOUR => '股东',
         );
         return self::getItems($items, $key);
     }
@@ -169,6 +165,7 @@ class Constants
     const STORE_TYPE_CURRENT_ASSETS = 7;
     const STORE_TYPE_PRODUCT_INTEGRAL = 8;
     const STORE_TYPE_TURNOVER = 9;
+    const STORE_TYPE_CLOUD_LIBRARY = 10;
 
     /**
      * 钱包类型
@@ -186,8 +183,9 @@ class Constants
             self::STORE_TYPE_FEEDBACK => '回馈',
             self::STORE_TYPE_CAN_FLOW => '可用流动通证',
             self::STORE_TYPE_CURRENT_ASSETS => '流动资产',
-            self::STORE_TYPE_PRODUCT_INTEGRAL => '我的仓库',
+            self::STORE_TYPE_PRODUCT_INTEGRAL => '产品积分',
             self::STORE_TYPE_TURNOVER => '营业款账户',
+            self::STORE_TYPE_CLOUD_LIBRARY => '我的仓库',
         );
         return self::getItems($items, $key);
     }

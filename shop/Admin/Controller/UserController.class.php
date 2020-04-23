@@ -251,7 +251,7 @@ class UserController extends AdminController
         if ($login_id) {
             session('in_time', time());
             session('login_from_admin', 'admin', 10800);
-            $this->redirect('Shop/Index/index');
+            $this->redirect('Home/Index/index');
         } else {
             $this->error('登录失败', U('Home/Login/login'));
         }

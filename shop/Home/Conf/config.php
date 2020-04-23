@@ -23,6 +23,8 @@ return array(
         '__IMGJS__'        => __ROOT__ . '/Public/home/wap/jsa',
 
         '__LAYERUI__'       => __ROOT__ . '/Public/home/wap/layui',
+
+        '__PUBLIC__'     => __ROOT__ . '/Public/Public',
     ),
 
     'TMPL_ACTION_ERROR'     =>  "Common/404",
