@@ -15,45 +15,41 @@
 <header class="text-center"><a href="{:U('user/found')}" class="go-back"></a>激活账户</header>
 <div class="back"></div>
 <div class="container">
+    <div class="select-box lind-sm">
+        <div class="select-left">当前账户：</div>
+        <div class="ye-right user-ep">林先生</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">手机号：</div>
+        <div class="ye-right user-ep">1333333333</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">当前级别：</div>
+        <div class="ye-right user-ep">分销</div>
+    </div>
+    <div class="lind"></div>
+
     <div class="select-box">
-        <div class="select-left">选择激活方式：</div>
+        <div class="select-left">选择升级级别：</div>
         <select class="form-control" name="type" id="type">
-            <option value="1">EP激活</option>
-            <option value="3">EF激活</option>
-            <option value="2">激活卡激活</option>
+            <option value="1">选择升级的级别</option>
+            <option value="1">分公司</option>
+            <option value="3">董事</option>
+            <option value="2">总代</option>
         </select>
     </div>
     <div class="lind"></div>
-    <div class="select-box">
-        <div class="select-left select-left-sm">激活账户：</div>
-        <input type="text" name="user_id" id="user_id" class="form-control input-border" placeholder="UID"/>
-    </div>
-    <div class="select-box">
-        <div class="select-left select-left-sm">账户姓名：</div>
-        <input type="text" name="username" class="form-control input-border" readonly/>
-    </div>
-    <div class="select-box select-price">
-        <div class="select-left select-left-sm">所需EP：</div>
-        <div class="input-txt"><span class="investment_price">0</span>$（目前账户EP余额<span class="cangku_num">{$store['cangku_num']|Showtwo}</span>$)
-        </div>
-    </div>
-    <div class="select-box select-ef" style="display: none">
-        <div class="select-left select-left-sm">所需EF：</div>
-        <div class="input-txt"><span class="ef_price">0</span>$（目前账户EF余额<span class="complex_integral">{$store['complex_integral']|Showtwo}</span>$)
-        </div>
-    </div>
-    <div class="select-box select-card" style="display: none">
-        <div class="select-left select-left-sm">选择激活卡：</div>
-        <select class="form-control input-border sel-card">
-            <!--<option>djkfjklejkfjekfjkefjkjj(激活一星)</option>-->
-        </select>
-    </div>
+
     <div class="select-box">
         <div class="select-left select-left-sm">交易密码：</div>
         <input type="password" name="trade_pwd" class="form-control input-border"/>
     </div>
     <div class="text-center">
-        <button type="button" class="btn btn-jh">提交激活</button>
+        <button type="button" class="btn btn-jh">提交申请</button>
     </div>
 </div>
 </body>

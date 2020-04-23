@@ -24,25 +24,54 @@
 <div class="back"></div>
 <div class="container">
     <div class="select-box lind-sm">
-        <div class="select-left">EP余额：</div>
-        <div class="ye-right user-ep">{$store['cangku_num']|Showtwo}</div>
+        <div class="select-left">向上级进货：</div>
+        <div class="ye-right user-ep">林先生（推荐人姓名）</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">进货数量：</div>
+        <div class="ye-right user-ep">输入盒数</div>
     </div>
     <div class="lind"></div>
     <div class="select-box">
-        <div class="select-left">选择生成级别：</div>
-        <select class="form-control form-control-color level" name="level">
-            <option value="1">一星（100）</option>
-            <option value="2">二星（300）</option>
-            <option value="3">三星（500）</option>
-            <option value="4">四星（1000）</option>
+        <div class="select-left">支付方式：</div>
+        <select  class="form-control">
+            <option  >线下支付</option>
+            <option  >余额支付</option>
         </select>
     </div>
     <div class="lind"></div>
+
     <div class="select-box lind-sm">
-        <div class="select-left">消耗EP：</div>
-        <div class="ye-right expend-ep">100.00</div>
+        <div class="select-left">余额：</div>
+        <div class="ye-right user-ep">{$store['cangku_num']|Showtwo}</div>
     </div>
     <div class="lind"></div>
+
+
+    <div class="select-box lind-sm">
+        <div class="select-left">支付金额：</div>
+        <div class="ye-right user-ep">400元</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box">
+        <div class="select-left">货物方式：</div>
+        <select class="form-control" >
+            <option  >入云库</option>
+            <option  >邮寄</option>
+        </select>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">邮寄地址：</div>
+        <div class="ye-right user-ep">显示地址</div>
+    </div>
+    <div class="lind"></div>
+
+
     <div class="select-box lind-sm">
         <div class="select-left">交易密码：</div>
         <div class="ye-right">

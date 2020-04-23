@@ -23,27 +23,20 @@
 <body id="huise">
 <div class="fxm_header" style="background:#2a38e9">
     <div class="fxm_left"><a href="{:U('member/mine')}"><img src="__RZCSS__/left.png"></a></div>
-    <div class="fxm_center">认证中心</div>
+    <div class="fxm_center">申请E城E店</div>
     <!--<div class="fxm_right"><img src="/Public/home/wap/images/zf.png"></div>-->
 </div>
 <div class="top_top"></div>
 
 <form action="" method="post" enctype="multipart/form-data" id="msg">
     <div class="shezhi qyrz3 smrz">
-        <ul class="renzheng_style">
-            <li>
-                <input name="type" <if condition="$verifyInfo.type neq 1">checked="checked"</if> type="radio" value="2" onclick="test(this)"/><span style="color: red">线上商家</span>
-            </li>
-            <li>
-                <input name="type"  value="1" <if condition="$verifyInfo.type eq 1">checked="checked"</if> type="radio" onclick="test(this)"/><span style="color: red">实体商家</span>
-            </li>
-        </ul>
+
         <input type="hidden" name="id" value="{$verifyInfo.id}">
         <input type="text" class="abc" name="real_name" value="{$verifyInfo.realname}" placeholder="姓名"/>
         <input type="number" class="abc" name="phone" value="{$verifyInfo.phone}" placeholder="手机号"/>
         <input type="text" class="abc" name="id_card" value="{$verifyInfo.idcard}" placeholder="身份证号"/>
         <input type="text" class="abc" name="store_name" value="{$verifyInfo.store_name}" placeholder="店铺名称"/>
-        <div class="divstyle2">
+        <div  >
             <p class="abc">省份：
                 <select id="province" name="province" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
                     <option value="" selected="selected">--请选择省份--</option>
@@ -64,7 +57,7 @@
             <input type="hidden" class="country_id" value="{$verifyInfo['country_id']}">
         </div>
 
-        <input type="text" class="abc" name="shore_address" value="{$verifyInfo.shore_address}" placeholder="店铺地址"/>
+        <input type="text" class="abc" name="shore_address" value="{$verifyInfo.shore_address}" placeholder="地址"/>
 
         <div class="upload">
             <div id="preview4">
@@ -77,42 +70,19 @@
             <input type="file" onchange="previewImage4(this)" name="legal_person_hand_card" class="tijiao4">
             <span id="ckt"><img src="__RZCSS__/y03.jpg"></span>
         </div>
-        <div class="upload">
-            <div id="preview5">
-                <?php
-                        $business_license = $verifyInfo['licence'] ? $verifyInfo['licence'] : '__RZCSS__/y1.jpg';
-                    ?>
-                <img id="imghead5" width="100%" height="auto" border="0" src="{$business_license}">
-            </div>
-            <input type="file" onchange="previewImage5(this)" name="business_license" class="tijiao5">
-            <span id="ckt"><img src="__RZCSS__/y04.jpg"></span>
-        </div>
+
         <!--线上商家-->
-        <div class="divstyle1">
 
-        </div>
 
-        <!--实体商家-->
-        <div class="divstyle2">
-            <div class="upload">
-                <div id="preview2">
-                    <?php
-                       $store_phone = $verifyInfo['store_phone'] ? $verifyInfo['store_phone'] : '__RZCSS__/y5.png';
-                    ?>
-                    <img id="imghead2" width="100%" height="auto" border="0" src="{$store_phone}">
-                </div>
-                <input type="file" onchange="previewImage2(this)" name="store_phone" class="tijiao2">
-                <span id="ckt"><img src="__RZCSS__/y05.jpg"></span>
-            </div>
-        </div>
+
 
         <p class="certification_tips">
-            认证提交后，工作人员会再3个工作日完成审核，如有疑问，请联系客服&nbsp;
+            申请提交后，工作人员会再3个工作日完成审核，如有疑问，请联系客服&nbsp;
         </p>
         <p style="margin-top: 5%;">
             <input type="checkbox" name="vehicle" class="vehicle" value="Car" checked="checked" style="vertical-align: middle;">同意协议
             <a href="{:U('Member/verifyAgreement')}">
-                <i style="color: #f00">《认证协议》</i>
+                <i style="color: #f00">《申请协议》</i>
             </a>
         </p>
     </div>
@@ -229,7 +199,7 @@
         //判断是否选中
         var is_checked = $('.vehicle').is(':checked');
         if (!is_checked) {
-            msg_alert('请同意商城用户协议');
+            msg_alert('请同意申请协议');
             return;
         }
 

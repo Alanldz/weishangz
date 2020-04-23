@@ -53,15 +53,15 @@
 <header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>激活卡</header>
 <div class="back"></div>
 <ul class="jh-list">
-    <li><a href="{:U('activate/markCard')}"><span></span>制作激活卡</a></li>
+    <li><a href="{:U('activate/markCard')}"><span></span>我要进货</a></li>
 </ul>
 <ul class="jh-tabs clearfix">
     <li
     <eq name="step" value="0">class="active"</eq>
-    ><a href="{:U('Activate/activate_card',array('step'=>0))}">未使用</a></li>
+    ><a href="{:U('Activate/activate_card',array('step'=>0))}">未确认进货</a></li>
     <li
     <eq name="step" value="1">class="active"</eq>
-    ><a href="{:U('Activate/activate_card',array('step'=>1))}">已使用</a></li>
+    ><a href="{:U('Activate/activate_card',array('step'=>1))}">已确认进货</a></li>
 </ul>
 <!-- Tab panes -->
 <div class="tab-content">
@@ -70,23 +70,26 @@
             <if condition="$list">
             <foreach name="list" item="v">
                 <li>
-                    <div class="list-header">{$v['header_name']}</div>
+                    <div class="list-header">  时间:{$v['create_time']}</div>
                     <div class="ka-bottom">
-                        <p>{$v['activation_code']}</p>
+                        <p> 进货会员：姓名</p>
+                        <p>手机号：13333333333 </p>
+                        <p>产品：商品名称</p>
+                        <p>数量：8盒（进货数量）</p>
+                        <p>支付方式：线下付款/余额付款 </p>
 
-                        <div class="text-right">
-                           时间:{$v['create_time']}
+                        <div class="text-left">
+
                             <a role="button">
                                 <if condition="$v['status'] eq 0">
-                                    未使用
+                                    点击确认
                                     <else/>
-                                    已使用
+                                    已确认
                                 </if>
                             </a>
-                            <if condition="$v['status'] eq 0 && $v['is_giving']">
-                                <a href="{:U('Activate/giftActivationCard',['card_id'=>$v['id']])}">赠送</a>
-                            </if>
+
                         </div>
+                        (注意：如果线下支付，请收到款项后点击确认。)
                     </div>
                 </li>
             </foreach>
@@ -94,9 +97,9 @@
             <li>
                 <div style="text-align: center;color: #a99d9d">
                     <if condition="$step eq 0">
-                        暂无未使用的激活卡
+                        暂无未确认进货
                         <else/>
-                        暂无已使用的激活卡
+                        暂无已确认进货
                     </if>
                 </div>
             </li>
