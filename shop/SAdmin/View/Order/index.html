@@ -37,8 +37,7 @@
 						<th>订单号</th>
 						<th>总计</th>
 						<th>收货人</th>
-						<th>收货号码</th> 						
-						<th>商城类型</th>
+						<th>收货号码</th>
 						<th>状态</th>
 						<th>付款时间</th>
 						<th>下单时间</th>
@@ -51,30 +50,9 @@
 							<td>{$v.order_id}</td>
 							<td>{$v.uid}</td>
 							<td>{$v.order_no}</td>
-							<td>
-								<if condition="$v['status'] eq 0">
-									<if condition="$v['shop_type'] eq 1 or $v['shop_type'] eq 2">
-										消费通证：{$v.buy_price} + 可用余额：{$v.ecological_total_assets}
-										<else/>
-										可用余额：{$v.ecological_total_assets}
-									</if>
-									<else/>
-									<if condition="$v.pay_type eq 1">
-										消费通证：{$v.buy_price} + 可用余额：{$v.ecological_total_assets}
-										<elseif condition="$v.pay_type eq 2 or $v.pay_type eq 6"/>
-										可用余额：{$v.ecological_total_assets}
-										<elseif condition="$v.pay_type eq 3"/>
-										可用余额：{$v.ecological_total_assets} + 流动通证：{$v.flow_pass_card}
-										<elseif condition="$v.pay_type eq 4"/>
-										可用余额：{$v.ecological_total_assets} + 流动资产：{$v.flow_amount}
-										<elseif condition="$v.pay_type eq 5"/>
-										我的仓库：{$v.product_integral}
-									</if>
-								</if>
-							</td>
+							<td>{$v.buy_price}</td>
 							<td>{$v.buy_name}</td>
 							<td>{$v.buy_phone}</td>
-							<td>{$v['shop_type']|getShopTypeItems}</td>
 							<td>{$v['status']|getOrderStatusItems}</td>
 							<td>{$v['pay_time']|toDate}</td>
 							<td>{$v['time']|toDate}</td>

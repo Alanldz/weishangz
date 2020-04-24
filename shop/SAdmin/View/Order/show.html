@@ -52,27 +52,7 @@
                 </tr>
                 <tr>
                     <td>合计金额</td>
-                    <td>
-                        <if condition="$order['status'] eq 0">
-                            <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$order.buy_price} + 可用余额：{$order.ecological_total_assets}
-                                <else/>
-                                可用余额：{$order.ecological_total_assets}
-                            </if>
-                            <else/>
-                            <if condition="$order.pay_type eq 1">
-                                消费通证：{$order.buy_price} + 可用余额：{$order.ecological_total_assets}
-                                <elseif condition="$order.pay_type eq 2 or $order.pay_type eq 6"/>
-                                可用余额：{$order.ecological_total_assets}
-                                <elseif condition="$order.pay_type eq 3"/>
-                                可用余额：{$order.ecological_total_assets} + 流动通证：{$order.flow_pass_card}
-                                <elseif condition="$order.pay_type eq 4"/>
-                                可用余额：{$order.ecological_total_assets} + 流动资产：{$order.flow_amount}
-                                <elseif condition="$order.pay_type eq 5"/>
-                                我的仓库：{$order.product_integral}
-                            </if>
-                        </if>
-                    </td>
+                    <td>{$order.buy_price}</td>
                 </tr>
                 <tr>
                     <td>订单状态</td>
@@ -132,10 +112,10 @@
                 <thead>
                 <tr>
                     <td class="left">商品ID</td>
-                    <td class="left">店铺名称</td>
-                    <td class="left">商品图片</td>
+                    <!--<td class="left">店铺名称</td>-->
+                    <!--<td class="left">商品图片</td>-->
                     <td class="left">商品名</td>
-                    <td class="left">所属类别</td>
+                    <!--<td class="left">所属类别</td>-->
                     <!--<td class="left">参数</td>-->
                     <td class="left">单价</td>
                     <td class="right">数量</td>
@@ -149,7 +129,7 @@
                 ?>
                     <tr>
                         <td class="left">{$product['com_id']}</td>
-                        <td class="left">
+                  <!--      <td class="left">
                             <neq name="product['shangjia']" value="0">
 
                                 <?php
@@ -162,48 +142,20 @@
                                 <else />
                                 系统订单
                             </neq>
-                        </td>
-                        <td class="left"><img src="{$product['com_img']}" width="50" height="50"/></td>
+                        </td>-->
+                        <!--<td class="left"><img src="{$product['com_img']}" width="50" height="50"/></td>-->
                         <td class="left">
                             <a href="{:U('Goods/edit',array('id'=>$product['goods_id']))}"></a>
                             <br/>
                             &nbsp;<small>{$product['com_name']}</small>
                         </td>
-                        <td class="left">
+                       <!-- <td class="left">
                             <?php echo M("product_cate")->where(array("id"=>$product['com_shoptype']))->getField("name"); ?>
-                        </td>
+                        </td>-->
                         <!--<td class="right">{$product['size']}+{$product['color']}</td>-->
-                        <td class="right">
-                            <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$product.com_price} + 可用余额：{$product.com_ecological_total_assets}
-                                <elseif condition="$order['shop_type'] eq 6"/>
-                                可用余额：{$product.com_ecological_total_assets}
-                                <else/>
-                                可用余额：{$product.com_ecological_total_assets}
-                                <br/>
-                                可用余额：{$product.com_ecological_total_assets_one} + 流动通证：{$product.com_flow_pass_card}
-                                <br/>
-                                可用余额：{$product.com_ecological_total_assets_two} + 流动资产：{$product.com_flow_amount}
-                                <br/>
-                                我的仓库：{$product.com_product_integral}
-                            </if>
-                        </td>
+                        <td class="right">{$product.com_price}</td>
                         <td class="right">{$product['com_num']}</td>
-                        <td class="right">
-                            <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                消费通证：{$product['com_price'] * $product['com_num']} + 可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
-                                <elseif condition="$order['shop_type'] eq 6"/>
-                                可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
-                            <else/>
-                                可用余额：{$product['com_ecological_total_assets'] * $product['com_num']}
-                                <br/>
-                                可用余额：{$product['com_ecological_total_assets_one'] * $product['com_num']} + 流动通证：{$product['com_flow_pass_card'] * $product['com_num']}
-                                <br/>
-                                可用余额：{$product['com_ecological_total_assets_two'] * $product['com_num']} + 流动资产：{$product['com_flow_amount'] * $product['com_num']}
-                                <br/>
-                                我的仓库：{$product['com_product_integral'] * $product['com_num']}
-                            </if>
-                        </td>
+                        <td class="right">{$product['com_price'] * $product['com_num']}</td>
                     </tr>
 
                 <?php } ?>

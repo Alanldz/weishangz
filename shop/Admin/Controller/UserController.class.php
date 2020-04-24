@@ -499,4 +499,55 @@ class UserController extends AdminController
         $this->display();
     }
 
+    /**
+     * 升级申请列表
+     */
+    public function levelApply()
+    {
+        $model = M('level_list ll');
+        // 搜索
+        $keyword = trim(I('keyword'));
+        if ($keyword) {
+            $map['u.mobile'] = ['like', '%' . $keyword . '%'];
+        }
+        $order_str = 'll.id desc';
+        //分页
+        $table = $model->join('ysk_user u on ll.uid = u.userid', 'left');
+        $p = getpage($table, $map, 15);
+        $page = $p->show();
+        $data_list = $table->field('u.userid,u.username,u.mobile,ll.*')->where($map)->order($order_str)->select();
+        foreach ($data_list as $k => $v) {
+            $data_list[$k]['time'] = toDate(strtotime($v['time']));
+            $data_list[$k]['datestr'] = toDate(strtotime($v['datestr']));
+            $data_list[$k]['level_name'] = Constants::getUserLevelItems($v['level']);
+            $data_list[$k]['status_name'] = Constants::getVerifyStatusItems($v['status']);
+        }
+        $this->assign('list', $data_list);
+        $this->assign('keyword', $keyword);
+        $this->assign('table_data_page', $page);
+        $this->display();
+    }
+
+    /**
+     * 升级申请-审核
+     */
+    public function submitLevelApply()
+    {
+        $id = intval(I('id'));
+        $status = intval(I('status'));
+        if (empty($id)) {
+            $this->error('参数不足');
+        }
+
+        $levelInfo = M('level_list')->where(['id' => $id])->find();
+        if (empty($levelInfo)) {
+            $this->error('该数据不存在，请重新选择');
+        }
+        $res = M('level_list')->where(['id' => $id])->save(['status' => $status, 'datestr' => date('YmdHis', time())]);
+        if (!$res) {
+            $this->error('操作失败');
+        }
+
+        $this->success('操作成功');
+    }
 }

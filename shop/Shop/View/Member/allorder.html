@@ -62,25 +62,7 @@
                             <h3 style="width: 100%" onClick="window.location.href='{:U('Shop/Home/details',array('proid'=>$detail['com_id']))}'">{$detail['com_name']}</h3>
                             <div class="jaind">
                                 <p>
-                                    <if condition="$order['status'] eq 0">
-                                        <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <else/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                        </if>
-                                        <else/>
-                                        <if condition="$order.pay_type eq 1">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 2"/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 3"/>
-                                            可用余额：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
-                                            <elseif condition="$order.pay_type eq 4"/>
-                                            可用余额：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
-                                            <elseif condition="$order.pay_type eq 5"/>
-                                            我的仓库：{$detail.com_product_integral}
-                                        </if>
-                                    </if>
+                                    {$detail.com_price}
                                 </p>
                                 <p>x{$detail['com_num']}</p>
                             </div>
@@ -91,27 +73,8 @@
             </foreach>
             <div class="total" style="margin-bottom:10vmin">
                 <p style="line-height: 7vmin;">共计{$allProductNum+0}商品
-                    <span>合计：
-                     <if condition="$order['status'] eq 0">
-                     <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                         <else/>
-                         可用余额：{$order.ecological_total_assets}
-                     </if>
-                     <else/>
-                     <if condition="$order.pay_type eq 1">
-                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                          <elseif condition="$order.pay_type eq 2"/>
-                          可用余额：{$order.ecological_total_assets}
-                          <elseif condition="$order.pay_type eq 3"/>
-                          可用余额：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
-                          <elseif condition="$order.pay_type eq 4"/>
-                          可用余额：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
-                          <elseif condition="$order.pay_type eq 5"/>
-                          我的仓库：{$order.product_integral}
-                      </if>
-                 </if>
-                    </span></p>
+                    <span>合计：{$order.$allProductPrice}</span>
+                </p>
                 <a href="javascript:void(0)" onClick="window.location.href='/Shop/Pay/index/oid/{$detail['order_id']}'" class="btn_style2">立即支付</a>
                 <!--<a href="javascript:void(0)" class="btn_style1" id="show_odetail">查看详情</a>-->
             </div>
@@ -150,25 +113,7 @@
                             <h3 style="width: 100%" onClick="window.location.href='{:U('Shop/Home/details',array('proid'=>$detail['com_id']))}'">{$detail['com_name']}</h3>
                             <div class="jaind">
                                 <p>
-                                    <if condition="$order['status'] eq 0">
-                                        <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <else/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                        </if>
-                                        <else/>
-                                        <if condition="$order.pay_type eq 1">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 2"/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 3"/>
-                                            可用余额：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
-                                            <elseif condition="$order.pay_type eq 4"/>
-                                            可用余额：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
-                                            <elseif condition="$order.pay_type eq 5"/>
-                                            我的仓库：{$detail.com_product_integral}
-                                        </if>
-                                    </if>
+                                    {$detail.com_price}
                                 </p>
                                 <p>x{$detail['com_num']}</p>
                             </div>
@@ -179,28 +124,7 @@
             </foreach>
             <div class="total">
                 <p style="line-height: 7vmin;">共计{$allProductNum+0}商品
-                    <span>合计：
-                        <!--￥{$allProductPrice+0}-->
-                      <if condition="$order['status'] eq 0">
-                         <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                              消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                             <else/>
-                             可用余额：{$order.ecological_total_assets}
-                         </if>
-                     <else/>
-                         <if condition="$order.pay_type eq 1">
-                              消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                              <elseif condition="$order.pay_type eq 2 or $order.pay_type eq 6"/>
-                              可用余额：{$order.ecological_total_assets}
-                              <elseif condition="$order.pay_type eq 3"/>
-                              可用余额：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
-                              <elseif condition="$order.pay_type eq 4"/>
-                              可用余额：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
-                              <elseif condition="$order.pay_type eq 5"/>
-                              我的仓库：{$order.product_integral}
-                          </if>
-                     </if>
-                    </span>
+                    <span>合计：￥{$allProductPrice+0}</span>
                 </p>
                 <a href="javascript:void(0)" onClick="remind()">提醒发货</a>
             </div>
@@ -229,28 +153,7 @@
                         <div class="content_rt">
                             <h3 style="width: 100%" onClick="window.location.href='{:U('Shop/Home/details',array('proid'=>$detail['com_id']))}'">{$detail['com_name']}</h3>
                             <div class="jaind">
-                                <!--<p>￥{$detail['com_price']}</p>-->
-                                <p>
-                                    <if condition="$order['status'] eq 0">
-                                        <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <else/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                        </if>
-                                        <else/>
-                                        <if condition="$order.pay_type eq 1">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 2"/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 3"/>
-                                            可用余额：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
-                                            <elseif condition="$order.pay_type eq 4"/>
-                                            可用余额：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
-                                            <elseif condition="$order.pay_type eq 5"/>
-                                            我的仓库：{$detail.com_product_integral}
-                                        </if>
-                                    </if>
-                                </p>
+                                <p>￥{$detail['com_price']}</p>
                                 <p>x{$detail['com_num']}</p>
                             </div>
                         </div>
@@ -260,28 +163,7 @@
             </foreach>
             <div class="total">
                 <p style="line-height: 7vmin;">共计{$allProductNum+0}商品
-                    <span>合计：
-                        <!--￥{$allProductPrice+0}-->
-                             <if condition="$order['status'] eq 0">
-                     <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                         <else/>
-                         可用余额：{$order.ecological_total_assets}
-                     </if>
-                     <else/>
-                     <if condition="$order.pay_type eq 1">
-                          消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                          <elseif condition="$order.pay_type eq 2"/>
-                          可用余额：{$order.ecological_total_assets}
-                          <elseif condition="$order.pay_type eq 3"/>
-                          可用余额：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
-                          <elseif condition="$order.pay_type eq 4"/>
-                          可用余额：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
-                          <elseif condition="$order.pay_type eq 5"/>
-                          我的仓库：{$order.product_integral}
-                      </if>
-                 </if>
-                    </span>
+                    <span>合计：￥{$allProductPrice+0}</span>
                 </p>
                 <a order-id="{$detail['order_id']}" class="Confirmad">确认收货</a>
                 <a href="{:U('Member/stics',array('order_id'=>$order['order_id']))}" >查看物流</a>
@@ -312,28 +194,7 @@
                         <div class="content_rt">
                             <h3 style="width: 100%" onClick="window.location.href='{:U('Shop/Home/details',array('proid'=>$detail['com_id']))}'">{$detail['com_name']}</h3>
                             <div class="jaind">
-                                <!--<p>￥{$detail['com_price']}</p>-->
-                                <p>
-                                    <if condition="$order['status'] eq 0">
-                                        <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <else/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                        </if>
-                                        <else/>
-                                        <if condition="$order.pay_type eq 1">
-                                            消费通证：{$detail.com_price}<br/> 可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 2"/>
-                                            可用余额：{$detail.com_ecological_total_assets}
-                                            <elseif condition="$order.pay_type eq 3"/>
-                                            可用余额：{$detail.com_ecological_total_assets_one}<br/>流动通证：{$detail.com_flow_pass_card}
-                                            <elseif condition="$order.pay_type eq 4"/>
-                                            可用余额：{$detail.com_ecological_total_assets_two} <br/> 流动资产：{$detail.com_flow_amount}
-                                            <elseif condition="$order.pay_type eq 5"/>
-                                            我的仓库：{$detail.com_product_integral}
-                                        </if>
-                                    </if>
-                                </p>
+                                <p>￥{$detail['com_price']}</p>
                                 <p>x{$detail['com_num']}</p>
                             </div>
                         </div>
@@ -343,28 +204,7 @@
             </foreach>
             <div class="total">
                 <p style="line-height: 7vmin;">共计{$allProductNum+0}商品
-                    <span>合计：
-                        <!--￥{$allProductPrice+0}-->
-                         <if condition="$order['status'] eq 0">
-                             <if condition="$order['shop_type'] eq 1 or $order['shop_type'] eq 2">
-                                 消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                              <else/>
-                                可用余额：{$order.ecological_total_assets}
-                             </if>
-                             <else/>
-                             <if condition="$order.pay_type eq 1">
-                                 消费通证：{$order.buy_price}<br/> 可用余额：{$order.ecological_total_assets}
-                                 <elseif condition="$order.pay_type eq 2"/>
-                                 可用余额：{$order.ecological_total_assets}
-                                  <elseif condition="$order.pay_type eq 3"/>
-                                 可用余额：{$order.ecological_total_assets}<br/>流动通证：{$order.flow_pass_card}
-                                 <elseif condition="$order.pay_type eq 4"/>
-                                 可用余额：{$order.ecological_total_assets} <br/> 流动资产：{$order.flow_amount}
-                                 <elseif condition="$order.pay_type eq 5"/>
-                                 我的仓库：{$order.product_integral}
-                             </if>
-                         </if>
-                    </span>
+                    <span>合计：￥{$allProductPrice+0}</span>
                 </p>
                 <!--<a href="{:U('Home/fbym',array('id'=>$order['order_id']))}">待评价</a>-->
             </div>

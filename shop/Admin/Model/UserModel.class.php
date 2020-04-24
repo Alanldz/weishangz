@@ -198,13 +198,6 @@ class UserModel extends \Common\Model\UserModel
             return false;
         }
 
-        if ($data['identity_card']) {
-            $identity_card_count = M('user')->where(['identity_card' => $data['identity_card']])->count();
-            if ($identity_card_count) {
-                throw new Exception('该身份证已被使用，请重新输入');
-            }
-        }
-
         //如果没有密码，去掉密码字段
         if (empty($data['login_pwd']) || trim($data['login_pwd']) == '') {
             unset($data['login_pwd']);

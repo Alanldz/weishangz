@@ -7,6 +7,9 @@
 
 namespace Home\Model;
 
+use Common\Util\Constants;
+use Think\Exception;
+
 class ActivateCardModel extends \Common\Model\ActivateCardModel
 {
 
@@ -260,6 +263,56 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
             return $this->create_randomstr_s();
         }
         return $activation_code;
+    }
+
+    /**
+     * 升级申请
+     * @return bool
+     * @author ldz
+     * @time 2020/4/24 10:26
+     */
+    public function levelApply()
+    {
+        try {
+            M()->startTrans();
+            $level = intval(I('level'));
+            $trade_pwd = trim(I('trade_pwd'));
+            if (empty($level)) {
+                throw new Exception('请选择升级级别');
+            }
+            if (empty($trade_pwd)) {
+                throw new Exception('请输入您的交易密码');
+            }
+            $user_id = session('userid');
+            $userModel = D('Home/User');
+            $userInfo = $userModel->where(['userid' => $user_id])->field('account,level')->find();
+            //验证交易密码
+            $userModel->Trans($userInfo, $trade_pwd);
+            if ($userInfo['level'] >= $level) {
+                throw new Exception('您当前等级大于选择升级级别，请重选');
+            }
+            $is_apply = M('level_list')->where(['uid' => $user_id, 'status' => Constants::VERIFY_STATUS_WAIT])->find();
+            if ($is_apply) {
+                throw new Exception('您申请的还未处理，请耐性等待审核');
+            }
+
+            $addData = [
+                'uid' => $user_id,
+                'level' => $level,
+                'time' => date('YmdHis', time())
+            ];
+            $res = M('level_list')->add($addData);
+            if (!$res) {
+                throw new Exception('申请失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
     }
 
 }
