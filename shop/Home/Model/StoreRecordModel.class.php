@@ -354,6 +354,9 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
                 case 1:
                     $list[$k]['type_name'] = '注册';
                     break;
+                case 2:
+                    $list[$k]['type_name'] = '平台操作';
+                    break;
                 default :
                     $list[$k]['type_name'] = '';
                     break;

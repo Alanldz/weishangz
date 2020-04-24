@@ -47,7 +47,7 @@ class UserController extends AdminController
 
         $data_list = $table
             ->field('a.userid,a.level,a.username,a.email,a.yinbi,a.account,a.mobile,a.junction_id,a.account_type,a.reg_date,a.activation_time,a.status,a.pid,
-            b.cangku_num,b.fengmi_num,b.purchase_integral,b.can_flow_amount,b.current_assets')
+            b.cangku_num,b.cloud_library')
             ->where($map)
             ->order('a.userid desc')
             ->select();
@@ -227,7 +227,7 @@ class UserController extends AdminController
         // 获取账号信息
         $user_id = intval(I('id'));
         $userInfo = D('User')->field('userid,username,mobile')->find($user_id);
-        $storeInfo = D('store')->where(['uid' => $user_id])->field('cangku_num,fengmi_num,can_flow_amount,current_assets')->find();
+        $storeInfo = D('store')->where(['uid' => $user_id])->field('cangku_num,fengmi_num,can_flow_amount,current_assets,cloud_library')->find();
         $storeInfo['pass_card_amount'] = UcoinsModel::getAmount($user_id);
 
         $this->assign('userInfo', $userInfo);

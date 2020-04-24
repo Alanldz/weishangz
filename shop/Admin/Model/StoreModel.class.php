@@ -32,7 +32,7 @@ class StoreModel extends \Common\Model\StoreModel
             $this->error = '请选择操作类型';
             return false;
         }
-        $can_type = ['cangku_num', 'fengmi_num', 'ecological_certification', 'can_flow_amount', 'current_assets'];
+        $can_type = ['cangku_num', 'fengmi_num', 'ecological_certification', 'can_flow_amount', 'current_assets','cloud_library'];
         if (!in_array($store_type, $can_type)) {
             $this->error = '您选择的操作类型不存在，请从重新选择';
             return false;
@@ -55,6 +55,9 @@ class StoreModel extends \Common\Model\StoreModel
                     break;
                 case 'current_assets':
                     StoreRecordModel::addRecord($user_id, $store_type, $amount, Constants::STORE_TYPE_CURRENT_ASSETS, 3);
+                    break;
+                case 'cloud_library':
+                    StoreRecordModel::addRecord($user_id, $store_type, $amount, Constants::STORE_TYPE_CLOUD_LIBRARY, 2);
                     break;
 
             }
