@@ -13,9 +13,8 @@ class IndexController extends CommonController
      */
     public function index()
     {
-        $where = [];
         $user_id = session('userid');
-        $userInfo = M('user')->where($where)->field('userid,username,mobile,level,reg_date')->find();
+        $userInfo = M('user')->where(['userid' => $user_id])->field('userid,username,mobile,level,reg_date')->find();
 
         $storeInfo = M('store')->field('cangku_num,cloud_library')->where(['uid' => $user_id])->find();
         $this->assign([
