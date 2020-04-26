@@ -517,6 +517,7 @@ class UserModel extends \Common\Model\UserModel
             } else {
                 $data['path'] = $path . $pid . '-';
             }
+            $data['account'] = $data['mobile'];
             $data['deep'] = $deep + 1;
             $data['is_reward'] = 1;
             $data['junction_path'] = '';
