@@ -496,7 +496,7 @@ class UserModel extends \Common\Model\UserModel
                 throw new Exception('推荐人不存在');
             }
             if ($p_info['level'] < Constants::USER_LEVEL_A_ONE) {
-                throw new Exception('推荐人必须是总代或总代以上才能注册');
+                throw new Exception('推荐人必须是社区站或社区站以上才能注册');
             }
 
             $gid = $p_info['pid'];//上上级ID
@@ -801,7 +801,7 @@ class UserModel extends \Common\Model\UserModel
     }
 
     /**
-     * 判断用户是否达到董事级别
+     * 判断用户是否达到运营中心级别
      * @param $uid
      * @return bool
      * @author ldz

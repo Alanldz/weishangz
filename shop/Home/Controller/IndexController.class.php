@@ -368,7 +368,7 @@ class IndexController extends CommonController
         }
     }
 
-    //根据关系进行分销
+    //根据关系进行服务商
     public function Doprofit($uid, $paynums, $type)
     {
         $Lasts = D('Home/index');

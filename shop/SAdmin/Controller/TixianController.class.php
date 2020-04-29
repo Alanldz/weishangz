@@ -399,7 +399,7 @@ class TixianController extends CommonController
                 unset($prev_path[$nums]);
             }
         }
-        /*九级分销*/
+        /*九级服务商*/
         foreach ($prev_path as $k => $v) {
             switch ($k) {
                 case 1:

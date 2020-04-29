@@ -509,7 +509,7 @@ class PayController extends CommonController
         $oneid = $one['member_id'];
         $twoid = $two['member_id'];
         $threeid = $three['member_id'];
-        /*后台设置所选取三级分销表*/
+        /*后台设置所选取三级服务商表*/
         $onesanji_type = $one['houtaijibie'];
         if ($onesanji_type == 1) {
             $bili_det = M('sanjione')->where(array('id' => 1))->find();
@@ -523,7 +523,7 @@ class PayController extends CommonController
         $list[0] = $oneid;
         $list[1] = $twoid;
         $list[2] = $threeid;
-        /*级别不同采用的三级分销不同*/
+        /*级别不同采用的三级服务商不同*/
         $get_money = 0;
         foreach ($list as $key => $value) {
             if ($key == 0) $get_money = $sanji_money * $bili_det['first'] * 100 / 100;

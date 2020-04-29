@@ -53,9 +53,9 @@ class Constants
     {
         $items = array(
             self::USER_LEVEL_NOT_ACTIVATE => '未激活',
-            self::USER_LEVEL_ACTIVATE => '分销',
-            self::USER_LEVEL_A_ONE => '总代',
-            self::USER_LEVEL_A_TWO => '董事',
+            self::USER_LEVEL_ACTIVATE => '服务商',
+            self::USER_LEVEL_A_ONE => '社区站',
+            self::USER_LEVEL_A_TWO => '运营中心',
             self::USER_LEVEL_A_THREE => '分公司',
             self::USER_LEVEL_A_FOUR => '股东',
         );
