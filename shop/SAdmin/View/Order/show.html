@@ -15,8 +15,10 @@
 
         <li><a href="#tab-shipping" data-toggle="tab">收货地址</a></li>
         <li><a href="#tab-product" data-toggle="tab">商品清单</a></li>
-        <if condition="$order['status'] eq 1 or $order['status'] eq 2">
-            <li><a href="#tab-fahuo" data-toggle="tab">发货信息</a></li>
+        <if condition="$order['is_duobao'] eq 1">
+            <if condition="$order['status'] eq 1 or $order['status'] eq 2">
+                <li><a href="#tab-fahuo" data-toggle="tab">发货信息</a></li>
+            </if>
         </if>
 
     </ul>
@@ -154,7 +156,7 @@
                         </td>-->
                         <!--<td class="right">{$product['size']}+{$product['color']}</td>-->
                         <td class="right">{$product.com_price}</td>
-                        <td class="right">{$product['com_num']}</td>
+                        <td class="right">{$product['com_num']}盒</td>
                         <td class="right">{$product['com_price'] * $product['com_num']}</td>
                     </tr>
 
@@ -165,27 +167,28 @@
         </div>
 
         <!-- 确认发货 -->
-
-        <div id="tab-fahuo" class="tab-pane">
-            <form action="{:U('/Order/give')}" method="post">
-                <input type="hidden" name="oid" value="{$order['order_id']}">
-                <tr>
-                    <td>货运方式</td>
-                    <td><input type="text" value="{$order['kd_name']}" size="15" name="kd_name" placeholder="货运方式"/></td>
-                </tr>
-                <tr>
-                    <td>快递单号</td>
-                    <td><input type="text" value="{$order['kd_no']}" size="60" name="kd_no" placeholder="快递单号"/></td>
-                </tr>
-                <tr>
-                    <if condition="$order['status'] eq 1">
-                        <td><input type="submit" value="确认发货"></td>
-                        <else/>
-                        <td><input type="submit" value="确认修改"></td>
-                    </if>
-                </tr>
-            </form>
-        </div>
+        <if condition="$order['is_duobao'] eq 1">
+            <div id="tab-fahuo" class="tab-pane">
+                <form action="{:U('/Order/give')}" method="post">
+                    <input type="hidden" name="oid" value="{$order['order_id']}">
+                    <tr>
+                        <td>货运方式</td>
+                        <td><input type="text" value="{$order['kd_name']}" size="15" name="kd_name" placeholder="货运方式"/></td>
+                    </tr>
+                    <tr>
+                        <td>快递单号</td>
+                        <td><input type="text" value="{$order['kd_no']}" size="60" name="kd_no" placeholder="快递单号"/></td>
+                    </tr>
+                    <tr>
+                        <if condition="$order['status'] eq 1">
+                            <td><input type="submit" value="确认发货"></td>
+                            <else/>
+                            <td><input type="submit" value="确认修改"></td>
+                        </if>
+                    </tr>
+                </form>
+            </div>
+        </if>
 
 
     </div>

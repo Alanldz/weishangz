@@ -560,14 +560,8 @@ class UserModel extends \Common\Model\UserModel
             StoreRecordModel::addRecord($user_id, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 0, $this->user_id);
 
             $arrayPath = array_reverse(getArray($data['path']));
-            //增加业绩
-            $this->achievement($arrayPath, $productInfo['activate_buy_num']);
-            //推荐奖
-            $this->recommendAward($user_id, $productInfo['activate_buy_num']);
-            //用户升级
-            $this->upgradeUserLevel($arrayPath);
-            //股东分红和股东收益
-            $this->shareholderBonus($arrayPath, $productInfo['activate_buy_num'], $address);
+            //奖励
+            $this->award($user_id,$arrayPath,$productInfo['activate_buy_num'],$address);
             if (empty($address)) {//云库
                 StoreRecordModel::addRecord($this->user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
             } else {//邮寄，创建订单
@@ -581,6 +575,26 @@ class UserModel extends \Common\Model\UserModel
             $this->error = $ex->getMessage();
             return false;
         }
+    }
+
+    /**
+     * 奖励
+     * @param $user_id
+     * @param $arrayPath
+     * @param $activate_buy_num
+     * @param $address
+     * @throws Exception
+     */
+    public function award($user_id, $arrayPath, $activate_buy_num, $address)
+    {
+        //增加业绩
+        $this->achievement($arrayPath, $activate_buy_num);
+        //推荐奖
+        $this->recommendAward($user_id, $activate_buy_num);
+        //用户升级
+        $this->upgradeUserLevel($arrayPath);
+        //股东分红和股东收益
+        $this->shareholderBonus($arrayPath, $activate_buy_num, $address);
     }
 
     /**
@@ -656,10 +670,14 @@ class UserModel extends \Common\Model\UserModel
         $order_no = "M" . date("YmdHis") . rand(100000, 999999);
         $order['order_no'] = $order_no;
         $order['uid'] = $this->user_id;
-        $order['buy_price'] = $productInfo['price'];
+        $order['buy_price'] = $productInfo['price'] * $productInfo['activate_buy_num'];
         $order['buy_name'] = $address['name'];
         $order['buy_phone'] = $address['telephone'];
         $order['buy_address'] = $address['province_id'] . $address['city_id'] . $address['country_id'] . $address['address'];
+        $order['province_id'] = $address['province_id'];
+        $order['city_id'] = $address['city_id'];
+        $order['country_id'] = $address['country_id'];
+        $order['address'] = $address['address'];
         $order['status'] = 1;
         $order['time'] = time();
         $order_id = M("order")->add($order);
@@ -674,7 +692,7 @@ class UserModel extends \Common\Model\UserModel
         $detail["com_id"] = $productInfo['id'];
         $detail["com_name"] = $productInfo['name'];
         $detail["com_price"] = $productInfo['price'];
-        $detail["com_num"] = 1;
+        $detail["com_num"] = $productInfo['activate_buy_num'];
         $detail["com_img"] = $productInfo['pic'];
         $detail["uid"] = $this->user_id;
         $res = M("order_detail")->add($detail);

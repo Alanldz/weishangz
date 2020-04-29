@@ -12,7 +12,7 @@ class OrderModel
      */
     public function show_order_page($search)
     {
-        $sql = "SELECT o.order_id,o.order_no,o.uid,o.status,o.pay_time,o.time,o.buy_price,o.ecological_total_assets,o.flow_pass_card,o.flow_amount,o.product_integral,o.pay_type,o.shop_type,o.buy_name,o.buy_phone,o.seluid FROM "
+        $sql = "SELECT o.order_id,o.order_no,o.uid,o.status,o.pay_time,o.time,o.is_duobao,o.buy_price,o.ecological_total_assets,o.flow_pass_card,o.flow_amount,o.product_integral,o.pay_type,o.shop_type,o.buy_name,o.buy_phone,o.seluid FROM "
             . C('DB_PREFIX') . 'order o JOIN ysk_user u ON u.userid = o.uid WHERE 1=1 ';
 
         if (isset($search['order_no'])) {

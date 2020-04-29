@@ -39,6 +39,7 @@
 						<th>收货人</th>
 						<th>收货号码</th>
 						<th>状态</th>
+						<th>货运方式</th>
 						<th>付款时间</th>
 						<th>下单时间</th>
 						<th>操作</th>
@@ -54,6 +55,13 @@
 							<td>{$v.buy_name}</td>
 							<td>{$v.buy_phone}</td>
 							<td>{$v['status']|getOrderStatusItems}</td>
+							<td>
+								<if condition="$v['is_duobao'] eq 1">
+									邮寄
+									<else/>
+									入云库
+								</if>
+							</td>
 							<td>{$v['pay_time']|toDate}</td>
 							<td>{$v['time']|toDate}</td>
 							<td>

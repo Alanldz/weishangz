@@ -15,47 +15,29 @@ class ActivateController extends CommonController
 {
 
     /**
-     * 激活卡页面
+     * 进货确认
      * @time 2018-12-15 12:39:07
      */
     public function activate_card()
     {
         $uid = session('userid');
         $step = intval(I('step', 0));
-        $returnData = ActivateCardModel::search();
-        $user = M('user')->where(['userid' => $uid])->field('service_center')->find();
+        $where['order_sellerid'] = $uid;
+        if ($step == 1) {
+            $where['status'] = ['neq', 0];
+        } else {
+            $where['status'] = 0;
+        }
+
+        $returnData = ActivateCardModel::search($where);
         $list = [];
         foreach ($returnData['list'] as $k => $v) {
             $list[$k] = $v;
-            $list[$k]['create_time'] = date('Y-m-d H:i:s', strtotime($v['create_time']));
-            switch ($v['level']) {
-                case 2:
-                    $level_name = '二星';
-                    break;
-                case 3:
-                    $level_name = '三星';
-                    break;
-                case 4:
-                    $level_name = '四星';
-                    break;
-                case 1:
-                default:
-                    $level_name = '一星';
-                    break;
-            }
-            $arrCard = M('activate_card')->where(['activation_code' => $v['activation_code']])->order('id asc')->select();
-            $making_id = current($arrCard)['uid'];
-            if (count($arrCard) > 1 && $user['service_center'] == 0) {
-                $list[$k]['is_giving'] = false;
-            } else {
-                $list[$k]['is_giving'] = true;
-            }
-            if ($step == 0) {
-                $list[$k]['header_name'] = '激活' . $level_name . '会员-制卡者：' . $making_id;
-            } else {
-                $card_record = M('activate_card_record')->where(['activate_card_id' => $v['id'], 'delete_time' => ''])->find();
-                $list[$k]['header_name'] = '制作者：' . $making_id . ' 已激活' . $level_name . '会员：' . $card_record['userid'];
-            }
+            $userInfo = M('user')->where(['userid' => $v['uid']])->field('username,mobile')->find();
+            $list[$k]['username'] = $userInfo['username'];
+            $list[$k]['mobile'] = $userInfo['mobile'];
+            $list[$k]['detail'] = M('order_detail')->where(['order_id' => $v['order_id']])->find();
+            $list[$k]['pay_type'] = Constants::getPayWayItems($v['pay_type']);
         }
 
         $this->assign('list', $list);
@@ -65,7 +47,7 @@ class ActivateController extends CommonController
     }
 
     /**
-     * 制作激活卡
+     * 我要进货
      * @time 2018-12-16 10:48:59
      */
     public function markCard()
@@ -79,8 +61,41 @@ class ActivateController extends CommonController
             ajaxReturn('制作成功', 1);
         }
         $uid = session('userid');
-        $store = M('store')->where(['uid' => $uid])->field('cangku_num')->find();
-        $this->assign('store', $store);
+        $userInfo = M('user')->where(['userid' => $uid])->field('pid,level')->find();
+        $userInfo['pid_name'] = M('user')->where(['userid' => $userInfo['pid']])->getField('username');
+        $userInfo['cangku_num'] = M('store')->where(['uid' => $uid])->getField('cangku_num');
+        if ($userInfo['level'] == Constants::USER_LEVEL_A_FOUR) {
+            $level = Constants::USER_LEVEL_A_THREE;
+        } else {
+            $level = $userInfo['level'];
+        }
+        $userInfo['price'] = M('product_detail')->where(['level' => $level])->getField('price');
+        $this->assign('userInfo', $userInfo);
+        $this->display();
+    }
+
+
+    /**
+     * 我的进货
+     * @time 2018-12-15 12:39:07
+     */
+    public function my_card()
+    {
+        $uid = session('userid');
+        $where['uid'] = $uid;
+        $returnData = ActivateCardModel::search($where);
+        $list = [];
+        foreach ($returnData['list'] as $k => $v) {
+            $list[$k] = $v;
+            $userInfo = M('user')->where(['userid' => $v['uid']])->field('username,mobile')->find();
+            $list[$k]['username'] = $userInfo['username'];
+            $list[$k]['mobile'] = $userInfo['mobile'];
+            $list[$k]['detail'] = M('order_detail')->where(['order_id' => $v['order_id']])->find();
+            $list[$k]['pay_type'] = Constants::getPayWayItems($v['pay_type']);
+        }
+
+        $this->assign('list', $list);
+        $this->assign('page', $returnData['page']);
         $this->display();
     }
 
@@ -351,6 +366,25 @@ class ActivateController extends CommonController
             return $user_info['junction_id'];
         } else {
             return $this->getLayerUser($user_info['junction_id'], $junction_path);
+        }
+    }
+
+    /**
+     * 确认收款
+     * @author ldz
+     * @time 2020/4/29 19:58
+     */
+    public function determinePayment()
+    {
+        if (IS_POST) {
+            $models = new ActivateCardModel();
+            $res = $models->determinePayment();
+            if (!$res) {
+                ajaxReturn($models->getError(), 0);
+            }
+            ajaxReturn('操作成功', 1, U('Activate/activate_card', array('step' => 1)));
+        } else {
+            ajaxReturn('请求方法有误', 0);
         }
     }
 }

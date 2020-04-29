@@ -105,11 +105,11 @@ class Constants
     {
         $items = array(
             self::PAY_TYPE_ZERO => '未选择',
-            self::PAY_TYPE_ONE => '消费通证+可用余额',
-            self::PAY_TYPE_TWO => '可用余额',
-            self::PAY_TYPE_THREE => '可用余额+流动通证',
-            self::PAY_TYPE_FOUR => '可用余额+流动资产',
-            self::PAY_TYPE_FIVE => '我的仓库',
+            self::PAY_TYPE_ONE => '线下支付',
+            self::PAY_TYPE_TWO => '余额支付',
+            self::PAY_TYPE_THREE => '',
+            self::PAY_TYPE_FOUR => '',
+            self::PAY_TYPE_FIVE => '',
         );
         return self::getItems($items, $key);
     }

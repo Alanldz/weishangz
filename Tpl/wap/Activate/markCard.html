@@ -3,119 +3,210 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
-    <title>index</title>
-
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>我要进货</title>
     <!-- Bootstrap -->
     <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
     <link href="__HOME__/css/style1.css" rel="stylesheet">
     <style>
-        .safety_salt {
-            border: none;
-            outline: none;
-            background: no-repeat;
-            font-size: 0.28rem;
-        }
+        .div_input {border: none;outline: none;background: no-repeat;font-size: 0.28rem;}
     </style>
 </head>
 <body>
-<header class="text-center"><a href="{:U('activate/activate_card')}" class="go-back"></a>制作激活卡</header>
+<header class="text-center"><a href="{:U('activate/activate_card')}" class="go-back"></a>我要进货</header>
 <div class="back"></div>
 <div class="container">
     <div class="select-box lind-sm">
         <div class="select-left">向上级进货：</div>
-        <div class="ye-right user-ep">林先生（推荐人姓名）</div>
+        <div class="ye-right user-ep">{$userInfo['pid_name']|default='您没有上级'}</div>
     </div>
-    <div class="lind"></div>
+    <form id="formData">
+        <div class="lind"></div>
 
-    <div class="select-box lind-sm">
-        <div class="select-left">进货数量：</div>
-        <div class="ye-right user-ep">输入盒数</div>
-    </div>
-    <div class="lind"></div>
-    <div class="select-box">
-        <div class="select-left">支付方式：</div>
-        <select  class="form-control">
-            <option  >线下支付</option>
-            <option  >余额支付</option>
-        </select>
-    </div>
-    <div class="lind"></div>
-
-    <div class="select-box lind-sm">
-        <div class="select-left">余额：</div>
-        <div class="ye-right user-ep">{$store['cangku_num']|Showtwo}</div>
-    </div>
-    <div class="lind"></div>
-
-
-    <div class="select-box lind-sm">
-        <div class="select-left">支付金额：</div>
-        <div class="ye-right user-ep">400元</div>
-    </div>
-    <div class="lind"></div>
-
-    <div class="select-box">
-        <div class="select-left">货物方式：</div>
-        <select class="form-control" >
-            <option  >入云库</option>
-            <option  >邮寄</option>
-        </select>
-    </div>
-    <div class="lind"></div>
-
-    <div class="select-box lind-sm">
-        <div class="select-left">邮寄地址：</div>
-        <div class="ye-right user-ep">显示地址</div>
-    </div>
-    <div class="lind"></div>
-
-
-    <div class="select-box lind-sm">
-        <div class="select-left">交易密码：</div>
-        <div class="ye-right">
-            <input class="safety_salt" type="password" placeholder="请输入交易密码" notnull="" name="safety_salt">
+        <div class="select-box lind-sm">
+            <div class="select-left">进货数量：</div>
+            <div class="ye-right user-ep">
+                <input type="number" class="div_input purchase_quantity" name="purchase_quantity" placeholder="请输入进货数量" >
+            </div>
         </div>
-    </div>
+        <div class="lind"></div>
+        <div class="select-box">
+            <div class="select-left">支付方式：</div>
+            <select name="pay_type" class="form-control" id="pay_type">
+                <option value="1">线下支付</option>
+                <option value="2">余额支付</option>
+            </select>
+        </div>
+        <div class="lind"></div>
+
+        <div class="select-box lind-sm">
+            <div class="select-left">余额：</div>
+            <div class="ye-right user-ep">{$userInfo['cangku_num']|Showtwo}</div>
+            <input type="hidden" class="cangku_num" value="{$userInfo['cangku_num']|Showtwo}">
+        </div>
+        <div class="lind"></div>
+        <div class="select-box lind-sm">
+            <div class="select-left">支付金额：</div>
+            <div class="ye-right user-ep pay_money">0元</div>
+        </div>
+        <div class="lind"></div>
+
+        <div class="select-box">
+            <div class="select-left">货运方式：</div>
+            <select class="form-control" name="delivery_type" id="delivery_type">
+                <option value="1">入云库</option>
+                <option value="2">邮寄</option>
+            </select>
+        </div>
+
+        <div style="display: none" class="addressInfo">
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">收货人姓名：</div>
+                <div class="ye-right">
+                    <input type="text" class="div_input address_username"  name="address[name]" placeholder="请输入收货人姓名">
+                </div>
+            </div>
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">收货人手机号：</div>
+                <div class="ye-right">
+                    <input type="text" class="div_input address_telephone"  name="address[telephone]" placeholder="请输入收货人手机号">
+                </div>
+            </div>
+
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">省：</div>
+                <div class="ye-right user-ep">
+                    <select class="form-control" name="address[province_id]" id="province">
+                        <option value="" selected="selected">--请选择省份--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">市：</div>
+                <div class="ye-right user-ep">
+                    <select class="form-control" name="address[city_id]" id="city">
+                        <option value="" selected="selected">--请选择市--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">市：</div>
+                <div class="ye-right user-ep">
+                    <select class="form-control" name="address[country_id]" id="district">
+                        <option value="" selected="selected">--请选择区--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="lind"></div>
+            <div class="select-box lind-sm">
+                <div class="select-left">详细地址：</div>
+                <div class="ye-right">
+                    <input type="text" class="div_input address"  name="address[address]" placeholder="请输入详细地址">
+                </div>
+            </div>
+        </div>
+        <div class="lind"></div>
+        <div class="select-box lind-sm">
+            <div class="select-left">交易密码：</div>
+            <div class="ye-right">
+                <input class="safety_salt div_input" type="password" placeholder="请输入交易密码" notnull="" name="safety_salt">
+            </div>
+        </div>
+    </form>
     <div class="text-center btn-box">
         <button type="button" class="btn btn-jh confirm">确定</button>
     </div>
 </div>
 </body>
-<script src="__HOME__/js/jquery-3.1.1.min.js"></script>
-<script src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__HOME__/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="__COM__/layer/layer.js"></script>
 <script type="text/javascript" src="__COM__/js/index.js"></script>
-<script>
-    //选择级别
-    $('.level').change(function () {
-        var level = $(this).val();
-        var price = 100;
-        if (level == 2) {
-            price = 300;
-        } else if (level == 3) {
-            price = 500;
-        } else if (level == 4) {
-            price = 1000;
+<script type="text/javascript" src="__PUBLIC__/verify/address.js"></script>
+<script type="text/javascript">
+    var deviceWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    addressInit('province', 'city', 'district', '福建', '', '');//添加
+</script>
+<script type="text/javascript">
+
+    $('#delivery_type').change(function () {
+        var delivery_type = $(this).val();
+        console.log(delivery_type);
+        if(delivery_type == 2){
+            $('.addressInfo').show();
+        }else {
+            $('.addressInfo').hide();
         }
-        $('.expend-ep').text(price);
     });
 
-    $('.confirm').click(function () {
-        var user_ep = $('.user-ep').text();
-        var expend_ep = $('.expend-ep').text();
+    $('.purchase_quantity').on('blur',function () {
+       var num = Math.round($(this).val());
+        $(this).val(num);
+        var price = "{$userInfo['price']}";
+        var pay_money = parseFloat(num) * parseFloat(price);
+        $('.pay_money').html(pay_money+'元')
+    });
 
-        if (parseFloat(expend_ep) > parseFloat(user_ep)) {
-            msg_alert('您的ep金额不足');
+
+    $('.confirm').click(function () {
+        var purchase_quantity = $('.purchase_quantity').val();
+        if(purchase_quantity == '' || purchase_quantity <= 0){
+            msg_alert('请输入进货数量');
             return false;
         }
-        var level = $('.level').val();
+        var pay_type = $('#pay_type').val();
+        var price = "{$userInfo['price']}";
+        var cangku_num = parseFloat($('.cangku_num').val());
+        var total_money = parseFloat(parseFloat(purchase_quantity) * parseFloat(price));
+        if(pay_type == 2 && (total_money > cangku_num)){
+            msg_alert('您的余额不足');
+            return false;
+        }
+
+        var delivery_type = $('#delivery_type').val();
+        if(delivery_type == 2){
+            var address_username = $('.address_username').val();
+            var address_telephone = $('.address_telephone').val();
+            var province = $('#province').val();
+            var city = $('#city').val();
+            var district = $('#district').val();
+            var address = $('.address').val();
+            if(address_username == ''){
+                msg_alert('请输入收货人姓名');
+                return false;
+            }
+            if(address_telephone == ''){
+                msg_alert('请输入收货人手机号');
+                return false;
+            }
+            if (!address_telephone.match(/^1[3-9]\d{9}$/)) {
+                msg_alert('请填写正确的收货人手机号');
+                return false;
+            }
+            if(province == '--请选择省份--'){
+                msg_alert('请选择省份');
+                return false;
+            }
+            if(city == '--请选择市--'){
+                msg_alert('请选择市');
+                return false;
+            }
+            if(district == '--请选择区--'){
+                msg_alert('请选择区');
+                return false;
+            }
+            if(address == ''){
+                msg_alert('请输入详细地址');
+                return false;
+            }
+        }
         var safety_salt = $('.safety_salt').val();
-        if(level == ''){
-            msg_alert('请选择生成级别');
-            return false;
-        }
         if(safety_salt == ''){
             msg_alert('请输入您的交易密码');
             return false;
@@ -127,12 +218,7 @@
             return false;
         }
         $('.confirm').addClass('btn-submit');
-
-        var data = {
-            level:level,
-            safety_salt:safety_salt
-        };
-
+        var data = $("#formData").serialize();
         doajax("{:U('activate/markCard')}", data, function (data) {
             if (data.status == 1) {
                 msg_alert(data.message);
