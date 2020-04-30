@@ -57,7 +57,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
             if ($productInfo['pay_type'] == Constants::PAY_TYPE_TWO) {
                 StoreModel::changStore($uid, 'cangku_num', -$productInfo['total_money'], 10);
             }
-
+            $productInfo['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
             $this->createOrder($productInfo, $addressInfo, $uid);
 
             M()->commit();
@@ -124,31 +124,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         $productInfo['delivery_type'] = $delivery_type;
         $address = [];
         if ($delivery_type == 2) {
-            $address = I('address');
-            if (empty($address['name'])) {
-                throw new Exception('请输入收货人姓名');
-            }
-            if (empty($address['telephone'])) {
-                throw new Exception('请输入收货人手机号');
-            }
-            if (!isMobile($address['telephone'])) {
-                throw new Exception('收货人手机号有误');
-            }
-
-            if ($address['province_id'] == '' || $address['province_id'] == '--请选择省份--') {
-                throw new Exception('请选择省份');
-            }
-
-            if ($address['city_id'] == '' || $address['city_id'] == '--请选择市--') {
-                throw new Exception('请选择市');
-            }
-
-            if ($address['country_id'] == '' || $address['country_id'] == '--请选择区--') {
-                throw new Exception('请选择区');
-            }
-            if (empty($address['address'])) {
-                throw new Exception('请输入详细地址');
-            }
+            $address = $this->addressValidate();
         }
 
         $safety_salt = trim(I('safety_salt'));
@@ -161,31 +137,63 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
     }
 
     /**
+     * 验证地址
+     * @return mixed
+     * @throws Exception
+     * @author ldz
+     * @time 2020/4/30 10:48
+     */
+    private function addressValidate()
+    {
+        $address = I('address');
+        if (empty($address['name'])) {
+            throw new Exception('请输入收货人姓名');
+        }
+        if (empty($address['telephone'])) {
+            throw new Exception('请输入收货人手机号');
+        }
+        if (!isMobile($address['telephone'])) {
+            throw new Exception('收货人手机号有误');
+        }
+
+        if ($address['province_id'] == '' || $address['province_id'] == '--请选择省份--') {
+            throw new Exception('请选择省份');
+        }
+
+        if ($address['city_id'] == '' || $address['city_id'] == '--请选择市--') {
+            throw new Exception('请选择市');
+        }
+
+        if ($address['country_id'] == '' || $address['country_id'] == '--请选择区--') {
+            throw new Exception('请选择区');
+        }
+        if (empty($address['address'])) {
+            throw new Exception('请输入详细地址');
+        }
+        return $address;
+    }
+
+    /**
      * 邮寄，创建订单
      * @param $productInfo
      * @param $address
      * @param $user_id
+     * @param $status
      * @throws Exception
      */
-    private function createOrder($productInfo, $address, $user_id)
+    private function createOrder($productInfo, $address, $user_id, $status = 0)
     {
-        //创建收货地址
-        $address['member_id'] = $user_id;
-        $res = M('address')->add($address);
-        if (!$res) {
-            throw new Exception('创建收货地址失败');
-        }
-
         //创建订单
         $order = array();
         $order_no = "M" . date("YmdHis") . rand(100000, 999999);
         $order['order_no'] = $order_no;
         $order['uid'] = $user_id;
         $order['buy_price'] = $productInfo['price'] * $productInfo['purchase_quantity'];
-        $order['pay_type'] = $productInfo['pay_type'];
-        $order['status'] = 0;
-        $order['order_sellerid'] = $productInfo['pid'];
+        $order['pay_type'] = $productInfo['pay_type'] ? $productInfo['pay_type'] : Constants::PAY_TYPE_ONE;
+        $order['status'] = $status;
+        $order['order_sellerid'] = $productInfo['pid'] ? $productInfo['pid'] : 0;
         $order['time'] = time();
+        $order['shop_type'] = $productInfo['shop_type'];
         if ($productInfo['delivery_type'] == 1) {//货运方式
             $order['is_duobao'] = 2;
         } else {
@@ -448,6 +456,53 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         } catch (Exception $ex) {
             M()->rollback();
             $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * 申请邮寄
+     * @return bool
+     * @time 2018-12-16 10:48:59
+     */
+    public function applyMail()
+    {
+        try {
+            M()->startTrans();   //开启事务
+            $uid = session('userid');
+            $mail_num = intval(I('mail_num'));
+            if ($mail_num <= 0) {
+                throw new Exception('请输入申请数量');
+            }
+
+            $addressInfo = $this->addressValidate();
+
+            $safety_salt = trim(I('safety_salt'));
+            if (empty($safety_salt)) {
+                throw new Exception('请输入您的交易密码');
+            }
+            D('Home/User')->Trans('', $safety_salt);
+
+            $cloud_library = M('store')->where(['uid' => $uid])->getField('cloud_library');
+            if ($mail_num > $cloud_library) {
+                throw new Exception('您的云库不足申请邮寄数量');
+            }
+
+            //扣除云库
+            StoreRecordModel::addRecord($uid, 'cloud_library', -$mail_num, Constants::STORE_TYPE_CLOUD_LIBRARY, 4);
+
+            $userInfo = M('user')->where(['userid' => $uid])->field('level')->find();
+            $productInfo = M('product_detail')->where(['level' => $userInfo['level']])->field('id,level,price,activate_buy_num,name,pic')->find();
+            $productInfo['purchase_quantity'] = $mail_num;
+            $productInfo['shop_type'] = Constants::SHOP_TYPE_SELF_SUPPORT;
+
+            $this->createOrder($productInfo, $addressInfo, $uid, 1);
+
+            M()->commit();
+            return true;
+        } catch (\Exception $e) {
+            M()->rollback();
+            $this->error = $e->getMessage();
             return false;
         }
     }

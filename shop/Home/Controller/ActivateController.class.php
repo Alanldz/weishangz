@@ -28,7 +28,7 @@ class ActivateController extends CommonController
         } else {
             $where['status'] = 0;
         }
-
+        $where['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
         $returnData = ActivateCardModel::search($where);
         $list = [];
         foreach ($returnData['list'] as $k => $v) {
@@ -58,7 +58,7 @@ class ActivateController extends CommonController
             if (!$res) {
                 ajaxReturn($models->getError(), 0);
             }
-            ajaxReturn('制作成功', 1);
+            ajaxReturn('进货成功，等待上级确认', 1);
         }
         $uid = session('userid');
         $userInfo = M('user')->where(['userid' => $uid])->field('pid,level')->find();
@@ -74,7 +74,6 @@ class ActivateController extends CommonController
         $this->display();
     }
 
-
     /**
      * 我的进货
      * @time 2018-12-15 12:39:07
@@ -83,6 +82,7 @@ class ActivateController extends CommonController
     {
         $uid = session('userid');
         $where['uid'] = $uid;
+        $where['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
         $returnData = ActivateCardModel::search($where);
         $list = [];
         foreach ($returnData['list'] as $k => $v) {
@@ -386,5 +386,26 @@ class ActivateController extends CommonController
         } else {
             ajaxReturn('请求方法有误', 0);
         }
+    }
+
+    /**
+     * 申请邮寄
+     * @time 2018-12-16 10:48:59
+     */
+    public function applyMail()
+    {
+        if (IS_AJAX) {
+            $models = new ActivateCardModel();
+            $res = $models->applyMail();
+            if (!$res) {
+                ajaxReturn($models->getError(), 0);
+            }
+            ajaxReturn('申请成功', 1);
+        }
+        $uid = session('userid');
+        $storeInfo = M('store')->where(['uid' => $uid])->field('cloud_library')->find();
+
+        $this->assign('storeInfo', $storeInfo);
+        $this->display();
     }
 }

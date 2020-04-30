@@ -78,12 +78,12 @@ class Constants
     public static function getShopTypeItems($key = null)
     {
         $items = array(
-            self::SHOP_TYPE_BAO_DAN => '消费区',
-            self::SHOP_TYPE_REGENERATE => '再生商城',
-            self::SHOP_TYPE_SELF_SUPPORT => '自营商城',
-            self::SHOP_TYPE_THIRD_PARTY => '第三方商城',
-            self::SHOP_TYPE_ENTITY => '实体商家',
-            self::SHOP_TYPE_LOVE => '爱心商城',
+            self::SHOP_TYPE_BAO_DAN => '注册',
+            self::SHOP_TYPE_REGENERATE => '我要进货',
+            self::SHOP_TYPE_SELF_SUPPORT => '申请邮寄',
+            self::SHOP_TYPE_THIRD_PARTY => '',
+            self::SHOP_TYPE_ENTITY => '',
+            self::SHOP_TYPE_LOVE => '',
         );
         return self::getItems($items, $key);
     }

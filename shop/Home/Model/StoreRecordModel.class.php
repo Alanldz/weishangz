@@ -360,6 +360,9 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
                 case 3:
                     $list[$k]['type_name'] = '进货' . $remark;
                     break;
+                case 4:
+                    $list[$k]['type_name'] = '申请邮寄';
+                    break;
                 default :
                     $list[$k]['type_name'] = '';
                     break;
