@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Home\Model\UserModel;
+use Lib\Image;
 
 class UserController extends CommonController
 {
@@ -613,6 +614,23 @@ class UserController extends CommonController
         } else {
             ajaxReturn('请求方式有误', 0);
         }
+    }
+
+    /**
+     * 我的授权书
+     * @author ldz
+     * @time 2020/4/30 17:40
+     */
+    public function myAuthorization()
+    {
+//        $img = '/Public/NewHome/img/authorization.png';
+//        $image = new Image($img);
+
+
+
+
+
+        $this->display();
     }
 
 }
