@@ -380,7 +380,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
             //验证交易密码
             $userModel->Trans($userInfo, $trade_pwd);
             if ($userInfo['level'] >= $level) {
-                throw new Exception('您当前等级大于选择升级级别，请重选');
+                throw new Exception('申请需选择高于当前级别');
             }
             $is_apply = M('level_list')->where(['uid' => $user_id, 'status' => Constants::VERIFY_STATUS_WAIT])->find();
             if ($is_apply) {
