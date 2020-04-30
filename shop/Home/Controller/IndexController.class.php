@@ -17,10 +17,13 @@ class IndexController extends CommonController
         $userInfo = M('user')->where(['userid' => $user_id])->field('userid,username,mobile,level,reg_date')->find();
 
         $storeInfo = M('store')->field('cangku_num,cloud_library')->where(['uid' => $user_id])->find();
+
+        $bannerList = $this->get_banner();
         $this->assign([
             'userInfo' => $userInfo,
             'storeInfo' => $storeInfo,
-            'methods' => 'index'
+            'methods' => 'index',
+            'bannerList' => $bannerList
         ]);
         $this->display();
     }
@@ -31,7 +34,7 @@ class IndexController extends CommonController
     private function get_banner()
     {
         $user_object = M('banner');
-        $data_list = $user_object->order('sort')->select();
+        $data_list = $user_object->order('sort')->limit(3)->select();
         return $data_list;
     }
 
