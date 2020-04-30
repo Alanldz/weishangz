@@ -11,6 +11,27 @@ use Think\Exception;
 class StoreModel extends \Common\Model\StoreModel
 {
 
+    //月销量达标值
+    const month_amount_f_one = 100000;
+    const month_amount_f_two = 200000;
+    const month_amount_f_three = 300000;
+    const month_amount_f_four = 400000;
+    const month_amount_f_five = 500000;
+    const month_amount_f_six = 1000000;
+    const month_amount_f_seven = 2000000;
+    const month_amount_f_eight = 3000000;
+    const month_amount_f_nine = 5000000;
+    //月销量达标值比例
+    const month_amount_f_one_ratio = 0.05;
+    const month_amount_f_two_ratio = 0.06;
+    const month_amount_f_three_ratio = 0.07;
+    const month_amount_f_four_ratio = 0.08;
+    const month_amount_f_five_ratio = 0.09;
+    const month_amount_f_six_ratio = 0.12;
+    const month_amount_f_seven_ratio = 0.14;
+    const month_amount_f_eight_ratio = 0.16;
+    const month_amount_f_nine_ratio = 0.18;
+
     /**
      * 获取伞下用户数量、业绩
      * @param $user_id
@@ -702,6 +723,85 @@ class StoreModel extends \Common\Model\StoreModel
             $this->error = $ex->getMessage();
             return false;
         }
+    }
+
+    /**
+     * 月销售返点
+     * @return bool
+     * @author ldz
+     * @time 2020/4/30 17:02
+     */
+    public function releaseMonth()
+    {
+        $where['u.level'] = ['EGT', Constants::USER_LEVEL_A_THREE];
+        $where['ys.total_month_amount'] = ['EGT', self::month_amount_f_one];
+        $arrList = M('user u')->where($where)
+            ->join('ysk_store ys on ys.uid = u.userid')
+            ->field('u.userid user_id,ys.total_month_amount')
+            ->select();
+
+        M()->startTrans();
+        try {
+            foreach ($arrList as $k => $item) {
+                $user_ratio = $this->getMonthAmountRatio($item['total_month_amount']);
+                $total_num = $item['total_month_amount'] * $user_ratio;
+                $directlyUser = M('user u')->where(['pid' => $item['user_id']])
+                    ->join('ysk_store ys on ys.uid = u.userid')
+                    ->field('ys.total_month_amount')
+                    ->select();
+                $other_num = 0;
+                foreach ($directlyUser as $v) {
+                    $ratio = $this->getMonthAmountRatio($v['total_month_amount']);
+                    $other_num += $ratio * $v['total_month_amount'];
+                }
+
+                $total_release_num = formatNum2($total_num - $other_num);
+
+                if ($total_release_num > 0) {
+                    StoreModel::changStore($item['user_id'], 'cangku_num', $total_release_num, 14);
+                }
+            }
+
+            //清除月销量
+            $res = M('store')->where([])->save(['total_month_amount' => 0, 'month_num' => 0]);
+            if ($res === false) {
+                throw new Exception('清空月销量失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    private function getMonthAmountRatio($amount)
+    {
+        if ($amount >= self::month_amount_f_nine) {//F9
+            $ratio = self::month_amount_f_nine_ratio;
+        } elseif ($amount >= self::month_amount_f_eight) {//F8
+            $ratio = self::month_amount_f_eight_ratio;
+        } elseif ($amount >= self::month_amount_f_seven) {//F7
+            $ratio = self::month_amount_f_seven_ratio;
+        } elseif ($amount >= self::month_amount_f_six) {//F6
+            $ratio = self::month_amount_f_six_ratio;
+        } elseif ($amount >= self::month_amount_f_five) {//F5
+            $ratio = self::month_amount_f_five_ratio;
+        } elseif ($amount >= self::month_amount_f_four) {//F4
+            $ratio = self::month_amount_f_four_ratio;
+        } elseif ($amount >= self::month_amount_f_three) {//F3
+            $ratio = self::month_amount_f_three_ratio;
+        } elseif ($amount >= self::month_amount_f_two) {//F2
+            $ratio = self::month_amount_f_two_ratio;
+        } elseif ($amount >= self::month_amount_f_one) {//F1
+            $ratio = self::month_amount_f_one_ratio;
+        } else {
+            $ratio = 0;
+        }
+
+        return $ratio;
     }
 
 }

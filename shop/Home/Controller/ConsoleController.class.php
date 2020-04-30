@@ -352,4 +352,21 @@ class ConsoleController extends Controller
     }
 
 
+    /**
+     * 每个月月底释放月销售返点
+     * @author ldz
+     * @time 2020/4/30 16:40
+     */
+    public function releaseMonth()
+    {
+        $model = new StoreModel();
+        $res = $model->releaseMonth();
+        if (!$res) {
+            echo $model->getError();
+        } else {
+            echo 'success';
+        }
+    }
+
+
 }

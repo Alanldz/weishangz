@@ -719,6 +719,7 @@ class UserModel extends \Common\Model\UserModel
 
         foreach ($arrPath as $pid) {
             $update['total_amount'] = array('exp', 'total_amount + ' . $total_amount);
+            $update['total_month_amount'] = array('exp', 'total_month_amount + ' . $total_amount);
             $update['total_num'] = array('exp', 'total_num + ' . $activate_buy_num);
             $update['month_num'] = array('exp', 'month_num + ' . $activate_buy_num);
             $res = M('store')->where(['uid' => $pid])->save($update);
