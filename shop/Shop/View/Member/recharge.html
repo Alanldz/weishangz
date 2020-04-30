@@ -26,8 +26,8 @@
             </div>I
         </div>
         <div class="fill_sty">
-            <p>需付金额：</p>
-            <input type="text" value="{$open_power_sell_amount}" readonly>
+            <p>充值金额：</p>
+            <input type="text" class="recharge_money" name="recharge_money" value="" placeholder="请输入充值金额">
         </div>
         <div class="acco_con_upa fill_sty">
             <p style="width: 30%;">付款凭证：</p>
@@ -68,7 +68,24 @@
         }
     });
 
+    $('.recharge_money').on('blur',function () {
+        var num = Math.round($(this).val());
+        $(this).val(num);
+    });
+
     $('#submit-recharge').on('click', function () {
+        var recharge_money = $('.recharge_money').val();
+        if(recharge_money == '' || parseFloat(recharge_money) <= 0){
+            msg_alert('请输入充值金额~');
+            return;
+        }
+
+        var pwd = $('.pwd').val();
+        if(pwd == ''){
+            msg_alert('请输入输入交易密码~');
+            return;
+        }
+
         var is_ajax= $('#submit-recharge').hasClass('is_ajax');
         if(is_ajax){
             msg_alert('请勿频繁操作~');
@@ -95,7 +112,6 @@
 
     $('.collections_img').on('click',function () {
         var img = $(this).parent().find('.pay_code').val();
-        console.log(img);
         //自定页
         layer.open({
             type: 1,

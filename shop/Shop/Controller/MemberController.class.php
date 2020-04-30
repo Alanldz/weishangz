@@ -639,9 +639,7 @@ class MemberController extends CommonController
             $this->ajaxReturn(['msg' => '充值成功', 'status' => 1]);
         }
         $collections_img = M('config')->where(['name' => 'collections_img'])->getField('value');
-        $open_power_sell_amount = Constants::open_power_sell_amount;
         $this->assign('collections_img', $collections_img);
-        $this->assign('open_power_sell_amount', $open_power_sell_amount);
         $this->display();
     }
 

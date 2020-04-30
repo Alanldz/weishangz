@@ -910,7 +910,10 @@ class StoreModel extends \Common\Model\StoreModel
             $uid = session('userid');
             $picname = $_FILES['uploadfile']['name'];
             $picsize = $_FILES['uploadfile']['size'];
-            $amount = Constants::open_power_sell_amount;
+            $amount = round(I('recharge_money'));
+            if($amount <= 0){
+                throw new Exception('请输入充值金额');
+            }
             $safety_pwd = trim(I('pwd'));
             if (empty($safety_pwd)) {
                 throw new Exception('请输入交易密码');
@@ -920,13 +923,6 @@ class StoreModel extends \Common\Model\StoreModel
             $res = Trans($uid, $safety_pwd);
             if (!$res['status']) {
                 $this->error = $res['msg'];
-                return false;
-            }
-
-            $userInfo = M('user')->where(['userid' => $uid])->field('quanxian')->find();
-            $power = getArray($userInfo['quanxian']);
-            if (!in_array(4, $power)) {
-                $this->error = '您已经有卖出的权限，无需再开通';
                 return false;
             }
 

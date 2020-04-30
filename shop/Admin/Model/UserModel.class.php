@@ -243,7 +243,7 @@ class UserModel extends \Common\Model\UserModel
     {
         try {
             M()->startTrans();
-            $status = (trim(I('status', 1)) == 1) ? 1 : 2;
+            $status = (intval(I('status', 1)) == 1) ? 1 : 2;
 
             $recharge = M('recharge')->where(['id' => $id, 'delete_time' => ''])->field('uid,amount,status')->find();
             if (empty($recharge)) {
@@ -260,19 +260,7 @@ class UserModel extends \Common\Model\UserModel
             }
 
             if ($status == 1) {
-                //给用户开通卖出权限
-                $userInfo = M('user')->where(['userid' => $recharge['uid']])->field('quanxian')->find();
-                $power = getArray($userInfo['quanxian']);
-                foreach ($power as $k => $item) {
-                    if ($item == 4) {
-                        unset($power[$k]);
-                    }
-                }
-                $power = join("-", $power);
-                $res = M('user')->where(['userid' => $recharge['uid']])->save(['quanxian' => $power]);
-                if ($res === false) {
-                    throw new Exception('开通权限失败');
-                }
+                StoreModel::changStore($recharge['uid'], 'cangku_num', $recharge['amount'], 12);
             }
 
             M()->commit();

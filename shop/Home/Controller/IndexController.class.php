@@ -778,6 +778,9 @@ class IndexController extends CommonController
                 case '10':
                     $Chan_info[$k]['type_name'] = '进货' . $remark;
                     break;
+                case '12':
+                    $Chan_info[$k]['type_name'] = '余额充值';
+                    break;
                 default:
                     $Chan_info[$k]['type_name'] = '';
                     break;

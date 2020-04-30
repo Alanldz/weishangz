@@ -90,8 +90,8 @@
                                                     </td>
                                                     <td>
                                                         <if condition="$data.status eq 0">
-                                                            <a name="edit" title="充值" class="label label-primary-outline label-pill ajax-get confirm" href="{:U('User/submitRecharge',array('id'=>$data['id'],'status'=>1))}">审核通过</a>
-                                                            <a name="edit" title="充值" class="label label-primary-outline label-pill ajax-get confirm" href="{:U('User/submitRecharge',array('id'=>$data['id'],'status'=>2))}">审核未通过</a>
+                                                            <a name="edit" title="通过" class="label label-primary-outline label-pill ajax-get confirm" href="{:U('User/submitRecharge',array('id'=>$data['id'],'status'=>1))}">审核通过</a>
+                                                            <a name="edit" title="不通过" class="label label-primary-outline label-pill ajax-get confirm" href="{:U('User/submitRecharge',array('id'=>$data['id'],'status'=>2))}">审核未通过</a>
                                                         </if>
                                                     </td>
                                                 </tr>
