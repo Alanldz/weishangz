@@ -1169,11 +1169,6 @@ class UserModel extends \Common\Model\UserModel
                 $address['city_id'] = $order['city_id'];
             }
 
-            //奖励
-            $arrayPath = array_reverse(getArray($activate_user_info['path']));
-            $this->user_id = $activate_user_id;
-            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address);
-
             //修改用户状态
             $update['level'] = $activate_user_info['investment_grade'];
             $update['activate'] = 1;
@@ -1182,6 +1177,11 @@ class UserModel extends \Common\Model\UserModel
             if (!$res) {
                 throw new Exception('激活用户失败');
             }
+
+            //奖励
+            $arrayPath = array_reverse(getArray($activate_user_info['path']));
+            $this->user_id = $activate_user_id;
+            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address);
 
             //激活记录
             $addData = [
