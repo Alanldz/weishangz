@@ -746,7 +746,7 @@ class UserModel extends \Common\Model\UserModel
         //推荐人获得
         StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
         $pid_info = M('user')->where(['pid' => $user_id])->field('level')->find();
-        if ($pid_info && $pid_info['level'] >= Constants::USER_LEVEL_A_THREE) {
+        if ($pid_info && $pid_info['level'] == Constants::USER_LEVEL_A_THREE) {
             //上上级获得间推奖
             StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 6, 1, $this->user_id);
         }
@@ -1167,7 +1167,7 @@ class UserModel extends \Common\Model\UserModel
             //奖励
             $arrayPath = array_reverse(getArray($activate_user_info['path']));
             $this->user_id = $activate_user_id;
-            $this->award($uid, $arrayPath, $productInfo['activate_buy_num'], $address);
+            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address);
 
             //修改用户状态
             $update['level'] = $activate_user_info['investment_grade'];
