@@ -408,4 +408,63 @@ class ActivateController extends CommonController
         $this->assign('storeInfo', $storeInfo);
         $this->display();
     }
+
+    public function userList()
+    {
+        $step = intval(I('step', 0)) ? 1 : 0;
+        $user_id = session('userid');
+        if ($step == 0) {
+            $userList = UserModel::getUnActivateUser($user_id);
+        } else {
+            $userList = M('activate_record')->where(['uid' => $user_id])->select();
+            foreach ($userList as $k => $item) {
+                $activate_user_info = M('user')->where(['userid' => $item['activate_user_id']])->field('mobile,pid')->find();
+                $userList[$k]['mobile'] = $activate_user_info['mobile'];
+                $userList[$k]['pid'] = $activate_user_info['pid'];
+                $userList[$k]['pid_mobile'] = M('user')->where(['userid' => $activate_user_info['pid']])->getField('mobile');
+            }
+        }
+
+        $this->assign('step', $step);
+        $this->assign('userList', $userList);
+        $this->display('list');
+    }
+
+    /**
+     * 激活用户
+     * @author ldz
+     * @time 2020/5/5 16:31
+     */
+    public function activateUser()
+    {
+        if (IS_AJAX) {
+            $models = new UserModel();
+            $res = $models->activateUser();
+            if (!$res) {
+                ajaxReturn($models->getError(), 0);
+            }
+            ajaxReturn('激活成功', 1, U('Activate/userList'));
+        } else {
+            ajaxReturn('请求方式有误', 0);
+        }
+    }
+
+    /**
+     * 删除用户
+     * @author ldz
+     * @time 2020/5/5 16:31
+     */
+    public function deleteUser()
+    {
+        if (IS_AJAX) {
+            $models = new UserModel();
+            $res = $models->deleteUser();
+            if (!$res) {
+                ajaxReturn($models->getError(), 0);
+            }
+            ajaxReturn('申请成功', 1, U('Activate/userList'));
+        } else {
+            ajaxReturn('请求方式有误', 0);
+        }
+    }
 }

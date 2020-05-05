@@ -523,9 +523,10 @@ class UserModel extends \Common\Model\UserModel
             $data['junction_path'] = '';
             $data['activation_time'] = 0;
             $data['get_touch_layer'] = '';
-            $data['level'] = $productInfo['level'];
-            $data['activate'] = 1;
-            $data['activation_time'] = time();
+            $data['investment_grade'] = $productInfo['level'];
+//            $data['level'] = $productInfo['level'];
+//            $data['activate'] = 1;
+//            $data['activation_time'] = time();
             $data['is_share'] = 1;
             $uid = $this->add($data);
             if (!$uid) {
@@ -551,22 +552,26 @@ class UserModel extends \Common\Model\UserModel
                 throw new Exception('创建用户钱包失败');
             }
 
-            $user_id = session('userid');
-            $storeInfo = M('store')->where(['uid' => $user_id])->field('cangku_num,cloud_library')->find();
-            if ($productInfo['activate_buy_num'] > $storeInfo['cloud_library']) {
-                throw new Exception('您的云库不足');
-            }
-            //扣除用户的云库数量
-            StoreRecordModel::addRecord($user_id, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 0, $this->user_id);
-
-            $arrayPath = array_reverse(getArray($data['path']));
-            //奖励
-            $this->award($user_id,$arrayPath,$productInfo['activate_buy_num'],$address);
-            if (empty($address)) {//云库
-                StoreRecordModel::addRecord($this->user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
-            } else {//邮寄，创建订单
+            if ($address) {
                 $this->createOrder($productInfo, $address);
             }
+
+//            $user_id = session('userid');
+//            $storeInfo = M('store')->where(['uid' => $user_id])->field('cangku_num,cloud_library')->find();
+//            if ($productInfo['activate_buy_num'] > $storeInfo['cloud_library']) {
+//                throw new Exception('您的云库不足');
+//            }
+//            //扣除用户的云库数量
+//            StoreRecordModel::addRecord($user_id, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 0, $this->user_id);
+//
+//            $arrayPath = array_reverse(getArray($data['path']));
+//            //奖励
+//            $this->award($user_id, $arrayPath, $productInfo['activate_buy_num'], $address);
+//            if (empty($address)) {//云库
+//                StoreRecordModel::addRecord($this->user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
+//            } else {//邮寄，创建订单
+//                $this->createOrder($productInfo, $address);
+//            }
 
             M()->commit();
             return true;
@@ -678,7 +683,7 @@ class UserModel extends \Common\Model\UserModel
         $order['city_id'] = $address['city_id'];
         $order['country_id'] = $address['country_id'];
         $order['address'] = $address['address'];
-        $order['status'] = 1;
+        $order['status'] = 0;
         $order['time'] = time();
         $order_id = M("order")->add($order);
 
@@ -1014,6 +1019,244 @@ class UserModel extends \Common\Model\UserModel
         }
 
         return true;
+    }
+
+    /**
+     * 未激活用户列表
+     * @param $user_id
+     * @return array
+     * @author ldz
+     * @time 2020/5/5 15:51
+     */
+    public static function getUnActivateUser($user_id)
+    {
+        $userInfo = M('user')->where(['userid' => $user_id])->field('mobile,level,service_center')->find();
+        $field = 'userid,pid,mobile,investment_grade,reg_date';
+        $list_one = M('user')->where(['pid' => $user_id, 'level' => Constants::USER_LEVEL_NOT_ACTIVATE])->order('reg_date asc')->field($field)->select();
+
+        $where['pid'] = ['neq', $user_id];
+        $where['level'] = Constants::USER_LEVEL_NOT_ACTIVATE;
+        $where['path'] = ['like', '%' . $user_id . '%'];
+        $list_two = M('user')->where($where)->field($field)->order('userid asc')->select();
+        $arrUser = array_merge($list_one, $list_two);
+        $userList = [];
+        foreach ($arrUser as $key => $item) {
+            $data = $item;
+            $data['is_can_deal'] = 0;
+            $data['is_can_del'] = 0;
+            $data['delivery_type'] = '邮寄';
+            if ($item['pid'] == $user_id) {//直推下级
+                $data['pid_mobile'] = $userInfo['mobile'];
+                if ($item['investment_grade'] == Constants::USER_LEVEL_A_THREE) {
+                    if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE && $userInfo['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    }
+                } else {
+                    if ($userInfo['level'] > $item['investment_grade']) {
+                        $data['is_can_deal'] = 1;
+                    }
+                }
+
+                if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE && $userInfo['service_center'] == 1) {
+                    $data['is_can_del'] = 1;
+                }
+            } else {
+                $data['pid_mobile'] = M('user')->where(['userid' => $item['pid']])->getField('mobile');
+                if ($item['investment_grade'] == Constants::USER_LEVEL_A_THREE) {
+                    if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE && $userInfo['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    if ($userInfo['level'] > $item['investment_grade']) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                }
+                if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE && $userInfo['service_center'] == 1) {
+                    $data['is_can_del'] = 1;
+                }
+            }
+            $data['activate_buy_num'] = M('product_detail')->where(['level' => $item['investment_grade']])->getField('activate_buy_num');
+            $order = M('order')->where(['uid' => $item['userid']])->count();
+            if (empty($order)) {
+                $data['delivery_type'] = '云库';
+            }
+
+            $userList[] = $data;
+        }
+
+        return $userList;
+    }
+
+    /**
+     * 激活用户
+     * @return bool
+     * @author ldz
+     * @time 2020/2/12 9:51
+     */
+    public function activateUser()
+    {
+        M()->startTrans();
+        try {
+            $uid = session('userid');
+            $activate_user_id = intval(I('user_id'));
+            $trans_pwd = trim(I('pwd', ''));
+            if (empty($trans_pwd)) {
+                throw new Exception('请输入交易密码');
+            }
+            //验证交易密码
+            $this->Trans('', $trans_pwd);
+
+            $activate_user_info = M('user')->where(['userid' => $activate_user_id, 'level' => Constants::USER_LEVEL_NOT_ACTIVATE])->field('pid,path,investment_grade')->find();
+            if (empty($activate_user_info)) {
+                throw new Exception('您要激活的用户不存在，请重试');
+            }
+
+            $path = '-' . $uid . '-';
+            if (strpos($activate_user_info['path'], $path) === false) {
+                throw new Exception('该用户不是您的团队，请重新选择');
+            }
+
+            $user_info = M('user')->where(['userid' => $uid])->field('level,service_center')->find();
+            $is_can_deal = false;
+            if ($activate_user_info['investment_grade'] == Constants::USER_LEVEL_A_THREE) {
+                if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                    $is_can_deal = true;
+                }
+            } else {
+                if ($user_info['level'] > $activate_user_info['investment_grade']) {
+                    $is_can_deal = true;
+                }
+            }
+
+            if (!$is_can_deal) {
+                throw new Exception('您没有权限激活');
+            }
+
+            $productInfo = M('product_detail')->where(['level' => $activate_user_info['investment_grade']])->field('id,level,price,activate_buy_num,name,pic')->find();
+            if (empty($productInfo)) {
+                throw new Exception('激活失败，请联系管理员');
+            }
+
+            $storeInfo = M('store')->where(['uid' => $uid])->field('cloud_library')->find();
+            if ($productInfo['activate_buy_num'] > $storeInfo['cloud_library']) {
+                throw new Exception('您的云库不足');
+            }
+
+            //扣除用户的云库数量
+            StoreRecordModel::addRecord($uid, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 0, $activate_user_id);
+            $order = M('order')->where(['uid' => $activate_user_id, 'status' => 0])->order('order_id asc')->find();
+
+            if (empty($order)) {//云库
+                $address = [];
+                $type = 2;
+                StoreRecordModel::addRecord($activate_user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
+            } else {//邮寄
+                $res = M('order')->where(['order_id' => $order['order_id']])->save(['status' => 1]);
+                if ($res === false) {
+                    throw new Exception('修改订单状态失败');
+                }
+                $type = 1;
+                $address['province_id'] = $order['province_id'];
+                $address['city_id'] = $order['city_id'];
+            }
+
+            //奖励
+            $arrayPath = array_reverse(getArray($activate_user_info['path']));
+            $this->user_id = $activate_user_id;
+            $this->award($uid, $arrayPath, $productInfo['activate_buy_num'], $address);
+
+            //修改用户状态
+            $update['level'] = $activate_user_info['investment_grade'];
+            $update['activate'] = 1;
+            $update['activation_time'] = time();
+            $res = M('user')->where(['userid' => $activate_user_id])->save($update);
+            if (!$res) {
+                throw new Exception('激活用户失败');
+            }
+
+            //激活记录
+            $addData = [
+                'uid' => $uid,
+                'activate_user_id' => $activate_user_id,
+                'level' => $activate_user_info['investment_grade'],
+                'num' => $productInfo['activate_buy_num'],
+                'type' => $type,
+                'create_time' => $update['activation_time']
+            ];
+            $res = M('activate_record')->add($addData);
+            if (!$res) {
+                throw new Exception('新增激活用户记录失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * 删除用户
+     * @return bool
+     * @author ldz
+     * @time 2020/2/12 9:51
+     */
+    public function deleteUser()
+    {
+        M()->startTrans();
+        try {
+            $uid = session('userid');
+            $del_user_id = intval(I('user_id'));
+            $trans_pwd = trim(I('pwd', ''));
+            if (empty($trans_pwd)) {
+                throw new Exception('请输入交易密码');
+            }
+            //验证交易密码
+            $this->Trans('', $trans_pwd);
+
+            $del_user_info = M('user')->where(['userid' => $del_user_id])->field('path')->find();
+            if (empty($del_user_info)) {
+                throw new Exception('您要删除的用户不存在，请重试');
+            }
+
+            $path = '-' . $uid . '-';
+            if (strpos($del_user_info['path'], $path) === false) {
+                throw new Exception('该用户不是您的团队，请重新选择');
+            }
+
+            $user_info = M('user')->where(['userid' => $uid])->field('level,service_center')->find();
+            if ($user_info['level'] < Constants::USER_LEVEL_A_THREE || $user_info['service_center'] == 0) {
+                throw new Exception('您没有删除用户的权限');
+            }
+
+            $res = M('ucoins')->where(['c_uid' => $del_user_id])->delete();
+            if ($res === false) {
+                throw new Exception('删除用户失败');
+            }
+
+            $res = M('store')->where(['uid' => $del_user_id])->delete();
+            if ($res === false) {
+                throw new Exception('删除用户失败');
+            }
+
+            $res = M('user')->where(['userid' => $del_user_id])->delete();
+            if ($res === false) {
+                throw new Exception('删除用户失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
     }
 
 

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>用户激活</title>
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 2px 5px;
+            margin: 0 1px;
+            border: 1px solid #f0f0f0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        .pagination a,
+        .pagination li {
+            display: inline-block;
+            list-style: none;
+            text-decoration: none;
+            color: #58A0D3;
+        }
+
+        .pagination a.first,
+        .pagination a.prev,
+        .pagination a.next,
+        .pagination a.end {
+            margin: 0;
+        }
+
+        .pagination a:hover {
+            border-color: #50A8E6;
+        }
+
+        .pagination span.current {
+            background: #50A8E6;
+            color: #FFF;
+            font-weight: 700;
+            border-color: #50A8E6;
+        }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>用户激活</header>
+<div class="back"></div>
+<ul class="jh-tabs clearfix">
+    <li
+    <eq name="step" value="0">class="active"</eq>
+    ><a href="{:U('Activate/userList',array('step'=>0))}">未激活</a></li>
+    <li
+    <eq name="step" value="1">class="active"</eq>
+    ><a href="{:U('Activate/userList',array('step'=>1))}">确认列表</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+        <ul class="ka-list">
+            <if condition="$userList">
+                <if condition="$step eq 0">
+                    <foreach name="userList" item="v">
+                        <li>
+                            <div class="list-header">注册时间：{$v['reg_date']|toDate}</div>
+                            <div class="ka-bottom">
+                                <p>推荐人：{$v['pid_mobile']}（ID：{$v['pid']}）</p>
+                                <p>激活账户：{$v['mobile']}（ID：{$v['userid']}） </p>
+                                <p>激活级别：{$v['investment_grade']|getUserLevelItems}</p>
+                                <p>所需云库：{$v['activate_buy_num']}盒</p>
+                                <p>货物方式：{$v['delivery_type']}</p>
+                                <div class="text-left">
+                                    <input type="hidden" value="{$v.userid}" class="user_id">
+                                    <if condition="$v['is_can_deal'] eq 1 or $v['is_can_del'] eq 1">
+                                        <input type="password" class="pwd" placeholder="请输入交易密码">
+                                    </if>
+                                    <if condition="$v['is_can_deal'] eq 1">
+                                        <a href="javaScript:void (0)" class="determinePayment"> 点击确认</a>
+                                    </if>
+                                    <if condition="$v['is_can_del'] eq 1">
+                                        <a href="javaScript:void (0)" class="delete"> 删除</a>
+                                    </if>
+                                </div>
+                            </div>
+                        </li>
+                    </foreach>
+                    <else/>
+
+                    <foreach name="userList" item="v">
+                        <li>
+                            <div class="list-header">激活时间：{$v['create_time']|toDate}</div>
+                            <div class="ka-bottom">
+                                <p>推荐人：{$v['pid_mobile']}（ID：{$v['pid']}）</p>
+                                <p>激活账户：{$v['mobile']}（ID：{$v['activate_user_id']}） </p>
+                                <p>激活级别：{$v['level']|getUserLevelItems}</p>
+                                <p>所需云库：{$v['num']}盒</p>
+                                <p>货物方式：
+                                    <if condition="$v['type'] eq 1">
+                                        邮寄
+                                        <else/>
+                                        云库
+                                    </if>
+                                </p>
+
+                            </div>
+                        </li>
+                    </foreach>
+
+                </if>
+                <else/>
+                <li>
+                    <div style="text-align: center;color: #a99d9d">
+                        <if condition="$step eq 0">
+                            暂无未激活用户
+                            <else/>
+                            暂无确认过用户
+                        </if>
+                    </div>
+                </li>
+            </if>
+        </ul>
+        <!--<div class="text-center">-->
+            <!--<notempty name="page">-->
+                <!--<ul class="pagination">{$page}</ul>-->
+            <!--</notempty>-->
+        <!--</div>-->
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+
+    $('.determinePayment').on('click', function () {
+        var obj = $(this);
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        var user_id = obj.parent().find('.user_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
+
+        doajax("{:U('activate/activateUser')}", {user_id: user_id,pwd:pwd}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message,data.url);
+            } else {
+                msg_alert(data.message);
+            }
+            obj.removeClass('is_ajax');
+        });
+    });
+
+    $('.delete').on('click',function () {
+        var obj = $(this);
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        var user_id = obj.parent().find('.user_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
+
+        doajax("{:U('activate/deleteUser')}", {user_id: user_id,pwd:pwd}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message,data.url);
+            } else {
+                msg_alert(data.message);
+            }
+            obj.removeClass('is_ajax');
+        });
+    });
+</script>
+</html>
