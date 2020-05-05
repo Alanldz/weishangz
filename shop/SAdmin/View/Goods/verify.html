@@ -67,7 +67,7 @@
                             </if>
                             <td>{$v['time']|toDate}</td>
                             <td>
-                                <a class="btn btn-xs btn-info" href="{:U('Goods/verifyInfo',array('id'=>$v['id']))}">编辑</a>
+<!--                                <a class="btn btn-xs btn-info" href="{:U('Goods/verifyInfo',array('id'=>$v['id']))}">编辑</a>-->
                                 <if condition="$v['status'] eq 0">
 
                                     <a class="btn btn-xs btn-info" href='{:U("Goods/saveVerify",array("id"=>$v["id"],"status"=>1))}'>通过认证</a>

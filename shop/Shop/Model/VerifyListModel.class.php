@@ -92,7 +92,7 @@ class VerifyListModel extends ModelModel
         $params['city'] = trim(I("city"));
         $params['district'] = trim(I("district"));
         $params['shore_address'] = trim(I("shore_address"));
-        $params['type'] = intval(trim(I("type", Constants::VERIFY_BUSINESS)));
+        $params['type'] = intval(trim(I("type", Constants::VERIFY_PERSON)));
 
         $error = $this->validateFields($params);
         if ($error) {
@@ -160,21 +160,18 @@ class VerifyListModel extends ModelModel
         }
         if (!$id) {
             if ($params['type'] == Constants::VERIFY_BUSINESS) {
-                if (empty($data['legal_person_hand_card']) || empty($data['business_license'])) {
+                if (empty($data['legal_person_hand_card'])) {
                     $this->error = '请上传有关证件';
                     return false;
                 } else {
                     $dede['hand_idcard'] = $data['legal_person_hand_card'];
-                    $dede['licence'] = $data['business_license'];
                 }
             } else {
-                if (empty($data['legal_person_hand_card']) || empty($data['business_license']) || empty($data['store_phone'])) {
+                if (empty($data['legal_person_hand_card'])) {
                     $this->error = '请上传有关证件';
                     return false;
                 } else {
                     $dede['hand_idcard'] = $data['legal_person_hand_card'];
-                    $dede['licence'] = $data['business_license'];
-                    $dede['store_phone'] = $data['store_phone'];
                 }
             }
         }
@@ -213,6 +210,8 @@ class VerifyListModel extends ModelModel
         $dede['status'] = Constants::VERIFY_STATUS_WAIT;
         $dede['time'] = time();
         $dede['datestr'] = date("Ymd");
+        $dede['business_hours'] = '';
+        $dede['content'] = '';
         if ($id) {
             $res = $this->where(['id' => $id])->save($dede);
         } else {
@@ -249,9 +248,18 @@ class VerifyListModel extends ModelModel
         }
         $where['status'] = Constants::VERIFY_STATUS_PASS;
         $where['type'] = Constants::VERIFY_PERSON;
-        $fields = 'id,store_name,store_phone,province_id,city_id,country_id,shore_address,business_hours,buy_num';
+        $fields = 'id,store_name,store_phone,phone,province_id,city_id,country_id,shore_address,business_hours,buy_num,username';
         $list = M('verify_list')->where($where)->field($fields)->select();
+        foreach ($list as &$value){
+            $value['mobile_hidden'] = '';
+            if($value['phone']){
+                $mobile_start = substr($value['phone'],0,2);
+                $mobile_end = substr($value['phone'],5);
+                $value['mobile_hidden'] = $mobile_start.'***'.$mobile_end;
+            }
 
+
+        }
         return $list;
     }
 

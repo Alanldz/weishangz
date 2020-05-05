@@ -376,8 +376,10 @@ class MemberController extends CommonController
         }
 
         $user_id = session('userid');
+        $user_info = M('user')->where(['userid' => $user_id])->field('username,mobile,identity_card')->find();
         $verifyInfo = M('verify_list')->where(['uid' => $user_id])->find();
         $this->assign('verifyInfo', $verifyInfo);
+        $this->assign('user_info', $user_info);
         $this->display();
     }
 

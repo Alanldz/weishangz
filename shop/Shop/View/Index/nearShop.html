@@ -45,8 +45,8 @@
             <foreach name="list" item="vo" key="k">
                 <div class="q-all">
                      <div class="">
-                        <h2>店主姓名：林先生 </h2>
-                         <p>联系电话：13***590000</p>
+                        <p>店主姓名： {$vo.username}</p>
+                         <p>联系电话：{$vo.mobile_hidden}</p>
                         <p>店铺区域：{$vo.province_id}{$vo['city_id']}{$vo['country_id']}</p>
                           </div>
                 </div>

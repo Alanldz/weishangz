@@ -32,10 +32,10 @@
     <div class="shezhi qyrz3 smrz">
 
         <input type="hidden" name="id" value="{$verifyInfo.id}">
-        <input type="text" class="abc" name="real_name" value="{$verifyInfo.realname}" placeholder="姓名"/>
-        <input type="number" class="abc" name="phone" value="{$verifyInfo.phone}" placeholder="手机号"/>
-        <input type="text" class="abc" name="id_card" value="{$verifyInfo.idcard}" placeholder="身份证号"/>
-        <input type="text" class="abc" name="store_name" value="{$verifyInfo.store_name}" placeholder="店铺名称"/>
+        <input type="text" class="abc" name="real_name" value="{$user_info.username}" placeholder="姓名" readonly/>
+        <input type="number" class="abc" name="phone" value="{$user_info.mobile}" placeholder="手机号" readonly/>
+        <input type="text" class="abc" name="id_card" value="{$user_info.identity_card}" placeholder="身份证号" readonly/>
+        <input type="text" class="abc" name="store_name" value="{$user_info.store_name}" placeholder="店铺名称"/>
         <div  >
             <p class="abc">省份：
                 <select id="province" name="province" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
