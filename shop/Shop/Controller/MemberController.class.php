@@ -89,6 +89,10 @@ class MemberController extends CommonController
             }
         }
 
+        if($userInfo['level'] < Constants::USER_LEVEL_A_THREE){
+            $verify_is_show = 0;
+        }
+
         $verifyInfo['url'] = $verifyUrl;
         $verifyInfo['result'] = $verifyResult;
 

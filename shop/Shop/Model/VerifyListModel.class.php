@@ -100,7 +100,13 @@ class VerifyListModel extends ModelModel
             return false;
         }
 
-        $userInfo = M("user")->where(array("userid" => $user_id))->field('mobile,username,is_e_verify,is_p_verify')->find();
+        $userInfo = M("user")->where(array("userid" => $user_id))->field('mobile,username,is_e_verify,is_p_verify,level')->find();
+
+        if($userInfo['level'] < Constants::USER_LEVEL_A_THREE){
+            $this->error = '您没有申请权限';
+            return false;
+        }
+
         if ($userInfo['is_e_verify']) {
             $this->error = '您已经完成' . Constants::getVerifyTypeItems($params['type']);
             return false;
