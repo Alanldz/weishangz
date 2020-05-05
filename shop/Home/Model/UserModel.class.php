@@ -743,10 +743,15 @@ class UserModel extends \Common\Model\UserModel
     private function recommendAward($user_id, $activate_buy_num)
     {
         $awardMoney = self::one_box_money * $activate_buy_num;
-        //推荐人获得
-        StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
+        $level = M('user')->where(['userid' => $user_id])->getField('level');
+        $new_user_level = M('user')->where(['userid' => $this->user_id])->getField('level');
+        if ($level == $new_user_level) {
+            //推荐人获得
+            StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
+        }
+
         $pid_info = M('user')->where(['pid' => $user_id])->field('level')->find();
-        if ($pid_info && $pid_info['level'] == Constants::USER_LEVEL_A_THREE) {
+        if ($pid_info && $pid_info['level'] >= Constants::USER_LEVEL_A_THREE) {
             //上上级获得间推奖
             StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 6, 1, $this->user_id);
         }
