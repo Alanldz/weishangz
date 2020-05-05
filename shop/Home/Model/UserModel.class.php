@@ -745,7 +745,7 @@ class UserModel extends \Common\Model\UserModel
         $awardMoney = self::one_box_money * $activate_buy_num;
         $userInfo = M('user')->where(['userid' => $user_id])->field('level,pid')->find();
         $new_user_level = M('user')->where(['userid' => $this->user_id])->getField('level');
-        if ($userInfo['level'] == $new_user_level) {
+        if ($userInfo['level'] <= $new_user_level) {
             //推荐人获得
             StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
         }
