@@ -779,7 +779,7 @@ class IndexController extends CommonController
                     $Chan_info[$k]['type_name'] = '股东分红' . $remark;
                     break;
                 case '10':
-                    $Chan_info[$k]['type_name'] = '进货' . $remark;
+                    $Chan_info[$k]['type_name'] = '区域补贴' . $remark;
                     break;
                 case '12':
                     $Chan_info[$k]['type_name'] = '余额充值';

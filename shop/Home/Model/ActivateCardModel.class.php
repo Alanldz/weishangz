@@ -453,7 +453,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
             $address['province_id'] = $order['province_id'];
             $address['city_id'] = $order['city_id'];
             $userModel->user_id = $order['uid'];
-            $userModel->award($uid, $arrayPath, $order_detail['com_num'], $address, $order['uid']);
+            $userModel->award($uid, $arrayPath, $order_detail['com_num'], $address);
 
             M()->commit();
             return true;

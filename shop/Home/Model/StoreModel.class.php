@@ -733,7 +733,7 @@ class StoreModel extends \Common\Model\StoreModel
      */
     public function releaseMonth()
     {
-        $where['u.level'] = ['EGT', Constants::USER_LEVEL_A_THREE];
+//        $where['u.level'] = ['EGT', Constants::USER_LEVEL_A_THREE];
         $where['ys.total_month_amount'] = ['EGT', self::month_amount_f_one];
         $arrList = M('user u')->where($where)
             ->join('ysk_store ys on ys.uid = u.userid')

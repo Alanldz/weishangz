@@ -591,10 +591,10 @@ class UserModel extends \Common\Model\UserModel
      * @param $activate_user_id
      * @throws Exception
      */
-    public function award($user_id, $arrayPath, $activate_buy_num, $address, $activate_user_id)
+    public function award($user_id, $arrayPath, $activate_buy_num, $address)
     {
         //增加业绩
-        $this->achievement($arrayPath, $activate_buy_num, $activate_user_id);
+        $this->achievement($arrayPath, $activate_buy_num, $this->user_id);
         //推荐奖
         $this->recommendAward($user_id, $activate_buy_num);
         //用户升级
@@ -778,7 +778,7 @@ class UserModel extends \Common\Model\UserModel
                 //股东收益
                 $verify_list = M('verify_list')->where(['uid' => $pid, 'status' => Constants::YesNo_Yes])->field('province_id,city_id')->find();
                 if ($address && $verify_list && ($verify_list['province_id'] == $address['province_id']) && ($verify_list['city_id'] == $address['city_id'])) {
-                    StoreModel::changStore($pid, 'cangku_num', $profit, 10, $this->user_id);
+                    StoreModel::changStore($pid, 'cangku_num', $profit, 10, 1);
                 }
             }
         }
@@ -823,7 +823,7 @@ class UserModel extends \Common\Model\UserModel
     private function directorLevel($uid)
     {
         $num = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_ONE])->count();
-        if (count($num) < 6) {
+        if (intval($num) < 6) {
             return false;
         }
 
@@ -841,7 +841,7 @@ class UserModel extends \Common\Model\UserModel
     private function branchOfficeLevel($uid)
     {
         $num = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_TWO])->count();
-        if (count($num) < 4) {
+        if (intval($num) < 4) {
             return false;
         }
 
@@ -855,7 +855,7 @@ class UserModel extends \Common\Model\UserModel
      */
     private function shareholderLevel($uid)
     {
-        $arrID = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_THREE])->getField('userid');
+        $arrID = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_THREE])->getField('userid',true);
         if (count($arrID) < 3) {
             return false;
         }
@@ -864,17 +864,17 @@ class UserModel extends \Common\Model\UserModel
         foreach ($arrID as $pid) {
             $arrData[] = [
                 'uid' => $pid,
-                'month_num' => M('store')->where(['uid' => $pid])->getField('month_num')
+                'total_month_amount' => M('store')->where(['uid' => $pid])->getField('total_month_amount')
             ];
         }
-        $arrData = arraySort($arrData, 'month_num');//按月销量从大到小排序
+        $arrData = arraySort($arrData, 'total_month_amount');//按月销量从大到小排序
 
-        if ($arrData[0]['month_num'] < 3450) {
+        if ($arrData[0]['total_month_amount'] < 1000000) {
             return false;
         }
         array_shift($arrData);//移除最大
-        $sum = array_sum(array_column($arrData, 'month_num'));
-        if ($sum < 3450) {
+        $sum = array_sum(array_column($arrData, 'total_month_amount'));
+        if ($sum < 1000000) {
             return false;
         }
 
@@ -1183,7 +1183,7 @@ class UserModel extends \Common\Model\UserModel
             //奖励
             $arrayPath = array_reverse(getArray($activate_user_info['path']));
             $this->user_id = $activate_user_id;
-            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address, $activate_user_id);
+            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address);
 
             //激活记录
             $addData = [
