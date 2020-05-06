@@ -331,13 +331,17 @@ class UserController extends CommonController
                 $where['userid|mobile'] = array('like', '%' . $uinfo . '%');
             }
         }
+        $this->storeInfo = M('store')->where(['uid' => $uid])->field('total_month_amount')->find();
+
         $where['pid'] = $uid;
         $muinfo = M('user')->where($where)->order('userid desc')->select();
         for ($i = 0; $i < count($muinfo); $i++) {
-            $moneyinfo = M('store')->where(array('uid' => $muinfo[$i]['userid']))->field('cangku_num,fengmi_num')->find();
+            $moneyinfo = M('store')->where(array('uid' => $muinfo[$i]['userid']))->field('cangku_num,fengmi_num,total_month_amount')->find();
+            $level = $muinfo[$i]['level'];
             $muinfo[$i]['powerValue'] = $moneyinfo['fengmi_num'] ? sprintf('%.2f', $moneyinfo['fengmi_num']) : 0.00;
+            $muinfo[$i]['total_month_amount'] = $moneyinfo['total_month_amount'] ? sprintf('%.2f', $moneyinfo['fengmi_num']) : 0.00;
+            $muinfo[$i]['level_name'] = M('product_detail')->where(['level' => $level])->getField('name');
         }
-
         $this->assign('uid', $uid);
         $this->assign('muinfo', $muinfo);
         $this->assign('uinfo', $uinfo);
