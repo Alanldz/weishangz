@@ -588,12 +588,13 @@ class UserModel extends \Common\Model\UserModel
      * @param $arrayPath
      * @param $activate_buy_num
      * @param $address
+     * @param $activate_user_id
      * @throws Exception
      */
-    public function award($user_id, $arrayPath, $activate_buy_num, $address)
+    public function award($user_id, $arrayPath, $activate_buy_num, $address, $activate_user_id)
     {
         //增加业绩
-        $this->achievement($arrayPath, $activate_buy_num);
+        $this->achievement($arrayPath, $activate_buy_num, $activate_user_id);
         //推荐奖
         $this->recommendAward($user_id, $activate_buy_num);
         //用户升级
@@ -710,11 +711,12 @@ class UserModel extends \Common\Model\UserModel
      * 增加上级的业绩和销量
      * @param $arrPath
      * @param $activate_buy_num
+     * @param $activate_user_id
      * @throws Exception
      */
-    private function achievement($arrPath, $activate_buy_num)
+    private function achievement($arrPath, $activate_buy_num, $activate_user_id)
     {
-        $level = M('user')->where(['userid' => $arrPath[0]])->getField('level');
+        $level = M('user')->where(['userid' => $activate_user_id])->getField('level');
         if ($level == Constants::USER_LEVEL_A_FOUR) {
             $level = Constants::USER_LEVEL_A_THREE;
         }
@@ -1181,7 +1183,7 @@ class UserModel extends \Common\Model\UserModel
             //奖励
             $arrayPath = array_reverse(getArray($activate_user_info['path']));
             $this->user_id = $activate_user_id;
-            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address);
+            $this->award($activate_user_info['pid'], $arrayPath, $productInfo['activate_buy_num'], $address, $activate_user_id);
 
             //激活记录
             $addData = [
