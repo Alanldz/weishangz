@@ -196,6 +196,9 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         $order['shop_type'] = $productInfo['shop_type'];
         if ($productInfo['delivery_type'] == 1) {//货运方式
             $order['is_duobao'] = 2;
+            $order['buy_name'] = '';
+            $order['buy_phone'] = '';
+            $order['buy_address'] = '';
         } else {
             $order['is_duobao'] = 1;
             $order['buy_name'] = $address['name'];
@@ -220,6 +223,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         $detail["com_num"] = $productInfo['purchase_quantity'];
         $detail["com_img"] = $productInfo['pic'];
         $detail["uid"] = $user_id;
+        $detail["shangjia"] = 0;
         $res = M("order_detail")->add($detail);
         if (!$res) {
             throw new Exception('订单明细创建失败');

@@ -545,7 +545,7 @@ class UserModel extends \Common\Model\UserModel
                 'cid' => 1,
                 'c_nums' => 0,
                 'c_uid' => $uid,
-                'djie_nums' => ''
+                'djie_nums' => 0
             ];
             $res = M('ucoins')->add($ucoins_qbb);
             if (!$res) {
@@ -774,7 +774,7 @@ class UserModel extends \Common\Model\UserModel
             $level = M('user')->where(['userid' => $pid])->getField('level');
             if ($level == Constants::USER_LEVEL_A_FOUR) {
                 //股东分红
-                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, $this->user_id);
+                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, 1);
                 //股东收益
                 $verify_list = M('verify_list')->where(['uid' => $pid, 'status' => Constants::YesNo_Yes])->field('province_id,city_id')->find();
                 if ($address && $verify_list && ($verify_list['province_id'] == $address['province_id']) && ($verify_list['city_id'] == $address['city_id'])) {
