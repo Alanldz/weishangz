@@ -753,7 +753,8 @@ class UserModel extends \Common\Model\UserModel
         }
 
         $pid_info = M('user')->where(['userid' => $userInfo['pid']])->field('level')->find();
-        if ($pid_info && $pid_info['level'] >= Constants::USER_LEVEL_A_THREE) {
+        $child_info = M('user')->where(['userid' => $this->user_id])->field('level')->find();
+        if ($pid_info && $pid_info['level'] >= Constants::USER_LEVEL_A_THREE && $child_info['level'] >= Constants::USER_LEVEL_A_THREE) {
             //上上级获得间推奖
             StoreModel::changStore($userInfo['pid'], 'cangku_num', $awardMoney, 6, 1, $this->user_id);
         }
