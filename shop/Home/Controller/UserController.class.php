@@ -311,7 +311,7 @@ class UserController extends CommonController
     public function Found()
     {
         $uid = session('userid');
-        $storeInfo = M('store')->where(['uid' => $uid])->field('total_amount,total_num,month_num')->find();
+        $storeInfo = M('store')->where(['uid' => $uid])->field('total_amount,total_num,month_num,total_month_amount')->find();
 
         $this->assign('systemMsgNum', 0);
         $this->assign('storeInfo', $storeInfo);
