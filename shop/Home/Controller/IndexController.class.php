@@ -774,6 +774,9 @@ class IndexController extends CommonController
             }
             $remark = $mobile ? '('. $mobile .')' : '';
             switch ($v['get_type']) {
+                case '1':
+                    $Chan_info[$k]['type_name'] = '提现';
+                    break;
                 case '2':
                     $Chan_info[$k]['type_name'] = '平台操作';
                     break;
