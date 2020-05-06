@@ -1163,7 +1163,7 @@ class UserModel extends \Common\Model\UserModel
                 $type = 2;
                 StoreRecordModel::addRecord($activate_user_id, 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 1);
             } else {//邮寄
-                $res = M('order')->where(['order_id' => $order['order_id']])->save(['status' => 1]);
+                $res = M('order')->where(['order_id' => $order['order_id']])->save(['status' => 1, 'pay_time' => time()]);
                 if ($res === false) {
                     throw new Exception('修改订单状态失败');
                 }

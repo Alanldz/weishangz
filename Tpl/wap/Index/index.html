@@ -91,7 +91,7 @@
                                 </foreach>
                             </div>
                         </div>
-
+                        <if condition="$userInfo['level'] gt 1">
                         <div class="indexmain1">
                             <div class="im-item">
                                 <a href="{:U('Index/Bancerecord')}">
@@ -105,12 +105,11 @@
                                     <p><span>云库</span><span id="MoneyJy"> {$storeInfo.cloud_library}</span></p>
                                 </a>
                             </div>
-
-
                         </div>
+                        </if>
                         <div class="indexmain2">
                             <php>$quanxian=explode("-",$uinfo['quanxian']);</php>
-
+                            <if condition="$userInfo['level'] gt 1">
                             <div class="im-item-s">
                                 <a href="{:U('Home/Login/register')}">
                                     <img src="__HOME__/img/indexlist1.png" alt="">
@@ -129,18 +128,21 @@
                                     <p>提现</p>
                                 </a>
                             </div>
+                            </if>
                             <div class="im-item-s">
                                 <a href="{:U('User/News')}">
                                     <img src="__HOME__/img/indexlist4.png" alt="">
                                     <p>最新公告</p>
                                 </a>
                             </div>
+                            <if condition="$userInfo['level'] gt 1">
                             <div class="im-item-s">
                                 <a href=" {:U('activate/userList')}">
                                     <img src="__HOME__/img/indexlist5.png" alt="">
                                     <p>激活用户 </p>
                                 </a>
                             </div>
+                            </if>
                             <div class="im-item-s">
                                 <a class="sc_login" href="{:U('User/Complaint')}">
                                     <img src="__HOME__/img/indexlist6.png" alt="">
