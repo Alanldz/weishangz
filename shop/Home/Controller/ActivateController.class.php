@@ -417,10 +417,13 @@ class ActivateController extends CommonController
             $userList = UserModel::getUnActivateUser($user_id);
         } else {
             $userList = M('activate_record')->where(['uid' => $user_id])->select();
+            $user_name = M('user')->where(['userid' => $user_id])->getField('username');
             foreach ($userList as $k => $item) {
-                $activate_user_info = M('user')->where(['userid' => $item['activate_user_id']])->field('mobile,pid')->find();
+                $activate_user_info = M('user')->where(['userid' => $item['activate_user_id']])->field('mobile,pid,username')->find();
                 $userList[$k]['mobile'] = $activate_user_info['mobile'];
                 $userList[$k]['pid'] = $activate_user_info['pid'];
+                $userList[$k]['username'] = $activate_user_info['username'];
+                $userList[$k]['pid_username'] = $user_name;
                 $userList[$k]['pid_mobile'] = M('user')->where(['userid' => $activate_user_info['pid']])->getField('mobile');
             }
         }

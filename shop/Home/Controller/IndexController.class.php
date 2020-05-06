@@ -17,7 +17,11 @@ class IndexController extends CommonController
         $userInfo = M('user')->where(['userid' => $user_id])->field('userid,username,mobile,level,reg_date')->find();
 
         $storeInfo = M('store')->field('cangku_num,cloud_library')->where(['uid' => $user_id])->find();
-
+        $status =  $verifyInfo = M('verify_list')->where(['uid' => $user_id])->getField('status');
+        $show_status = '';
+        if($status == Constants::VERIFY_STATUS_PASS){
+            $show_status = '（E城E家）';
+        }
         $bannerList = $this->get_banner();
         $this->assign([
             'userInfo' => $userInfo,
@@ -25,6 +29,7 @@ class IndexController extends CommonController
             'methods' => 'index',
             'bannerList' => $bannerList
         ]);
+        $this->assign('show_status',$show_status);
         $this->display();
     }
 
@@ -763,17 +768,20 @@ class IndexController extends CommonController
 
         foreach ($Chan_info as $k => $v) {
             $Chan_info[$k]['get_time'] = toDate($v['get_time']);
-
-            $remark = $v['remark'] ? '(' . $v['remark'] . ')' : '';
+            $mobile = '';
+            if($v['remark']){
+                $mobile = M('user')->where(['userid' => $v['remark']])->getField('mobile');
+            }
+            $remark = $mobile ? '('. $mobile .')' : '';
             switch ($v['get_type']) {
                 case '2':
                     $Chan_info[$k]['type_name'] = '平台操作';
                     break;
                 case '4':
-                    $Chan_info[$k]['type_name'] = '推荐奖' . $remark;
+                    $Chan_info[$k]['type_name'] = '开拓奖' . $remark;
                     break;
                 case '6':
-                    $Chan_info[$k]['type_name'] = '间推奖' . $remark;
+                    $Chan_info[$k]['type_name'] = '管理奖' . $remark;
                     break;
                 case '8':
                     $Chan_info[$k]['type_name'] = '股东分红' . $remark;
@@ -785,7 +793,7 @@ class IndexController extends CommonController
                     $Chan_info[$k]['type_name'] = '余额充值';
                     break;
                 case '14':
-                    $Chan_info[$k]['type_name'] = '销售返点';
+                    $Chan_info[$k]['type_name'] = '销售业绩';
                     break;
                 default:
                     $Chan_info[$k]['type_name'] = '';
@@ -1059,6 +1067,7 @@ class IndexController extends CommonController
     {
         $params['store_type'] = intval(I('store_type', Constants::STORE_TYPE_SHARE_REWARD));
         $recordList = StoreRecordModel::search($params);
+
 
         if (IS_AJAX) {
             if (count($recordList) >= 1) {

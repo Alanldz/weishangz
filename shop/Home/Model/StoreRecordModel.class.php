@@ -24,6 +24,10 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
         $list = M('store_record')->where($where)->limit(($page - 1) * $limit, $limit)
             ->field('amount,type,remark,create_time')->order('id desc')->select();
 
+        foreach ($list as $k => $value){
+            $list[$k]['remark'] = M('user')->where(['userid' => $value['remark']])->getField('mobile');
+        }
+
         switch ($where['store_type']) {
             case Constants::STORE_TYPE_CLOUD_LIBRARY : //云库
                 $list = self::getCloudLibraryItems($list);

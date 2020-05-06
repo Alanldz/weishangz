@@ -66,7 +66,7 @@
                         <div class="immess" >
                             <p style="line-height: 0.3rem; color: #0C0C0C;"> 姓名：{$userInfo['username']}</p>
                             <p class="ft_eid" style="color: #0C0C0C;">手机号:{$userInfo['mobile']}</p>
-                            <p style="line-height: 0.3rem;color: #0C0C0C;"> 级别：{$userInfo['level']|getUserLevelItems}</p>
+                            <p style="line-height: 0.3rem;color: #0C0C0C;"> 级别：{$userInfo['level']|getUserLevelItems}{$show_status}</p>
                             <p style="line-height: 0.6rem;color: #0C0C0C;"> 注册时间：{$userInfo['reg_date']|toDate}</p>
                         </div>
                     </div>

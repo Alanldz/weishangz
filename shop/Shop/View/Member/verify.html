@@ -47,11 +47,11 @@
                     <option value="" selected="selected">--请选择市--</option>
                 </select>
             </p>
-            <p class="abc">区域：
-                <select id="district" name="district" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">
-                    <option value="" selected="selected">--请选择区--</option>
-                </select>
-            </p>
+            <!--<p class="abc">区域：-->
+                <!--<select id="district" name="district" class="ng-valid ng-dirty ng-valid-parse ng-touched dzq">-->
+                    <!--<option value="" selected="selected">&#45;&#45;请选择区&#45;&#45;</option>-->
+                <!--</select>-->
+            <!--</p>-->
             <input type="hidden" class="province_id" value="{$verifyInfo['province_id']}">
             <input type="hidden" class="city_id" value="{$verifyInfo['city_id']}">
             <input type="hidden" class="country_id" value="{$verifyInfo['country_id']}">
@@ -185,10 +185,10 @@
                 msg_alert('请选择城市');
                 return;
             }
-            if(district == '' || district == '--请选择区--'){
-                msg_alert('请选择区');
-                return;
-            }
+            // if(district == '' || district == '--请选择区--'){
+            //     msg_alert('请选择区');
+            //     return;
+            // }
             if(shore_address == ''){
                 $('input[name="shore_address"]').focus();
                 msg_alert('请填写详细地址');

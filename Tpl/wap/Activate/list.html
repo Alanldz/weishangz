@@ -68,8 +68,8 @@
                         <li>
                             <div class="list-header">注册时间：{$v['reg_date']|toDate}</div>
                             <div class="ka-bottom">
-                                <p>推荐人：{$v['pid_mobile']}（ID：{$v['pid']}）</p>
-                                <p>激活账户：{$v['mobile']}（ID：{$v['userid']}） </p>
+                                <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                                <p>激活账户：{$v['mobile']}（{$v['username']}） </p>
                                 <p>激活级别：{$v['investment_grade']|getUserLevelItems}</p>
                                 <p>所需云库：{$v['activate_buy_num']}盒</p>
                                 <p>货物方式：{$v['delivery_type']}</p>
@@ -94,8 +94,8 @@
                         <li>
                             <div class="list-header">激活时间：{$v['create_time']|toDate}</div>
                             <div class="ka-bottom">
-                                <p>推荐人：{$v['pid_mobile']}（ID：{$v['pid']}）</p>
-                                <p>激活账户：{$v['mobile']}（ID：{$v['activate_user_id']}） </p>
+                                <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                                <p>激活账户：{$v['mobile']}（{$v['username']}） </p>
                                 <p>激活级别：{$v['level']|getUserLevelItems}</p>
                                 <p>所需云库：{$v['num']}盒</p>
                                 <p>货物方式：

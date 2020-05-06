@@ -774,11 +774,11 @@ class UserModel extends \Common\Model\UserModel
             $level = M('user')->where(['userid' => $pid])->getField('level');
             if ($level == Constants::USER_LEVEL_A_FOUR) {
                 //股东分红
-                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, 1);
+                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, 1, $this->user_id);
                 //股东收益
                 $verify_list = M('verify_list')->where(['uid' => $pid, 'status' => Constants::YesNo_Yes])->field('province_id,city_id')->find();
                 if ($address && $verify_list && ($verify_list['province_id'] == $address['province_id']) && ($verify_list['city_id'] == $address['city_id'])) {
-                    StoreModel::changStore($pid, 'cangku_num', $profit, 10, 1);
+                    StoreModel::changStore($pid, 'cangku_num', $profit, 10, 1, $this->user_id);
                 }
             }
         }
@@ -1037,8 +1037,8 @@ class UserModel extends \Common\Model\UserModel
      */
     public static function getUnActivateUser($user_id)
     {
-        $userInfo = M('user')->where(['userid' => $user_id])->field('mobile,level,service_center')->find();
-        $field = 'userid,pid,mobile,investment_grade,reg_date';
+        $userInfo = M('user')->where(['userid' => $user_id])->field('mobile,level,service_center,username')->find();
+        $field = 'userid,pid,mobile,investment_grade,reg_date,username';
         $list_one = M('user')->where(['pid' => $user_id, 'level' => Constants::USER_LEVEL_NOT_ACTIVATE])->order('reg_date asc')->field($field)->select();
 
         $where['pid'] = ['neq', $user_id];
@@ -1051,6 +1051,7 @@ class UserModel extends \Common\Model\UserModel
             $data = $item;
             $data['is_can_deal'] = 0;
             $data['is_can_del'] = 0;
+            $data['pid_username'] = $userInfo['username'];
             $data['delivery_type'] = '邮寄';
             if ($item['pid'] == $user_id) {//直推下级
                 $data['pid_mobile'] = $userInfo['mobile'];

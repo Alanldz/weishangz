@@ -63,9 +63,9 @@ class VerifyListModel extends ModelModel
                 return '请选择市';
             }
 
-            if ($data['district'] == '' || $data['district'] == '--请选择区--') {
-                return '请选择区';
-            }
+//            if ($data['district'] == '' || $data['district'] == '--请选择区--') {
+//                return '请选择区';
+//            }
         }
 
         if (empty($data['shore_address'])) {
@@ -90,7 +90,7 @@ class VerifyListModel extends ModelModel
         $params['store_name'] = trim(I("store_name"));
         $params['province'] = trim(I("province"));
         $params['city'] = trim(I("city"));
-        $params['district'] = trim(I("district"));
+        $params['district'] = trim(I("district",0));
         $params['shore_address'] = trim(I("shore_address"));
         $params['type'] = intval(trim(I("type", Constants::VERIFY_PERSON)));
 
