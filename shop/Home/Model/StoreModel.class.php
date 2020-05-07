@@ -763,7 +763,7 @@ class StoreModel extends \Common\Model\StoreModel
             }
 
             //清除月销量
-            $res = M('store')->where([])->save(['total_month_amount' => 0, 'month_num' => 0]);
+            $res = M('store')->where([])->save(['total_month_amount' => 0, 'total_month_amount_two' => 0, 'month_num' => 0]);
             if ($res === false) {
                 throw new Exception('清空月销量失败');
             }

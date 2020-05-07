@@ -588,7 +588,6 @@ class UserModel extends \Common\Model\UserModel
      * @param $arrayPath
      * @param $activate_buy_num
      * @param $address
-     * @param $activate_user_id
      * @throws Exception
      */
     public function award($user_id, $arrayPath, $activate_buy_num, $address)
@@ -724,9 +723,15 @@ class UserModel extends \Common\Model\UserModel
         $price = M('product_detail')->where(['level' => $level])->getField('price');
         $total_amount = $activate_buy_num * $price; //业绩
 
+        $res = M('user')->where(['userid' => $activate_user_id])->setInc('total_month_amount_two', $total_amount);
+        if (!$res) {
+            throw new Exception('给自己业绩新增失败');
+        }
+
         foreach ($arrPath as $pid) {
             $update['total_amount'] = array('exp', 'total_amount + ' . $total_amount);
             $update['total_month_amount'] = array('exp', 'total_month_amount + ' . $total_amount);
+            $update['total_month_amount_two'] = array('exp', 'total_month_amount_two + ' . $total_amount);
             $update['total_num'] = array('exp', 'total_num + ' . $activate_buy_num);
             $update['month_num'] = array('exp', 'month_num + ' . $activate_buy_num);
             $res = M('store')->where(['uid' => $pid])->save($update);
@@ -856,26 +861,27 @@ class UserModel extends \Common\Model\UserModel
      */
     private function shareholderLevel($uid)
     {
-        $arrID = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_THREE])->getField('userid',true);
+        $arrID = M('user')->where(['pid' => $uid, 'level' => Constants::USER_LEVEL_A_THREE])->getField('userid', true);
         if (count($arrID) < 3) {
             return false;
         }
+        $max_amount = 1000000;
 
         $arrData = [];
         foreach ($arrID as $pid) {
             $arrData[] = [
                 'uid' => $pid,
-                'total_month_amount' => M('store')->where(['uid' => $pid])->getField('total_month_amount')
+                'total_month_amount_two' => M('store')->where(['uid' => $pid])->getField('total_month_amount_two')
             ];
         }
-        $arrData = arraySort($arrData, 'total_month_amount');//按月销量从大到小排序
+        $arrData = arraySort($arrData, 'total_month_amount_two');//按月销量从大到小排序
 
-        if ($arrData[0]['total_month_amount'] < 1000000) {
+        if ($arrData[0]['total_month_amount_two'] < $max_amount) {
             return false;
         }
         array_shift($arrData);//移除最大
-        $sum = array_sum(array_column($arrData, 'total_month_amount'));
-        if ($sum < 1000000) {
+        $sum = array_sum(array_column($arrData, 'total_month_amount_two'));
+        if ($sum < $max_amount) {
             return false;
         }
 
