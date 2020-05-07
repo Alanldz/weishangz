@@ -720,14 +720,12 @@ class UserModel extends \Common\Model\UserModel
         if ($level == Constants::USER_LEVEL_A_FOUR) {
             $level = Constants::USER_LEVEL_A_THREE;
         }
-
         $price = M('product_detail')->where(['level' => $level])->getField('price');
         $total_amount = $activate_buy_num * $price; //业绩
 
         foreach ($arrPath as $pid) {
             $update['total_amount'] = array('exp', 'total_amount + ' . $total_amount);
             $update['total_month_amount'] = array('exp', 'total_month_amount + ' . $total_amount);
-            $update['total_month_amount_two'] = array('exp', 'total_month_amount_two + ' . $total_amount);
             $update['total_num'] = array('exp', 'total_num + ' . $activate_buy_num);
             $update['month_num'] = array('exp', 'month_num + ' . $activate_buy_num);
             $res = M('store')->where(['uid' => $pid])->save($update);
