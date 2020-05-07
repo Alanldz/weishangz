@@ -441,9 +441,10 @@ class ActivateController extends CommonController
     public function activateUser()
     {
         if (IS_AJAX) {
-            $res = (new UserModel())->activateUser();
+            $models = new UserModel();
+            $res = $models->activateUser();
             if (!$res) {
-                ajaxReturn((new UserModel())->getError(), 0);
+                ajaxReturn($models->getError(), 0);
             }
             ajaxReturn('激活成功', 1, U('Activate/userList'));
         } else {

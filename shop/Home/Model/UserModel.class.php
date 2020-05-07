@@ -720,6 +720,7 @@ class UserModel extends \Common\Model\UserModel
         if ($level == Constants::USER_LEVEL_A_FOUR) {
             $level = Constants::USER_LEVEL_A_THREE;
         }
+
         $price = M('product_detail')->where(['level' => $level])->getField('price');
         $total_amount = $activate_buy_num * $price; //业绩
 
