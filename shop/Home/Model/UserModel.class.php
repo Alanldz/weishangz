@@ -723,7 +723,7 @@ class UserModel extends \Common\Model\UserModel
         $price = M('product_detail')->where(['level' => $level])->getField('price');
         $total_amount = $activate_buy_num * $price; //业绩
 
-        $res = M('user')->where(['userid' => $activate_user_id])->setInc('total_month_amount_two', $total_amount);
+        $res = M('store')->where(['uid' => $activate_user_id])->setInc('total_month_amount_two', $total_amount);
         if (!$res) {
             throw new Exception('给自己业绩新增失败');
         }
