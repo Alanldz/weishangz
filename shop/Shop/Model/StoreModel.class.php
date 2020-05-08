@@ -292,9 +292,9 @@ class StoreModel extends \Common\Model\StoreModel
      */
     public function sendGidReward($userid, $gid, $order_result)
     {
-        //二级代数奖比例及满足要求(二级用户直推人数达到系统设置人数且每个人的总业绩也需要达标)
+        //二级代数奖比例及满足要求(二级用户分享人数达到系统设置人数且每个人的总业绩也需要达标)
         $algebra_award_second = M('config')->where(['name' => 'algebra_award_second'])->getField('value') / 100;                   //比例
-        $algebra_award_second_num = M('config')->where(['name' => 'algebra_award_second_num'])->getField('value');           //达标直推人数
+        $algebra_award_second_num = M('config')->where(['name' => 'algebra_award_second_num'])->getField('value');           //达标分享人数
         $algebra_award_second_account = M('config')->where(['name' => 'algebra_award_second_account'])->getField('value');   //达标业绩
 
         $sql = 'SELECT COUNT(*) as num FROM ysk_user as us LEFT JOIN ysk_store as st ON st.uid = us.userid WHERE us.pid = ' . $gid . ' AND st.total_results >=' . $algebra_award_second_account;

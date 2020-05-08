@@ -263,7 +263,7 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
             $remark = $v['remark'] ? '(' . $v['remark'] . ')' : '';
             switch ($v['type']) {
                 case 0:
-                    $list[$k]['type_name'] = '直推释放' . $remark;
+                    $list[$k]['type_name'] = '分享释放' . $remark;
                     break;
                 case 1:
                     $list[$k]['type_name'] = '购物';

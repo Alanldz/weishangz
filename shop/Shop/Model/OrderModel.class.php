@@ -391,7 +391,7 @@ class OrderModel extends Model
                 throw new Exception('订单修改感恩ID失败');
             }
         }
-        //直推释放
+        //分享释放
         $this->directRelease($uid, $total_price, Constants::SHOP_TYPE_BAO_DAN);
         //回馈奖
         $this->feedbackAward($uid, $total_price);
@@ -445,7 +445,7 @@ class OrderModel extends Model
         $this->regenerateAddLockWarehouse($uid, $order['order_id']);
         //分享奖
         $this->shareAward($uid, $total_price, Constants::SHOP_TYPE_REGENERATE);
-        //直推释放
+        //分享释放
         $this->directRelease($uid, $total_price, Constants::SHOP_TYPE_REGENERATE);
         //给上级添加业绩和绩效奖
         $this->addPidAchievement($uid, $total_price);
@@ -801,7 +801,7 @@ class OrderModel extends Model
     }
 
     /**
-     * 直推释放
+     * 分享释放
      * @param $uid
      * @param $amount
      * @param $shop_type

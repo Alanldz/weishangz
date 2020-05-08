@@ -169,7 +169,7 @@ function user_level($level)
 function AddUserLevel($uid)
 {
     $where['uid'] = $uid;
-    //直推人数
+    //分享人数
     $table = M('user_level');
     $info = $table->where($where)->field('children_num,land_num,user_level')->find();
     $children_count = $info['children_num'];

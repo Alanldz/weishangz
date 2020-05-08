@@ -413,7 +413,7 @@ class UserModel extends \Common\Model\UserModel
     }
 
     /**
-     * [ChildrenNum 直推人数]
+     * [ChildrenNum 分享人数]
      */
     public function ChildrenNum()
     {
@@ -1060,7 +1060,7 @@ class UserModel extends \Common\Model\UserModel
             $data['is_can_del'] = 0;
             $data['pid_username'] = $userInfo['username'];
             $data['delivery_type'] = '邮寄';
-            if ($item['pid'] == $user_id) {//直推下级
+            if ($item['pid'] == $user_id) {//分享下级
                 $data['pid_mobile'] = $userInfo['mobile'];
                 if ($item['investment_grade'] == Constants::USER_LEVEL_A_THREE) {
                     if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE && $userInfo['service_center'] == 1) {

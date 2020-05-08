@@ -163,9 +163,9 @@ class ActivateController extends CommonController
                 $record_list[$k]['type_name'] = 'EF激活';
             } else {
                 if ($pid == $uid) {
-                    $record_list[$k]['type_name'] = '激活卡(直推）';
+                    $record_list[$k]['type_name'] = '激活卡(分享）';
                 } else {
-                    $record_list[$k]['type_name'] = '激活卡(非直推）';
+                    $record_list[$k]['type_name'] = '激活卡(非分享）';
                 }
             }
 
