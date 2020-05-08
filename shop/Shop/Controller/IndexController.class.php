@@ -56,7 +56,7 @@ class IndexController extends CommonController
     }
 
     /**
-     * E城e家
+     * E城E家
      * @author ldz
      * @time 2020/2/15 15:52
      */
