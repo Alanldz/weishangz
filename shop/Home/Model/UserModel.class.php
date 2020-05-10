@@ -752,7 +752,7 @@ class UserModel extends \Common\Model\UserModel
         $awardMoney = self::one_box_money * $activate_buy_num;
         $userInfo = M('user')->where(['userid' => $user_id])->field('level,pid')->find();
         $new_user_level = M('user')->where(['userid' => $this->user_id])->getField('level');
-        if ($userInfo['level'] <= $new_user_level) {
+        if ($userInfo['level'] <= $new_user_level || ($new_user_level == Constants::USER_LEVEL_A_THREE && $userInfo['level'] == Constants::USER_LEVEL_A_FOUR)) {
             //推荐人获得
             StoreModel::changStore($user_id, 'cangku_num', $awardMoney, 4, 1, $this->user_id);
         }
@@ -776,11 +776,16 @@ class UserModel extends \Common\Model\UserModel
     {
         $bonus = self::shareholder_bonus * $activate_buy_num;//分红
         $profit = self::shareholder_profit * $activate_buy_num;//收益
+        $num = 1;
         foreach ($path as $pid) {
             $level = M('user')->where(['userid' => $pid])->getField('level');
             if ($level == Constants::USER_LEVEL_A_FOUR) {
-                //股东分红
-                StoreModel::changStore($pid, 'cangku_num', $bonus, 8, 1, $this->user_id);
+                if ($num <= 2) {
+                    //股东分红
+                    StoreModel::changStore($pid, 'cangku_num', $bonus, 8, 1, $this->user_id);
+                    $num++;
+                }
+
                 //股东收益
                 $verify_list = M('verify_list')->where(['uid' => $pid, 'status' => Constants::YesNo_Yes])->field('province_id,city_id')->find();
                 if ($address && $verify_list && ($verify_list['province_id'] == $address['province_id']) && ($verify_list['city_id'] == $address['city_id'])) {
