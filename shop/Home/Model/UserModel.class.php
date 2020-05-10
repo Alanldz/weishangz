@@ -1414,6 +1414,9 @@ class UserModel extends \Common\Model\UserModel
             //扣除用户的云库数量
             StoreRecordModel::addRecord($uid, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 5, $level_info['uid']);
 
+            //增加用户的云库数量
+            StoreRecordModel::addRecord($level_info['uid'], 'cloud_library', $productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 5, $uid);
+
             //修改用户状态
             $update['level'] = $level_info['level'];
             $res = M('user')->where(['userid' => $level_info['uid']])->save($update);
