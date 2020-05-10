@@ -69,11 +69,46 @@
     <div role="tabpanel" class="tab-pane active">
         <ul class="ka-list">
             <if condition="$list">
-                <foreach name="list" item="v">
+                <if condition="$step eq 0">
+                    <foreach name="list" item="v">
+                        <!--未确认进货-->
+                        <li>
+                            <div class="list-header"> 时间:{$v['create_time']|toDate}</div>
+                            <div class="ka-bottom">
+                                <p> 进货会员：{$v['username']}</p>
+                                <p>手机号：{$v['mobile']} </p>
+                                <p>货物方式：
+                                    <if condition="$v['is_duobao'] eq 2">
+                                        入云库
+                                        <else/>
+                                        邮寄
+                                    </if>
+                                </p>
+                                <if condition="$v['is_duobao'] eq 1">
+                                    <p>订单号 ：{$v['order_no']}</p>
+                                </if>
+                                <p>产品：{$v['detail']['com_name']}</p>
+                                <p>数量：{$v['detail']['com_num']} 盒</p>
+                                <p>支付方式：{$v['pay_type']} </p>
+
+                                <if condition="$v['is_can_deal']">
+                                    <div class="text-left">
+                                        <input type="hidden" value="{$v.order_id}" class="order_id">
+                                        <input type="password" class="pwd" placeholder="请输入交易密码">
+                                        <a href="javaScript:void (0)" class="determinePayment"> 点击确认</a>
+                                    </div>
+                                    <p> (注意：如果线下支付，请收到款项后点击确认。)</p>
+                                </if>
+                            </div>
+                        </li>
+                    </foreach>
+                    <else/>
+                    <!--已确认进货-->
+                    <foreach name="list" item="v">
                     <li>
                         <div class="list-header"> 时间:{$v['create_time']|toDate}</div>
                         <div class="ka-bottom">
-                            <p> 进货会员：{$v['username']}</p>
+                            <p>进货会员：{$v['username']}</p>
                             <p>手机号：{$v['mobile']} </p>
                             <p>货物方式：
                                 <if condition="$v['is_duobao'] eq 2">
@@ -85,24 +120,13 @@
                             <if condition="$v['is_duobao'] eq 1">
                                 <p>订单号 ：{$v['order_no']}</p>
                             </if>
-                            <p>产品：{$v['detail']['com_name']}</p>
-                            <p>数量：{$v['detail']['com_num']} 盒</p>
+                            <p>产品：{$v['product_name']}</p>
+                            <p>数量：{$v['num']} 盒</p>
                             <p>支付方式：{$v['pay_type']} </p>
-
-                            <div class="text-left">
-                                <input type="hidden" value="{$v.order_id}" class="order_id">
-                                <if condition="$v['status'] eq 0">
-                                    <a href="javaScript:void (0)" class="determinePayment"> 点击确认</a>
-                                    <else/>
-                                    <a href="javaScript:void (0)"> 已确认</a>
-                                </if>
-                            </div>
-                            <if condition="$v['status'] eq 0">
-                                <p> (注意：如果线下支付，请收到款项后点击确认。)</p>
-                            </if>
                         </div>
                     </li>
-                </foreach>
+                    </foreach>
+                </if>
                 <else/>
                 <li>
                     <div style="text-align: center;color: #a99d9d">
@@ -115,11 +139,11 @@
                 </li>
             </if>
         </ul>
-        <div class="text-center">
-            <notempty name="page">
-                <ul class="pagination">{$page}</ul>
-            </notempty>
-        </div>
+        <!--<div class="text-center">-->
+            <!--<notempty name="page">-->
+                <!--<ul class="pagination">{$page}</ul>-->
+            <!--</notempty>-->
+        <!--</div>-->
     </div>
 </div>
 
@@ -139,8 +163,9 @@
         }
         obj.addClass('is_ajax');
         var order_id = obj.parent().find('.order_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
 
-        doajax("{:U('activate/determinePayment')}", {order_id: order_id}, function (data) {
+        doajax("{:U('activate/determinePayment')}", {order_id: order_id,pwd:pwd}, function (data) {
             if (data.status == 1) {
                 msg_alert(data.message,data.url);
             } else {

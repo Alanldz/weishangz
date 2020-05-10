@@ -22,27 +22,23 @@ class ActivateController extends CommonController
     {
         $uid = session('userid');
         $step = intval(I('step', 0));
-        $where['order_sellerid'] = $uid;
         if ($step == 1) {
-            $where['status'] = ['neq', 0];
+            $list = M('stock_option_record')->where(['uid' => $uid])->select();
+            foreach ($list as $k => $value) {
+                $userInfo = M('user')->where(['userid' => $value['user_id']])->field('username,mobile')->find();
+                $order_info = M('order')->where(['order_id' => $value['order_id']])->field('pay_type,is_duobao,order_no')->find();
+                $list[$k]['pay_type'] = Constants::getPayWayItems($order_info['pay_type']);
+                $list[$k]['is_duobao'] = $order_info['is_duobao'];
+                $list[$k]['order_no'] = $order_info['order_no'];
+                $list[$k]['username'] = $userInfo['username'];
+                $list[$k]['mobile'] = $userInfo['mobile'];
+            }
         } else {
-            $where['status'] = 0;
-        }
-        $where['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
-        $returnData = ActivateCardModel::search($where);
-        $list = [];
-        foreach ($returnData['list'] as $k => $v) {
-            $list[$k] = $v;
-            $userInfo = M('user')->where(['userid' => $v['uid']])->field('username,mobile')->find();
-            $list[$k]['username'] = $userInfo['username'];
-            $list[$k]['mobile'] = $userInfo['mobile'];
-            $list[$k]['detail'] = M('order_detail')->where(['order_id' => $v['order_id']])->find();
-            $list[$k]['pay_type'] = Constants::getPayWayItems($v['pay_type']);
+            $list = ActivateCardModel::stock_list($uid);
         }
 
         $this->assign('list', $list);
         $this->assign('step', $step);
-        $this->assign('page', $returnData['page']);
         $this->display();
     }
 
