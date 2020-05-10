@@ -10,7 +10,7 @@
     <link href="__HOME__/css/style1.css" rel="stylesheet">
 </head>
 <body>
-<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>我要升级</header>
+<header class="text-center"><a href="{:U('activate/levelConfirm')}" class="go-back"></a>我要升级</header>
 <div class="back"></div>
 <div class="container">
     <div class="select-box lind-sm">
@@ -34,11 +34,23 @@
     <div class="select-box">
         <div class="select-left">选择升级级别：</div>
         <select class="form-control" name="level" id="level">
-            <option value="">选择升级的级别</option>
-            <foreach name="level" item="vo">
-                <option value="{$vo}">{$vo|getUserLevelItems}</option>
+            <option value="" data-price="0" data-num="0">选择升级的级别</option>
+            <foreach name="level_list" item="vo">
+                <option value="{$vo.level}" data-price="{$vo.price}" data-num="{$vo.num}">{$vo.level|getUserLevelItems}</option>
             </foreach>
         </select>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">所需盒数：</div>
+        <div class="ye-right user-ep need_num">0</div>
+    </div>
+    <div class="lind"></div>
+
+    <div class="select-box lind-sm">
+        <div class="select-left">所需RMB：</div>
+        <div class="ye-right user-ep need_money">0</div>
     </div>
     <div class="lind"></div>
 
@@ -56,6 +68,15 @@
 <script type="text/javascript" src="__COM__/layer/layer.js"></script>
 <script type="text/javascript" src="__COM__/js/index.js"></script>
 <script>
+
+    $('#level').change(function () {
+        // var level = $(this).val();
+        var need_num = $(this).find("option:selected").attr('data-num');
+        var need_price = $(this).find("option:selected").attr('data-price');
+        var need_money = parseFloat(need_num) * parseFloat(need_price);
+        $('.need_num').html(need_num);
+        $('.need_money').html(need_money);
+    });
 
     //提交激活
     $('.btn').click(function () {

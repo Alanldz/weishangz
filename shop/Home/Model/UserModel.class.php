@@ -1279,5 +1279,216 @@ class UserModel extends \Common\Model\UserModel
         }
     }
 
+    /**
+     * 获取未确定升级列表
+     * @param $user_id
+     * @return array
+     * @author ldz
+     * @time 2020/5/10 22:25
+     */
+    public static function levelConfirm($user_id)
+    {
+        $user_info = M('user')->where(['userid' => $user_id])->field('level,service_center,mobile,username')->find();
+
+        $arrID = M('user')->where(['path' => ['like', '%' . $user_id . '%']])->getField('userid', true);
+        if ($arrID) {
+            $where['uid'] = ['in', $arrID];
+            $where['status'] = 0;
+            $level_list = M('level_list')->where($where)->select();
+        } else {
+            $level_list = [];
+        }
+
+        $list = [];
+        foreach ($level_list as $k => $v) {
+            $data = $v;
+            $data['is_can_deal'] = 0;
+            $data['is_can_del'] = 0;
+            $level_user_info = M('user')->where(['userid' => $v['uid']])->field('pid,mobile,username')->find();
+            $data['username'] = $level_user_info['username'];
+            $data['mobile'] = $level_user_info['mobile'];
+            if ($level_user_info['pid'] == $user_id) {
+                $data['pid_username'] = $user_info['username'];
+                $data['pid_mobile'] = $user_info['mobile'];
+                if ($v['level'] == Constants::USER_LEVEL_A_THREE) {
+                    if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    }
+                } else {
+                    if ($user_info['level'] > $v['level']) {
+                        $data['is_can_deal'] = 1;
+                    }
+                }
+            } else {
+                $pid_info = M('user')->where(['userid' => $level_user_info['pid']])->field('mobile,username')->find();
+                $data['pid_username'] = $pid_info['username'];
+                $data['pid_mobile'] = $pid_info['mobile'];
+                if ($v['level'] == Constants::USER_LEVEL_A_THREE) {
+                    if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    if ($user_info['level'] > $v['level']) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                $data['is_can_del'] = 1;
+            }
+            $product = M('product_detail')->where(['level' => $v['level']])->field('price,activate_buy_num')->find();
+            $data['need_num'] = $product['activate_buy_num'];
+            $data['need_money'] = $product['price'] * $product['activate_buy_num'];
+            $data['create_time'] = $v['time'] ? strtotime($v['time']) : '';
+            $list[] = $data;
+        }
+
+        return $list;
+    }
+
+    /**
+     * 确定升级
+     * @return bool
+     * @author ldz
+     * @time 2020/5/10 22:37
+     */
+    public function levelConfirmSub()
+    {
+        M()->startTrans();
+        try {
+            $uid = session('userid');
+            $level_id = intval(I('id'));
+            $trans_pwd = trim(I('pwd', ''));
+            if (empty($trans_pwd)) {
+                throw new Exception('请输入交易密码');
+            }
+            //验证交易密码
+            $this->Trans('', $trans_pwd);
+
+            $level_info = M('level_list')->where(['id' => $level_id, 'status' => 0])->find();
+            if (empty($level_info)) {
+                throw new Exception('该升级信息不存在，请刷新重试');
+            }
+
+            $user_level_info = M('user')->where(['userid' => $level_info['uid']])->field('pid,path,level')->find();
+            $path = '-' . $uid . '-';
+            if (strpos($user_level_info['path'], $path) === false) {
+                throw new Exception('该用户不是您的团队，请重新选择');
+            }
+
+            if ($level_info['level'] <= $user_level_info['level']) {
+                throw new Exception('该用户要升级的等级不正确，请确认');
+            }
+
+            $user_info = M('user')->where(['userid' => $uid])->field('level,service_center')->find();
+            $is_can_deal = false;
+            if ($level_info['level'] == Constants::USER_LEVEL_A_THREE) {
+                if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                    $is_can_deal = true;
+                }
+            } else {
+                if ($user_info['level'] > $level_info['level']) {
+                    $is_can_deal = true;
+                }
+            }
+
+            if (!$is_can_deal) {
+                throw new Exception('您没有权限操作');
+            }
+
+            $productInfo = M('product_detail')->where(['level' => $level_info['level']])->field('price,activate_buy_num,name')->find();
+            if (empty($productInfo)) {
+                throw new Exception('升级失败，请联系管理员');
+            }
+
+            $storeInfo = M('store')->where(['uid' => $uid])->field('cloud_library')->find();
+            if ($productInfo['activate_buy_num'] > $storeInfo['cloud_library']) {
+                throw new Exception('您的云库不足');
+            }
+
+            //扣除用户的云库数量
+            StoreRecordModel::addRecord($uid, 'cloud_library', -$productInfo['activate_buy_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 5, $level_info['uid']);
+
+            //修改用户状态
+            $update['level'] = $level_info['level'];
+            $res = M('user')->where(['userid' => $level_info['uid']])->save($update);
+            if (!$res) {
+                throw new Exception('升级用户失败');
+            }
+
+            //奖励
+            $arrayPath = array_reverse(getArray($user_level_info['path']));
+            $this->user_id = $level_info['uid'];
+            $this->award($user_level_info['pid'], $arrayPath, $productInfo['activate_buy_num'], []);
+
+            $res = M('level_list')->where(['id' => $level_id])->save(['status' => 1, 'datestr' => time(), 'operator_id' => $uid]);
+            if (!$res) {
+                throw new Exception('升级失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * 删除未确定升级数据
+     * @return bool
+     * @author ldz
+     * @time 2020/5/10 22:29
+     */
+    public function levelConfirmDel()
+    {
+        M()->startTrans();
+        try {
+            $uid = session('userid');
+            $del_id = intval(I('id'));
+            $trans_pwd = trim(I('pwd', ''));
+            if (empty($trans_pwd)) {
+                throw new Exception('请输入交易密码');
+            }
+            //验证交易密码
+            $this->Trans('', $trans_pwd);
+
+            $del_info = M('level_list')->where(['id' => $del_id])->find();
+            if (empty($del_info)) {
+                throw new Exception('您要删除的数据不存在，请重试');
+            }
+
+            $del_user_info = M('user')->where(['userid' => $del_info['uid']])->field('path')->find();
+
+            $path = '-' . $uid . '-';
+            if (strpos($del_user_info['path'], $path) === false) {
+                throw new Exception('该用户不是您的团队，请重新选择');
+            }
+
+            $user_info = M('user')->where(['userid' => $uid])->field('level,service_center')->find();
+            if ($user_info['level'] < Constants::USER_LEVEL_A_THREE || $user_info['service_center'] == 0) {
+                throw new Exception('您没有删除用户的权限');
+            }
+
+            $res = M('level_list')->where(['id' => $del_id])->delete();
+            if ($res === false) {
+                throw new Exception('删除失败');
+            }
+
+            M()->commit();
+            return true;
+        } catch (Exception $ex) {
+            M()->rollback();
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
 
 }

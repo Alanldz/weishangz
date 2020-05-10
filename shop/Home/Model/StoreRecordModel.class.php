@@ -24,7 +24,7 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
         $list = M('store_record')->where($where)->limit(($page - 1) * $limit, $limit)
             ->field('amount,type,remark,create_time')->order('id desc')->select();
 
-        foreach ($list as $k => $value){
+        foreach ($list as $k => $value) {
             $list[$k]['remark'] = M('user')->where(['userid' => $value['remark']])->getField('mobile');
         }
 
@@ -366,6 +366,9 @@ class StoreRecordModel extends \Common\Model\StoreRecordModel
                     break;
                 case 4:
                     $list[$k]['type_name'] = '申请邮寄';
+                    break;
+                case 5:
+                    $list[$k]['type_name'] = '升级' . $remark;
                     break;
                 default :
                     $list[$k]['type_name'] = '';

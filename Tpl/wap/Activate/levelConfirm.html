@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>升级确定</title>
+    <!-- Bootstrap -->
+    <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
+    <link href="__HOME__/css/style1.css" rel="stylesheet">
+    <style>
+        .pagination a,
+        .pagination span {
+            display: inline-block;
+            padding: 2px 5px;
+            margin: 0 1px;
+            border: 1px solid #f0f0f0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        .pagination a,
+        .pagination li {
+            display: inline-block;
+            list-style: none;
+            text-decoration: none;
+            color: #58A0D3;
+        }
+
+        .pagination a.first,
+        .pagination a.prev,
+        .pagination a.next,
+        .pagination a.end {
+            margin: 0;
+        }
+
+        .pagination a:hover {
+            border-color: #50A8E6;
+        }
+
+        .pagination span.current {
+            background: #50A8E6;
+            color: #FFF;
+            font-weight: 700;
+            border-color: #50A8E6;
+        }
+    </style>
+</head>
+<body>
+<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>升级确定</header>
+<div class="back"></div>
+<ul class="jh-list">
+    <li><a href="{:U('activate/index')} "><span></span>我要升级</a></li>
+</ul>
+<ul class="jh-tabs clearfix">
+    <li
+    <eq name="step" value="0">class="active"</eq>
+    ><a href="{:U('Activate/levelConfirm',array('step'=>0))}">未确认升级</a></li>
+    <li
+    <eq name="step" value="1">class="active"</eq>
+    ><a href="{:U('Activate/levelConfirm',array('step'=>1))}">已确认升级</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+        <ul class="ka-list">
+            <if condition="$list">
+                <if condition="$step eq 0">
+                    <foreach name="list" item="v">
+                        <!--未确认进货-->
+                        <li>
+                            <div class="list-header">时间：{$v['create_time']|toDate}</div>
+                            <div class="ka-bottom">
+                                <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                                <p>升级会员：{$v['mobile']}（{$v['username']}）</p>
+                                <p>升级等级：{$v['level']|getUserLevelItems}</p>
+                                <p>所需数量：{$v['need_num']} 盒</p>
+                                <p>所需RMB：{$v['need_money']} </p>
+                                <div class="text-left">
+                                    <input type="hidden" value="{$v.id}" class="level_id">
+                                    <if condition="$v['is_can_deal'] eq 1 or $v['is_can_del'] eq 1">
+                                        <input type="password" class="pwd" placeholder="请输入交易密码">
+                                    </if>
+                                    <if condition="$v['is_can_deal'] eq 1">
+                                        <a href="javaScript:void (0)" class="determinePayment"> 点击确认</a>
+                                    </if>
+                                    <if condition="$v['is_can_del'] eq 1">
+                                        <a href="javaScript:void (0)" class="delete"> 删除</a>
+                                    </if>
+                                </div>
+                            </div>
+                        </li>
+                    </foreach>
+                    <else/>
+                    <!--已确认进货-->
+                    <foreach name="list" item="v">
+                    <li>
+                        <div class="list-header">时间：{$v['create_time']|toDate}</div>
+                        <div class="ka-bottom">
+                            <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                            <p>升级会员：{$v['mobile']}（{$v['username']}）</p>
+                            <p>升级等级：{$v['level']|getUserLevelItems}</p>
+                            <p>所需数量：{$v['need_num']} 盒</p>
+                            <p>所需RMB：{$v['need_money']} </p>
+                        </div>
+                    </li>
+                    </foreach>
+                </if>
+                <else/>
+                <li>
+                    <div style="text-align: center;color: #a99d9d">
+                        <if condition="$step eq 0">
+                            暂无未确认升级
+                            <else/>
+                            暂无已确认升级
+                        </if>
+                    </div>
+                </li>
+            </if>
+        </ul>
+        <!--<div class="text-center">-->
+            <!--<notempty name="page">-->
+                <!--<ul class="pagination">{$page}</ul>-->
+            <!--</notempty>-->
+        <!--</div>-->
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="__HOME__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="__HOME__/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__COM__/layer/layer.js"></script>
+<script type="text/javascript" src="__COM__/js/index.js"></script>
+<script type="text/javascript">
+
+    $('.determinePayment').on('click', function () {
+        var obj = $(this);
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        var level_id = obj.parent().find('.level_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
+
+        doajax("{:U('activate/levelConfirm')}", {id: level_id,pwd:pwd,type:'confirm'}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message,data.url);
+            } else {
+                msg_alert(data.message);
+            }
+            obj.removeClass('is_ajax');
+        });
+    });
+
+    $('.delete').on('click',function () {
+        var obj = $(this);
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        var level_id = obj.parent().find('.level_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
+
+        doajax("{:U('activate/levelConfirm')}", {id: level_id,pwd:pwd,type:'del'}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message,data.url);
+            } else {
+                msg_alert(data.message);
+            }
+            obj.removeClass('is_ajax');
+        });
+    });
+</script>
+</html>
