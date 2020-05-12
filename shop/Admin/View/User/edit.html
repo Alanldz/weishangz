@@ -80,12 +80,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group item_title ">
-                                                <label class="left control-label">回馈比例：</label>
-                                                <div class="right">
-                                                    <input type="text" class="form-control input text" name="feedback_ratio" value="{$info.feedback_ratio|formatNum2}">
-                                                </div>
-                                            </div>
+<!--                                            <div class="form-group item_title ">-->
+<!--                                                <label class="left control-label">回馈比例：</label>-->
+<!--                                                <div class="right">-->
+<!--                                                    <input type="text" class="form-control input text" name="feedback_ratio" value="{$info.feedback_ratio|formatNum2}">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
                                             <!--<div class="form-group item_title ">-->
                                                 <!--<label class="left control-label">两千的兑换额：</label>-->
                                                 <!--<div class="right">-->
@@ -105,48 +105,48 @@
                                                 <!--</div>-->
                                             <!--</div>-->
 
-                                            <div class="form-group item_title ">
-                                                <label class="left control-label">禁止会员：</label>
-                                                <div class="auth3" style="line-height:120%;" >
-                                               
-                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">
-                                                <input type="checkbox" name="quanxian[]"  
-                                                <php>if(in_array(1, $quanxian)) echo "checked"</php> value="1">
-                                                <span class="cui-control-indicator"></span>
-                                                <span>转入</span>
-                                               </label>
+<!--                                            <div class="form-group item_title ">-->
+<!--                                                <label class="left control-label">禁止会员：</label>-->
+<!--                                                <div class="auth3" style="line-height:120%;" >-->
+<!--                                               -->
+<!--                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">-->
+<!--                                                <input type="checkbox" name="quanxian[]"  -->
+<!--                                                <php>if(in_array(1, $quanxian)) echo "checked"</php> value="1">-->
+<!--                                                <span class="cui-control-indicator"></span>-->
+<!--                                                <span>转入</span>-->
+<!--                                               </label>-->
 
-                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">
-                                                <input type="checkbox" name="quanxian[]"  
-                                                <php>if(in_array(2, $quanxian)) echo "checked"</php> value="2">
-                                                <span class="cui-control-indicator"></span>
-                                                <span>转出</span>
-                                               </label>
+<!--                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">-->
+<!--                                                <input type="checkbox" name="quanxian[]"  -->
+<!--                                                <php>if(in_array(2, $quanxian)) echo "checked"</php> value="2">-->
+<!--                                                <span class="cui-control-indicator"></span>-->
+<!--                                                <span>转出</span>-->
+<!--                                               </label>-->
 
-                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">
-                                                <input type="checkbox" name="quanxian[]"  
-                                                <php>if(in_array(3, $quanxian)) echo "checked"</php> value="3">
-                                                <span class="cui-control-indicator"></span>
-                                                <span>买入</span>
-                                               </label>
+<!--                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">-->
+<!--                                                <input type="checkbox" name="quanxian[]"  -->
+<!--                                                <php>if(in_array(3, $quanxian)) echo "checked"</php> value="3">-->
+<!--                                                <span class="cui-control-indicator"></span>-->
+<!--                                                <span>买入</span>-->
+<!--                                               </label>-->
 
-                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">
-                                                <input type="checkbox" name="quanxian[]"  
-                                                <php>if(in_array(4, $quanxian)) echo "checked"</php> value="4">
-                                                <span class="cui-control-indicator"></span>
-                                                <span>卖出</span>
-                                               </label>
+<!--                                               <label class="checkbox-inline" style="margin-top: 10px;margin-left: 0px;">-->
+<!--                                                <input type="checkbox" name="quanxian[]"  -->
+<!--                                                <php>if(in_array(4, $quanxian)) echo "checked"</php> value="4">-->
+<!--                                                <span class="cui-control-indicator"></span>-->
+<!--                                                <span>卖出</span>-->
+<!--                                               </label>-->
 
-                                                </div>
-                                            </div>
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                            <div class="form-group item_title ">
-                                                <label class="left control-label">是否为空单：</label>
-                                                <div class="right">
-                                                    　<input type="radio" name ="empty_order" value="1" <php>if($info['empty_order'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是
-                                                    　<input type="radio" name ="empty_order" value="0" <php>if($info['empty_order'] == 0) echo "checked" </php>>否
-                                                </div>
-                                            </div>
+<!--                                            <div class="form-group item_title ">-->
+<!--                                                <label class="left control-label">是否为空单：</label>-->
+<!--                                                <div class="right">-->
+<!--                                                    　<input type="radio" name ="empty_order" value="1" <php>if($info['empty_order'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是-->
+<!--                                                    　<input type="radio" name ="empty_order" value="0" <php>if($info['empty_order'] == 0) echo "checked" </php>>否-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
                                             <div class="form-group item_title ">
                                                 <label class="left control-label">是否为服务中心：</label>
@@ -156,21 +156,21 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group item_title ">
-                                                <label class="left control-label">是否有分享权限：</label>
-                                                <div class="right">
-                                                    　<input type="radio" name ="is_share" value="1" <php>if($info['is_share'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是
-                                                    　<input type="radio" name ="is_share" value="0" <php>if($info['is_share'] == 0) echo "checked" </php>>否
-                                                </div>
-                                            </div>
+<!--                                            <div class="form-group item_title ">-->
+<!--                                                <label class="left control-label">是否有分享权限：</label>-->
+<!--                                                <div class="right">-->
+<!--                                                    　<input type="radio" name ="is_share" value="1" <php>if($info['is_share'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是-->
+<!--                                                    　<input type="radio" name ="is_share" value="0" <php>if($info['is_share'] == 0) echo "checked" </php>>否-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                            <div class="form-group item_title " style="display: none">
-                                                <label class="left control-label">是否可领红包：</label>
-                                                <div class="right">
-                                                    　<input type="radio" name ="is_red_receive" value="1" <php>if($info['is_red_receive'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是
-                                                    　<input type="radio" name ="is_red_receive" value="0" <php>if($info['is_red_receive'] == 0) echo "checked" </php>>否
-                                                </div>
-                                            </div>
+<!--                                            <div class="form-group item_title " style="display: none">-->
+<!--                                                <label class="left control-label">是否可领红包：</label>-->
+<!--                                                <div class="right">-->
+<!--                                                    　<input type="radio" name ="is_red_receive" value="1" <php>if($info['is_red_receive'] == 1) echo "checked" </php> style="margin: 10px 2px 0px -15px;" >是-->
+<!--                                                    　<input type="radio" name ="is_red_receive" value="0" <php>if($info['is_red_receive'] == 0) echo "checked" </php>>否-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
                                             <div class="form-group item_title ">
                                                 <label class="left control-label">用户状态：</label>

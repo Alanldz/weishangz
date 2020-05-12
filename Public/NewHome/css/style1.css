@@ -17,7 +17,7 @@ header{ background: #2a38e9; height: 40px; font-size: 16px; color: #fff; positio
 .go-back{ position: absolute; left: 15px; top: 0; bottom: 0; width: 10px; background: url(../img/icon01.png) center no-repeat; background-size: 10px auto; }
 .table > thead > tr > th{ border:none; text-align: center; font-size: 14px; font-weight: normal; }
 .table > tbody > tr > td{ font-size: 12px; text-align: center; border:none; }
-.list-header{ font-size: 15px; color: #fff; background: #f9c94d; border-radius: 10px 10px 0 0; padding:5px 15px; }
+.list-header{ font-size: 15px; color: #fff; background: #2a38e9; border-radius: 10px 10px 0 0; padding:5px 15px; }
 .list-header span{ padding-left: 20px; }
 .ka-list li{ margin-top: 15px; padding:0 15px; }
 .ka-bottom{ background: #fff; padding:15px 10px 10px 10px; }
@@ -57,9 +57,9 @@ header{ background: #2a38e9; height: 40px; font-size: 16px; color: #fff; positio
 .zz-p p{ font-size: 12px; color: #e50a0a; margin:0; line-height: 22px; }
 .zz-p{ padding:10px 0; }
 .input-txt-c{ color: #333; }
-.jh-tabs li{ float: left; width: 50%; border-bottom: solid 2px #f9c94d; margin-top: 20px; }
+.jh-tabs li{ float: left; width: 50%; border-bottom: solid 2px #2a38e9; margin-top: 20px; }
 .jh-tabs li a{ display: block; text-align: center; font-size: 18px; color: #060303; height: 40px;line-height: 40px; }
-.jh-tabs li.active a{ background: #f9c94d; color: #fff; }
+.jh-tabs li.active a{ background: #2a38e9; color: #fff; }
 .lishi{ margin-top: 10px; }
 .lishi li{ padding:0 30px; margin-bottom: 10px; }
 .lishi li a{ display: block; position: relative; background: #fff; text-align: center; padding:10px 0; border-radius: 4px; font-size: 15px; color: #2a38e9; display: block; }

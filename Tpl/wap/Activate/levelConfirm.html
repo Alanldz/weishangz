@@ -3,9 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
-    <title>进货确定</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+    <title>升级确定</title>
     <!-- Bootstrap -->
     <link href="__HOME__/css/bootstrap.css" rel="stylesheet">
     <link href="__HOME__/css/style1.css" rel="stylesheet">
@@ -49,20 +48,18 @@
     </style>
 </head>
 <body>
-<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>进货确定</header>
+<header class="text-center"><a href="{:U('Index/index')}" class="go-back"></a>升级确定</header>
 <div class="back"></div>
 <ul class="jh-list">
-    <li><a href="{:U('activate/markCard')}"><span></span>我要进货</a></li>
-    <li><a href="{:U('activate/my_card')}"><span></span>我的进货</a></li>
-    <li><a href="{:U('activate/applyMail')}"><span></span>申请邮寄</a></li>
+    <li><a href="{:U('activate/index')} "><span></span>我要升级</a></li>
 </ul>
 <ul class="jh-tabs clearfix">
     <li
     <eq name="step" value="0">class="active"</eq>
-    ><a href="{:U('Activate/activate_card',array('step'=>0))}">未确认进货</a></li>
+    ><a href="{:U('Activate/levelConfirm',array('step'=>0))}">未确认升级</a></li>
     <li
     <eq name="step" value="1">class="active"</eq>
-    ><a href="{:U('Activate/activate_card',array('step'=>1))}">已确认进货</a></li>
+    ><a href="{:U('Activate/levelConfirm',array('step'=>1))}">已确认升级</a></li>
 </ul>
 <!-- Tab panes -->
 <div class="tab-content">
@@ -73,32 +70,25 @@
                     <foreach name="list" item="v">
                         <!--未确认进货-->
                         <li>
-                            <div class="list-header"> 时间:{$v['create_time']|toDate}</div>
+                            <div class="list-header">时间：{$v['create_time']|toDate}</div>
                             <div class="ka-bottom">
-                                <p> 进货会员：{$v['username']}</p>
-                                <p>手机号：{$v['mobile']} </p>
-                                <p>货物方式：
-                                    <if condition="$v['is_duobao'] eq 2">
-                                        入云库
-                                        <else/>
-                                        邮寄
-                                    </if>
-                                </p>
-                                <if condition="$v['is_duobao'] eq 1">
-                                    <p>订单号 ：{$v['order_no']}</p>
-                                </if>
-                                <p>产品：{$v['detail']['com_name']}</p>
-                                <p>数量：{$v['detail']['com_num']} 盒</p>
-                                <p>支付方式：{$v['pay_type']} </p>
-
-                                <if condition="$v['is_can_deal']">
-                                    <div class="text-left">
-                                        <input type="hidden" value="{$v.order_id}" class="order_id">
+                                <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                                <p>升级会员：{$v['mobile']}（{$v['username']}）</p>
+                                <p>升级等级：{$v['level']|getUserLevelItems}</p>
+                                <p>所需数量：{$v['need_num']} 盒</p>
+                                <p>所需RMB：{$v['need_money']} </p>
+                                <div class="text-left">
+                                    <input type="hidden" value="{$v.id}" class="level_id">
+                                    <if condition="$v['is_can_deal'] eq 1 or $v['is_can_del'] eq 1">
                                         <input type="password" class="pwd" placeholder="请输入交易密码">
+                                    </if>
+                                    <if condition="$v['is_can_deal'] eq 1">
                                         <a href="javaScript:void (0)" class="determinePayment"> 点击确认</a>
-                                    </div>
-                                    <p> (注意：如果线下支付，请收到款项后点击确认。)</p>
-                                </if>
+                                    </if>
+                                    <if condition="$v['is_can_del'] eq 1">
+                                        <a href="javaScript:void (0)" class="delete"> 删除</a>
+                                    </if>
+                                </div>
                             </div>
                         </li>
                     </foreach>
@@ -106,23 +96,13 @@
                     <!--已确认进货-->
                     <foreach name="list" item="v">
                     <li>
-                        <div class="list-header"> 时间:{$v['create_time']|toDate}</div>
+                        <div class="list-header">时间：{$v['create_time']|toDate}</div>
                         <div class="ka-bottom">
-                            <p>进货会员：{$v['username']}</p>
-                            <p>手机号：{$v['mobile']} </p>
-                            <p>货物方式：
-                                <if condition="$v['is_duobao'] eq 2">
-                                    入云库
-                                    <else/>
-                                    邮寄
-                                </if>
-                            </p>
-                            <if condition="$v['is_duobao'] eq 1">
-                                <p>订单号 ：{$v['order_no']}</p>
-                            </if>
-                            <p>产品：{$v['product_name']}</p>
-                            <p>数量：{$v['num']} 盒</p>
-                            <p>支付方式：{$v['pay_type']} </p>
+                            <p>推荐人：{$v['pid_mobile']}（{$v['pid_username']}）</p>
+                            <p>升级会员：{$v['mobile']}（{$v['username']}）</p>
+                            <p>升级等级：{$v['level']|getUserLevelItems}</p>
+                            <p>所需数量：{$v['need_num']} 盒</p>
+                            <p>所需RMB：{$v['need_money']} </p>
                         </div>
                     </li>
                     </foreach>
@@ -131,9 +111,9 @@
                 <li>
                     <div style="text-align: center;color: #a99d9d">
                         <if condition="$step eq 0">
-                            暂无未确认进货
+                            暂无未确认升级
                             <else/>
-                            暂无已确认进货
+                            暂无已确认升级
                         </if>
                     </div>
                 </li>
@@ -162,10 +142,10 @@
             return false;
         }
         obj.addClass('is_ajax');
-        var order_id = obj.parent().find('.order_id').val();
+        var level_id = obj.parent().find('.level_id').val();
         var pwd =  obj.parent().find('.pwd').val();
 
-        doajax("{:U('activate/determinePayment')}", {order_id: order_id,pwd:pwd}, function (data) {
+        doajax("{:U('activate/levelConfirm')}", {id: level_id,pwd:pwd,type:'confirm'}, function (data) {
             if (data.status == 1) {
                 msg_alert(data.message,data.url);
             } else {
@@ -173,7 +153,27 @@
             }
             obj.removeClass('is_ajax');
         });
+    });
 
+    $('.delete').on('click',function () {
+        var obj = $(this);
+        var is_ajax = obj.hasClass('is_ajax');
+        if (is_ajax) {
+            msg_alert('请勿频繁操作');
+            return false;
+        }
+        obj.addClass('is_ajax');
+        var level_id = obj.parent().find('.level_id').val();
+        var pwd =  obj.parent().find('.pwd').val();
+
+        doajax("{:U('activate/levelConfirm')}", {id: level_id,pwd:pwd,type:'del'}, function (data) {
+            if (data.status == 1) {
+                msg_alert(data.message,data.url);
+            } else {
+                msg_alert(data.message);
+            }
+            obj.removeClass('is_ajax');
+        });
     });
 </script>
 </html>

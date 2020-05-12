@@ -283,7 +283,7 @@ class IndexController extends CommonController
         return $substr;
     }
 
-    //管理奖和直推奖， 管理拿2-4代
+    //管理奖和分享奖， 管理拿2-4代
     private function Manage_reward($uid, $paynums)
     {
         $Lasts = D('Home/index');
@@ -293,19 +293,19 @@ class IndexController extends CommonController
             $Manage_a = M('config')->where(array('group' => 7, 'status' => 1))->order('id asc')->select();//管理奖比例
             foreach ($Lastinfo as $k => $v) {
                 if (!empty($v)) {//当前会员信息
-                    if ($k == 0) {//第一代，即为直推奖
+                    if ($k == 0) {//第一代，即为分享奖
                         $u_Grade = M('user')->where(array('userid' => $v))->getfield('use_grade');
                         $direct_fee = 0;
                         if ($u_Grade > 0) $direct_fee = (float)$Manage_b[$u_Grade - 1]["value"];//判断是什么比例
-                        $zhitui_reward = $direct_fee / 100 * $paynums;//直推的人所得分享奖
+                        $zhitui_reward = $direct_fee / 100 * $paynums;//分享的人所得分享奖
                         M('user')->where(array('userid' => $v))->setInc('releas_rate', $zhitui_reward);
                     }
 
-                    if ($k > 0 && $k <= 3) {//2-4代,拿直推的人的分享奖*相应比例，即为管理奖
+                    if ($k > 0 && $k <= 3) {//2-4代,拿分享的人的分享奖*相应比例，即为管理奖
                         $t = $k - 1;
-                        $zhitui_num = M('user')->where(array('pid' => $v))->count(1);//计算直推人数
+                        $zhitui_num = M('user')->where(array('pid' => $v))->count(1);//计算分享人数
                         $suoxu_num = (int)$Manage_a[$t]["tip"];
-                        if ($zhitui_num >= $suoxu_num) {//直推人数满足条件
+                        if ($zhitui_num >= $suoxu_num) {//分享人数满足条件
 
                             $My_reward = $Manage_a[$t]["value"] / 100 * $zhitui_reward;
                             $res_Incrate = M('user')->where(array('userid' => $v))->setInc('releas_rate', $My_reward);
@@ -329,7 +329,7 @@ class IndexController extends CommonController
             foreach ($Lastinfo as $k => $v) {
                 //查询当前自己等级
                 if (!empty($v)) {
-                    $zhitui_num = M('user')->where(array('pid' => $v))->count(1);//计算直推人数
+                    $zhitui_num = M('user')->where(array('pid' => $v))->count(1);//计算分享人数
                     $t = $k + 1;
                     $tkey = 0;
                     $daishu = array(3, 6, 9, 12, 15);
@@ -337,7 +337,7 @@ class IndexController extends CommonController
                         if ($t > $value1) $tkey = $key1 + 1;
                     }
                     $suoxu_num = (int)$add_relinfo[$tkey]["tip"];
-                    if ($zhitui_num >= $suoxu_num) {//直推人数满足条件 得区块奖
+                    if ($zhitui_num >= $suoxu_num) {//分享人数满足条件 得区块奖
                         $Lastone = $My_reward = $add_relinfo[$tkey]["value"] / 100 * $paynums;
                         $res_Incrate = M('user')->where(array('userid' => $v))->setInc('releas_rate', $Lastone);
                     }
@@ -967,7 +967,7 @@ class IndexController extends CommonController
                     $record_list[$k]['type_name'] = '平台操作';
                     break;
                 case 4:
-                    $record_list[$k]['type_name'] = '直推释放' . $remark;
+                    $record_list[$k]['type_name'] = '分享释放' . $remark;
                     break;
                 case 5:
                     $record_list[$k]['type_name'] = '自营释放' . $remark;

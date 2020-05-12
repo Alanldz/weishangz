@@ -131,7 +131,7 @@ class WeekCheckModel extends ModelModel
     private function CarFee($userid)
     {
         $config = $this->config;
-        //直推拆分
+        //分享拆分
         $level = $this->user->where(array('userid' => $userid))->getField('level');
         $recommend_lv = 0;
         if ($level > 0) {

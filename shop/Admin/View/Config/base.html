@@ -29,184 +29,184 @@
 
                                 基本设置
                                 <hr style="margin-top: 0px;width: 100%">
-                                <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setSignInMoney">
-                                    <div class="form-type-list">
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">注册赠送流动资产：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[reg_send_flow]" class="form-control" value="{$data['reg_send_flow']}">
-                                            </div>
-                                        </div>
+<!--                                <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setSignInMoney">-->
+<!--                                    <div class="form-type-list">-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">注册赠送流动资产：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[reg_send_flow]" class="form-control" value="{$data['reg_send_flow']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱分享奖比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[share_to_flow_ratio]" class="form-control" value="{$data['share_to_flow_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱分享奖比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[share_to_flow_ratio]" class="form-control" value="{$data['share_to_flow_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱流动通证比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[share_to_can_flow_ratio]" class="form-control" value="{$data['share_to_can_flow_ratio']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">感恩奖比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[thankful_award_ratio]" class="form-control" value="{$data['thankful_award_ratio']}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">直推释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[direct_release_ratio]" class="form-control" value="{$data['direct_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱流动通证比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[share_to_can_flow_ratio]" class="form-control" value="{$data['share_to_can_flow_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">感恩奖比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[thankful_award_ratio]" class="form-control" value="{$data['thankful_award_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">分享释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[direct_release_ratio]" class="form-control" value="{$data['direct_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">锁仓通证倍数设置：</label>
-                                            <div style="width:200px;float: left;" class="input-group">
-                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_one']}">
-                                            </div>
-                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>
-                                            <div style="width:200px" class="input-group">
-                                                <input type="number" name="config[lock_warehouse_multiple_one]" class="form-control" value="{$data['lock_warehouse_multiple_one']}" placeholder="请输入倍数">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label"></label>
-                                            <div style="width:200px;float: left;" class="input-group">
-                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_two']}">
-                                            </div>
-                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>
-                                            <div style="width:200px" class="input-group">
-                                                <input type="number" name="config[lock_warehouse_multiple_two]" class="form-control" value="{$data['lock_warehouse_multiple_two']}" placeholder="请输入倍数">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label"></label>
-                                            <div style="width:200px;float: left;" class="input-group">
-                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_three']}">
-                                            </div>
-                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>
-                                            <div style="width:200px" class="input-group">
-                                                <input type="number" name="config[lock_warehouse_multiple_three]" class="form-control" value="{$data['lock_warehouse_multiple_three']}" placeholder="请输入倍数">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label"></label>
-                                            <div style="width:200px;float: left;" class="input-group">
-                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_four']}">
-                                            </div>
-                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>
-                                            <div style="width:200px" class="input-group">
-                                                <input type="number" name="config[lock_warehouse_multiple_four]" class="form-control" value="{$data['lock_warehouse_multiple_four']}" placeholder="请输入倍数">
-                                            </div>
-                                        </div>
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">锁仓通证释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[lock_warehouse_release_ratio]" class="form-control" value="{$data['lock_warehouse_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">锁仓通证倍数设置：</label>-->
+<!--                                            <div style="width:200px;float: left;" class="input-group">-->
+<!--                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_one']}">-->
+<!--                                            </div>-->
+<!--                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>-->
+<!--                                            <div style="width:200px" class="input-group">-->
+<!--                                                <input type="number" name="config[lock_warehouse_multiple_one]" class="form-control" value="{$data['lock_warehouse_multiple_one']}" placeholder="请输入倍数">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label"></label>-->
+<!--                                            <div style="width:200px;float: left;" class="input-group">-->
+<!--                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_two']}">-->
+<!--                                            </div>-->
+<!--                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>-->
+<!--                                            <div style="width:200px" class="input-group">-->
+<!--                                                <input type="number" name="config[lock_warehouse_multiple_two]" class="form-control" value="{$data['lock_warehouse_multiple_two']}" placeholder="请输入倍数">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label"></label>-->
+<!--                                            <div style="width:200px;float: left;" class="input-group">-->
+<!--                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_three']}">-->
+<!--                                            </div>-->
+<!--                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>-->
+<!--                                            <div style="width:200px" class="input-group">-->
+<!--                                                <input type="number" name="config[lock_warehouse_multiple_three]" class="form-control" value="{$data['lock_warehouse_multiple_three']}" placeholder="请输入倍数">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label"></label>-->
+<!--                                            <div style="width:200px;float: left;" class="input-group">-->
+<!--                                                <input type="number" readonly class="form-control" value="{$data['lock_warehouse_day_four']}">-->
+<!--                                            </div>-->
+<!--                                            <div style="float: left;line-height: 34px;" class="input-group">&nbsp; 天 ~ 倍数：&nbsp;</div>-->
+<!--                                            <div style="width:200px" class="input-group">-->
+<!--                                                <input type="number" name="config[lock_warehouse_multiple_four]" class="form-control" value="{$data['lock_warehouse_multiple_four']}" placeholder="请输入倍数">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">锁仓通证释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[lock_warehouse_release_ratio]" class="form-control" value="{$data['lock_warehouse_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group"></div>
-                                        <div class="form-group bottom_button_list">
-                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="setSignInMoney">确定</a>
-                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>
-                                        </div>
-                                    </div>
-                                </form>
+<!--                                        <div class="form-group"></div>-->
+<!--                                        <div class="form-group bottom_button_list">-->
+<!--                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="setSignInMoney">确定</a>-->
+<!--                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </form>-->
 
-                                百宝箱释放比例
-                                <hr style="margin-top: 0px;width: 100%">
-                                <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setBaiBaoBoxRelease">
-                                    <div class="form-type-list">
+<!--                                百宝箱释放比例-->
+<!--                                <hr style="margin-top: 0px;width: 100%">-->
+<!--                                <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setBaiBaoBoxRelease">-->
+<!--                                    <div class="form-type-list">-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱分享奖释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[bai_bao_share_release_ratio]" class="form-control" value="{$data['bai_bao_share_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱分享奖释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[bai_bao_share_release_ratio]" class="form-control" value="{$data['bai_bao_share_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱绩效奖释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[bai_bao_merits_release_ratio]" class="form-control" value="{$data['bai_bao_merits_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱绩效奖释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[bai_bao_merits_release_ratio]" class="form-control" value="{$data['bai_bao_merits_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱感恩奖释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[bai_bao_thankful_release_ratio]" class="form-control" value="{$data['bai_bao_thankful_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱感恩奖释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[bai_bao_thankful_release_ratio]" class="form-control" value="{$data['bai_bao_thankful_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱流动通证释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[bai_bao_flow_release_ratio]" class="form-control" value="{$data['bai_bao_flow_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱流动通证释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[bai_bao_flow_release_ratio]" class="form-control" value="{$data['bai_bao_flow_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group">
-                                            <label class="left control-label">百宝箱流动通证释放到：</label>
-                                            <div class="right">
-                                                <div class="radio-inline cui-control cui-radio">
-                                                    <label>
-                                                        <input type="radio" class="radio" name="config[bai_bao_flow_release_from]" value="0" <eq name="data['bai_bao_flow_release_from']" value='0' > checked="true"</eq> >
-                                                        <span class="cui-control-indicator"></span>
-                                                        <span>可用余额</span>
-                                                    </label>
-                                                </div>
-                                                <div class="radio-inline cui-control cui-radio">
-                                                    <label>
-                                                        <input type="radio" class="radio" name="config[bai_bao_flow_release_from]" value="1" <eq name="data['bai_bao_flow_release_from']" value='1' > checked="true"</eq> >
-                                                        <span class="cui-control-indicator"></span>
-                                                        <span>我的仓库</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="left control-label">百宝箱流动通证释放到：</label>-->
+<!--                                            <div class="right">-->
+<!--                                                <div class="radio-inline cui-control cui-radio">-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio" class="radio" name="config[bai_bao_flow_release_from]" value="0" <eq name="data['bai_bao_flow_release_from']" value='0' > checked="true"</eq> >-->
+<!--                                                        <span class="cui-control-indicator"></span>-->
+<!--                                                        <span>可用余额</span>-->
+<!--                                                    </label>-->
+<!--                                                </div>-->
+<!--                                                <div class="radio-inline cui-control cui-radio">-->
+<!--                                                    <label>-->
+<!--                                                        <input type="radio" class="radio" name="config[bai_bao_flow_release_from]" value="1" <eq name="data['bai_bao_flow_release_from']" value='1' > checked="true"</eq> >-->
+<!--                                                        <span class="cui-control-indicator"></span>-->
+<!--                                                        <span>我的仓库</span>-->
+<!--                                                    </label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">百宝箱回馈释放比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[bai_bao_feedback_release_ratio]" class="form-control" value="{$data['bai_bao_feedback_release_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">百宝箱回馈释放比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[bai_bao_feedback_release_ratio]" class="form-control" value="{$data['bai_bao_feedback_release_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group"></div>
-                                        <div class="form-group bottom_button_list">
-                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="setBaiBaoBoxRelease">确定</a>
-                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>
-                                        </div>
-                                    </div>
-                                </form>
+<!--                                        <div class="form-group"></div>-->
+<!--                                        <div class="form-group bottom_button_list">-->
+<!--                                            <a class="btn btn-primary submit ajax-post" type="submit" target-form="setBaiBaoBoxRelease">确定</a>-->
+<!--                                            <a class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </form>-->
 
-                                兑换，转账, 提现配置
+                               转账, 提现配置
                                 <hr style="margin-top: 0px;width: 100%">
                                 <form action="{:U('Config/setConfig')}" method="post" class="form-horizontal form form-builder setExchangeTransfer">
                                     <div class="form-type-list">
-                                        <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">可用余额兑换消费通证手续费比例：</label>
-                                            <div style="width:310px" class="input-group">
-                                                <input type="number" style="width:200px" name="config[ecology_to_bao_dan_fee_ratio]" class="form-control" value="{$data['ecology_to_bao_dan_fee_ratio']}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="form-group item_config[WEB_SITE_TITLE] ">-->
+<!--                                            <label class="left control-label">可用余额兑换消费通证手续费比例：</label>-->
+<!--                                            <div style="width:310px" class="input-group">-->
+<!--                                                <input type="number" style="width:200px" name="config[ecology_to_bao_dan_fee_ratio]" class="form-control" value="{$data['ecology_to_bao_dan_fee_ratio']}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
                                         <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">消费通证,可用余额互转手续费比例：</label>
+                                            <label class="left control-label">转账手续费：</label>
                                             <div style="width:310px" class="input-group">
                                                 <input type="number" style="width:200px" name="config[transfer_accounts_fee_ratio]" class="form-control" value="{$data['transfer_accounts_fee_ratio']}">
                                             </div>
                                         </div>
 
                                         <div class="form-group item_config[WEB_SITE_TITLE] ">
-                                            <label class="left control-label">可用余额提现手续费比例：</label>
+                                            <label class="left control-label">提现手续费比例：</label>
                                             <div style="width:310px" class="input-group">
                                                 <input type="number" style="width:200px" name="config[withdrawal_ratio]" class="form-control" value="{$data['withdrawal_ratio']}">
                                             </div>
@@ -286,7 +286,7 @@
                                 </form>
                             </div>
 
-                            <div class="col-xs-12" >
+                            <div class="col-xs-12"  style="display: none">
                                 发送邮箱配置
                                 <hr style="margin-top: 0px;width: 100%">
                                 <form action="{:U('Config/setEmailConfiguration')}" method="post" class="form-horizontal form form-builder setEmailConfiguration">

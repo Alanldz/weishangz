@@ -50,7 +50,7 @@ class IndexModel extends ModelModel
         } elseif ($U_money >= $vip_bili[0]['tip']) {
             $new_level_vip = 1;
         }
-        $zhitui_num = M('user')->where(array('pid' => $memberid, 'vip_grade' => 1))->count(1);//计算直推人数
+        $zhitui_num = M('user')->where(array('pid' => $memberid, 'vip_grade' => 1))->count(1);//计算分享人数
         if ($zhitui_num >= $vip_bili[1]['tip'] && $new_level_vip == 1) {
             $new_level_vip = 2;
         }

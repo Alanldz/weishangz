@@ -42,6 +42,67 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         return $data;
     }
 
+    public static function stock_list($uid)
+    {
+        $models = M('order');
+
+        $where['order_sellerid'] = $uid;
+        $where['status'] = 0;
+        $where['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
+        $list_one = $models->where($where)->order('order_id desc')->select();//直推人
+
+        $pid_info = M('user')->where(['userid' => $uid])->field('mobile,level,service_center,username')->find();
+
+        $path = M('user')->where(['path' => ['like', '%' . $uid . '%']])->getField('userid', true);
+        $list_two = [];
+        if ($path) {
+            $where['order_sellerid'] = ['in', $path];
+            $list_two = $models->where($where)->order('order_id desc')->select();
+        }
+
+        $returnData = array_merge($list_one, $list_two);
+        $list = [];
+        foreach ($returnData as $k => $v) {
+            $userInfo = M('user')->where(['userid' => $v['uid']])->field('username,mobile,level')->find();
+            $data = $v;
+            $data['is_can_deal'] = 0;//是否能确认
+
+            if ($v['order_sellerid'] == $uid) { //推荐人
+                if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE) {
+                    if ($pid_info['level'] >= Constants::USER_LEVEL_A_THREE && $pid_info['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    }
+                } else {
+                    if ($pid_info['level'] > $userInfo['level']) {
+                        $data['is_can_deal'] = 1;
+                    }
+                }
+            } else {
+                if ($userInfo['level'] >= Constants::USER_LEVEL_A_THREE) {
+                    if ($pid_info['level'] >= Constants::USER_LEVEL_A_THREE && $pid_info['service_center'] == 1) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    if ($pid_info['level'] > $userInfo['level']) {
+                        $data['is_can_deal'] = 1;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            $data['username'] = $userInfo['username'];
+            $data['mobile'] = $userInfo['mobile'];
+            $data['detail'] = M('order_detail')->where(['order_id' => $v['order_id']])->find();
+            $data['pay_type'] = Constants::getPayWayItems($v['pay_type']);
+            $list[] = $data;
+        }
+
+        return $list;
+    }
+
     /**
      * 我要进货
      * @return bool
@@ -416,18 +477,52 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
         }
     }
 
+    /**
+     * 确认收款
+     * @return bool
+     * @author ldz
+     * @time 2020/5/10 18:41
+     */
     public function determinePayment()
     {
         try {
             M()->startTrans();
             $uid = session('userid');
-            $order_id = I('order_id');
-            $order = M('order')->where(['order_id' => $order_id, 'status' => 0, 'order_sellerid' => $uid])->find();
+            $order_id = intval(I('order_id'));
+            $order = M('order')->where(['order_id' => $order_id, 'status' => 0])->find();
             if (empty($order)) {
                 throw new Exception('该订单不存在请刷新页面重试');
             }
 
-            $order_detail = M('order_detail')->where(['order_id' => $order_id])->field('com_num')->find();
+            $trans_pwd = trim(I('pwd', ''));
+            if (empty($trans_pwd)) {
+                throw new Exception('请输入交易密码');
+            }
+            //验证交易密码
+            D('user')->Trans('', $trans_pwd);
+
+            $user_info = M('user')->where(['userid' => $uid])->field('level,service_center')->find();
+            $uid_info = M('user')->where(['userid' => $order['uid']])->field('path,level,pid')->find();
+            $path = '-' . $uid . '-';
+            if (strpos($uid_info['path'], $path) === false) {
+                throw new Exception('该订单用户不是您的团队，您没有权利确认');
+            }
+            $is_can_deal = false;
+            if ($uid_info['level'] >= Constants::USER_LEVEL_A_THREE) {
+                if ($user_info['level'] >= Constants::USER_LEVEL_A_THREE && $user_info['service_center'] == 1) {
+                    $is_can_deal = true;
+                }
+            } else {
+                if ($user_info['level'] > $uid_info['level']) {
+                    $is_can_deal = true;
+                }
+            }
+
+            if (!$is_can_deal) {
+                throw new Exception('您没有权限确认');
+            }
+
+            $order_detail = M('order_detail')->where(['order_id' => $order_id])->field('com_num,com_name')->find();
             $storeInfo = M('store')->where(['uid' => $uid])->field('cloud_library')->find();
             if ($order_detail['com_num'] > $storeInfo['cloud_library']) {
                 throw new Exception('您的云库不足');
@@ -453,13 +548,27 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
                 StoreRecordModel::addRecord($order['uid'], 'cloud_library', $order_detail['com_num'], Constants::STORE_TYPE_CLOUD_LIBRARY, 3);
             }
 
-            $path = M('user')->where(['userid' => $order['uid']])->getField('path');
-            $arrayPath = array_reverse(getArray($path));
+            $arrayPath = array_reverse(getArray($uid_info['path']));
             $userModel = new UserModel();
             $address['province_id'] = $order['province_id'];
             $address['city_id'] = $order['city_id'];
             $userModel->user_id = $order['uid'];
-            $userModel->award($uid, $arrayPath, $order_detail['com_num'], $address);
+            $userModel->award($uid_info['pid'], $arrayPath, $order_detail['com_num'], $address);
+
+            //新增确认记录
+            $addData = [
+                'uid' => $uid,
+                'user_id' => $order['uid'],
+                'num' => $order_detail['com_num'],
+                'product_name' => $order_detail['com_name'],
+                'order_id' => $order_id,
+                'type' => ($order['is_duobao'] == 2) ? 2 : 1,
+                'create_time' => time()
+            ];
+            $res = M('stock_option_record')->add($addData);
+            if (!$res) {
+                throw new Exception('新增激活用户记录失败');
+            }
 
             M()->commit();
             return true;

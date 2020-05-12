@@ -22,27 +22,23 @@ class ActivateController extends CommonController
     {
         $uid = session('userid');
         $step = intval(I('step', 0));
-        $where['order_sellerid'] = $uid;
         if ($step == 1) {
-            $where['status'] = ['neq', 0];
+            $list = M('stock_option_record')->where(['uid' => $uid])->select();
+            foreach ($list as $k => $value) {
+                $userInfo = M('user')->where(['userid' => $value['user_id']])->field('username,mobile')->find();
+                $order_info = M('order')->where(['order_id' => $value['order_id']])->field('pay_type,is_duobao,order_no')->find();
+                $list[$k]['pay_type'] = Constants::getPayWayItems($order_info['pay_type']);
+                $list[$k]['is_duobao'] = $order_info['is_duobao'];
+                $list[$k]['order_no'] = $order_info['order_no'];
+                $list[$k]['username'] = $userInfo['username'];
+                $list[$k]['mobile'] = $userInfo['mobile'];
+            }
         } else {
-            $where['status'] = 0;
-        }
-        $where['shop_type'] = Constants::SHOP_TYPE_REGENERATE;
-        $returnData = ActivateCardModel::search($where);
-        $list = [];
-        foreach ($returnData['list'] as $k => $v) {
-            $list[$k] = $v;
-            $userInfo = M('user')->where(['userid' => $v['uid']])->field('username,mobile')->find();
-            $list[$k]['username'] = $userInfo['username'];
-            $list[$k]['mobile'] = $userInfo['mobile'];
-            $list[$k]['detail'] = M('order_detail')->where(['order_id' => $v['order_id']])->find();
-            $list[$k]['pay_type'] = Constants::getPayWayItems($v['pay_type']);
+            $list = ActivateCardModel::stock_list($uid);
         }
 
         $this->assign('list', $list);
         $this->assign('step', $step);
-        $this->assign('page', $returnData['page']);
         $this->display();
     }
 
@@ -122,6 +118,53 @@ class ActivateController extends CommonController
     }
 
     /**
+     * 升级确定页
+     * @author ldz
+     * @time 2020/5/10 21:43
+     */
+    public function levelConfirm()
+    {
+        if (IS_AJAX) {
+            $models = new UserModel();
+            $type = I('type', 'confirm');
+            if ($type == 'confirm') {
+                $res = $models->levelConfirmSub();
+                $success = '申请成功,请耐心等待';
+            } else {
+                $res = $models->levelConfirmDel();
+                $success = '删除成功';
+            }
+            if (!$res) {
+                ajaxReturn($models->getError(), 0);
+            }
+            ajaxReturn($success, 1, U('activate/levelConfirm'));
+        }
+        $uid = session('userid');
+        $step = intval(I('step', 0));
+        if ($step) {//已确认升级列表
+            $list = M('level_list')->where(['operator_id' => $uid, 'status' => 1])->select();
+            foreach ($list as &$item){
+                $user_info = M('user')->where(['userid' => $item['uid']])->field('pid,mobile,username')->find();
+                $item['username'] = $user_info['username'];
+                $item['mobile'] = $user_info['mobile'];
+                $pid_info = M('user')->where(['userid' => $user_info['pid']])->field('mobile,username')->find();
+                $item['pid_username'] = $pid_info['username'];
+                $item['pid_mobile'] = $pid_info['mobile'];
+                $item['create_time'] = $item['time'] ? strtotime($item['time']) : '';
+                $product = M('product_detail')->where(['level' => $item['level']])->field('price,activate_buy_num')->find();
+                $item['need_num'] = $product['activate_buy_num'];
+                $item['need_money'] = $product['price'] * $product['activate_buy_num'];
+            }
+        } else {//未确认升级列表
+            $list = UserModel::levelConfirm($uid);
+        }
+
+        $this->assign('list', $list);
+        $this->assign('step', $step);
+        $this->display();
+    }
+
+    /**
      * 升级申请
      */
     public function index()
@@ -138,9 +181,18 @@ class ActivateController extends CommonController
         $uid = session('userid');
         $userInfo = M('user')->where(['userid' => $uid])->field('username,mobile,level')->find();
         $level = [Constants::USER_LEVEL_A_ONE, Constants::USER_LEVEL_A_TWO, Constants::USER_LEVEL_A_THREE];
+        $level_list = [];
+        foreach ($level as $value) {
+            $product = M('product_detail')->where(['level' => $value])->field('price,activate_buy_num')->find();
+            $level_list[] = [
+                'level' => $value,
+                'num' => $product['activate_buy_num'],
+                'price' => $product['price'],
+            ];
+        }
 
         $this->assign('userInfo', $userInfo);
-        $this->assign('level', $level);
+        $this->assign('level_list', $level_list);
         $this->display();
     }
 
@@ -165,9 +217,9 @@ class ActivateController extends CommonController
                 $record_list[$k]['type_name'] = 'EF激活';
             } else {
                 if ($pid == $uid) {
-                    $record_list[$k]['type_name'] = '激活卡(直推）';
+                    $record_list[$k]['type_name'] = '激活卡(分享）';
                 } else {
-                    $record_list[$k]['type_name'] = '激活卡(非直推）';
+                    $record_list[$k]['type_name'] = '激活卡(非分享）';
                 }
             }
 

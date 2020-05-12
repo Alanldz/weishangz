@@ -430,7 +430,7 @@ class TixianController extends CommonController
                     $snum = C('x_nine');
                     break;
             }
-            /*找到他们的直推人数*/
+            /*找到他们的分享人数*/
             $directnums = $userinfo->where(array('pid' => $v))->count(1);
             $levelsetings = M('level_nc')->order('id asc')->select();
             foreach ($levelsetings as $layers) {

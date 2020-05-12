@@ -5,7 +5,7 @@ namespace Home\Controller;
 class NewsController extends CommonController
 {
     /**
-     * 直推奖励
+     * 分享奖励
      */
     public function index()
     {

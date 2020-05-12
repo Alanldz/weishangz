@@ -15,10 +15,10 @@ class UserModel extends \Common\Model\UserModel
 {
 
     const total_release_a_one = 150000;//15万
-    const a_two_share_one = 3;//直推人3个
+    const a_two_share_one = 3;//分享人3个
 
     const total_release_a_two = 1000000;//100万
-    const a_two_share_num = 6;//直推人6个
+    const a_two_share_num = 6;//分享人6个
 
     const total_release_a_three = 5000000;//500万
     const other_achievements_a_three = 1000000;//100万
@@ -65,7 +65,7 @@ class UserModel extends \Common\Model\UserModel
         $userInfo = M('user')->where(['userid' => $uid])->field('level,activation_time')->find();
         $total_release = M('store')->where(['uid' => $uid])->getField('total_release');//总业绩
         $other_achievements = $this->otherAchievements($uid);//其他业绩
-        $share_number = M('user')->where(['pid' => $uid])->count(); //直推人数
+        $share_number = M('user')->where(['pid' => $uid])->count(); //分享人数
 
         if ($total_release >= self::total_release_a_six && $other_achievements >= self::other_achievements_a_six) {
             $level = Constants::USER_LEVEL_A_SIX;
