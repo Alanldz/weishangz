@@ -152,11 +152,16 @@
         $('.pay_money').html(pay_money+'元')
     });
 
-
     $('.confirm').click(function () {
         var purchase_quantity = $('.purchase_quantity').val();
         if(purchase_quantity == '' || purchase_quantity <= 0){
             msg_alert('请输入进货数量');
+            return false;
+        }
+
+        var stock_mix_num = "{$userInfo['stock_mix_num']}";
+        if(parseFloat(purchase_quantity) < parseFloat(stock_mix_num)){
+            msg_alert('至少订货盒数为：'+stock_mix_num+'盒');
             return false;
         }
         var pay_type = $('#pay_type').val();

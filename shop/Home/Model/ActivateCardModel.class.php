@@ -71,6 +71,7 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
 
     /**
      * 验证
+     * @param $uid
      * @return array
      * @throws Exception
      */
@@ -100,10 +101,15 @@ class ActivateCardModel extends \Common\Model\ActivateCardModel
             $user_level = $userInfo['level'];
         }
 
-        $productInfo = M('product_detail')->where(['level' => $user_level])->field('id,level,price,activate_buy_num,name,pic')->find();
+        $productInfo = M('product_detail')->where(['level' => $user_level])->field('id,level,price,activate_buy_num,name,pic,stock_mix_num')->find();
         if (empty($productInfo)) {
             throw new Exception('您的等级进货单价不存在，请联系管理员');
         }
+
+        if ($purchase_quantity < $productInfo['stock_mix_num']) {
+            throw new Exception('至少订货盒数为：' . $productInfo['stock_mix_num'] . '盒');
+        }
+
         $productInfo['purchase_quantity'] = $purchase_quantity;
         $productInfo['pay_type'] = $pay_type;
         $productInfo['pid'] = $userInfo['pid'];

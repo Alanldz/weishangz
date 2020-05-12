@@ -36,6 +36,7 @@
                         <th>商品名称</th>
                         <th>价格（单价）</th>
                         <th>激活起订盒数</th>
+                        <th>进货起订盒数</th>
                         <th>等级</th>
                         <!--<th>是否上架</th>-->
                         <!--<th>图片</th>-->
@@ -56,6 +57,7 @@
                             <td>{$v.name}</td>
                             <td>{$v.price|default='0'}元<br/></td>
                             <td>{$v.activate_buy_num|default='0'}盒<br/></td>
+                            <td>{$v.stock_mix_num|default='0'}盒<br/></td>
                             <td>{$v['level']|getUserLevelItems}</td>
                             <!--<td>{$v['status_name']}</td>-->
                             <!--<td>-->
