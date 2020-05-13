@@ -100,7 +100,7 @@ class GoodsModel extends Model
     {
 //        $sql = 'SELECT pd.id,pd.type_id,pd.name,pd.price,pd.level,pd.activate_buy_num,pd.ecological_total_assets,pd.pic,pd.status,pd.shangjia,pd.stock,pd.ctime,pc.id as cid,pc.name as cname FROM ' . C('DB_PREFIX') . 'product_detail pd,'
 //            . C('DB_PREFIX') . 'product_cate pc WHERE pd.type_id=pc.id';
-        $sql = 'SELECT pd.id,pd.name,pd.price,pd.level,pd.activate_buy_num,pd.ctime FROM ' . C('DB_PREFIX') . 'product_detail pd';
+        $sql = 'SELECT pd.id,pd.name,pd.price,pd.level,pd.activate_buy_num,pd.stock_mix_num,pd.ctime FROM ' . C('DB_PREFIX') . 'product_detail pd';
 
 //        if (isset($search['name'])) {
 //            $sql .= " and pd.name like '%" . $search['name'] . "%'";
@@ -268,6 +268,7 @@ class GoodsModel extends Model
         $goods['name'] = $data['name'];
         $goods['price'] = $data['price'];
         $goods['activate_buy_num'] = $data['activate_buy_num'];
+        $goods['stock_mix_num'] = $data['stock_mix_num'];
 
         $goods['status'] = 1;
         if ($goods['id']) {
@@ -501,6 +502,16 @@ class GoodsModel extends Model
 
         if ($data['activate_buy_num'] <= 0) {
             $error['message'] = '激活起订盒数必须大于零';
+            return $error;
+        }
+
+        if (empty($data['stock_mix_num'])) {
+            $error['message'] = '进货起订盒数必填';
+            return $error;
+        }
+
+        if ($data['stock_mix_num'] <= 0) {
+            $error['message'] = '进货起订盒数必须大于零';
             return $error;
         }
 

@@ -65,7 +65,9 @@ class ActivateController extends CommonController
         } else {
             $level = $userInfo['level'];
         }
-        $userInfo['price'] = M('product_detail')->where(['level' => $level])->getField('price');
+        $product_detail = M('product_detail')->where(['level' => $level])->field('price,stock_mix_num')->find();
+        $userInfo['price'] = $product_detail['price'];
+        $userInfo['stock_mix_num'] = $product_detail['stock_mix_num'];
         $this->assign('userInfo', $userInfo);
         $this->display();
     }
