@@ -799,7 +799,7 @@ class IndexController extends CommonController
                     $Chan_info[$k]['type_name'] = '提现';
                     break;
                 case '20':
-                    $Chan_info[$k]['type_name'] = '取消退回';
+                    $Chan_info[$k]['type_name'] = '提现退回';
                     break;
                 default:
                     $Chan_info[$k]['type_name'] = '';
