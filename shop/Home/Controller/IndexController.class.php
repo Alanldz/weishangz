@@ -798,6 +798,9 @@ class IndexController extends CommonController
                 case '18':
                     $Chan_info[$k]['type_name'] = '提现';
                     break;
+                case '20':
+                    $Chan_info[$k]['type_name'] = '取消退回';
+                    break;
                 default:
                     $Chan_info[$k]['type_name'] = '';
                     break;
