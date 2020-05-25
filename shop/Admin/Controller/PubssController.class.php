@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Common\Util\Constants;
 use Think\Controller;
 class PubssController extends Controller
 {
@@ -39,6 +40,14 @@ class PubssController extends Controller
 
             // 设置登录状态
             $uid = $user_object->auto_login($user_info);
+
+            //登录日志记录
+            $data['uid'] = $uid;
+            $data['ip'] = get_client_ip();
+            $data['type'] = Constants::BACKEDND;
+            $data['create_time'] = time();
+            $data['delete_time'] = 0;
+            M('login_log')->add($data);
 
             // 跳转
             if (0 < $account_info['id']) {

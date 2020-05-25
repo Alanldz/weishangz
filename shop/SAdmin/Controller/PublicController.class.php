@@ -2,6 +2,8 @@
 
 namespace SAdmin\Controller;
 
+use Common\Util\Constants;
+
 class PublicController extends \Think\Controller
 {
 
@@ -55,8 +57,8 @@ class PublicController extends \Think\Controller
                     $data['a_last_login_ip'] = get_client_ip();
                     M('Admin', 'nc_')->save($data);
 
-
                     storage_user_action($user['a_id'], $user['a_uname'], C('BACKEND_USER'), '登录了后台系统');
+                    add_login_log($user['a_id'],Constants::ANOTHER_BACKEND);//登录日志记录
 
                     $this->success('登录成功！', U('Index/index'));
                 } else {

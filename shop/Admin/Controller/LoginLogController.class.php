@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 namespace Admin\Controller;
 
+use Common\Util\Constants;
 use Think\Page;
 
 /**
@@ -23,28 +24,25 @@ class LoginLogController extends AdminController
     {
         // 搜索
         $keyword    = I('keyword', '', 'string');
-        $condition  = array('like', '%' . $keyword . '%');
-        $map['a.id|a.username|a.nickname'] = array(
-            $condition,
-            $condition,
-            $condition,
-            '_multi' => true,
-        );
+        $map['a.username'] = array('like', '%' . $keyword . '%');
 
-        // 获取所有用户
-        $map['a.status'] = array('egt', '0'); // 禁用和正常状态
-        $user_object   = M('admin a')->join(C('DB_PREFIX').'group b ON a.auth_id=b.id','LEFT');
+        $user_object   = M('login_log l')
+            ->join(C('DB_PREFIX').'admin a ON l.uid = a.id','LEFT')
+            ->join('nc_admin b ON l.uid = b.a_id','LEFT');
+
         //分页
         $p=getpage($user_object,$map,10);
         $page=$p->show();  
 
         $data_list = $user_object
-            ->field('a.*,b.title')
+            ->field('l.*,a.username,b.a_uname')
             ->where($map)
-            ->order('a.id asc')
+            ->order('l.id desc')
             ->select();
 
         $this->assign('list',$data_list);
+        $this->assign('typeItems',Constants::getLoginTypeItems());
+        $this->assign('loginBackend',Constants::BACKEDND);
         $this->assign('table_data_page',$page);
         $this->display();
     }

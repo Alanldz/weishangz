@@ -47,7 +47,6 @@
                                             <table class="table table-bordered table-striped table-hover">
                                               <thead>
                                                 <tr>
-                                                    <th>UID</th>
                                                     <th>用户名</th>
                                                     <th>类型</th>
                                                     <th>登录ip</th>
@@ -57,9 +56,13 @@
                                                 <tbody>
                                                     <volist name="list" id="data">
                                                         <tr>
-                                                            <td>{$data['id']}</td>
-                                                            <td>{$data['username']}</td>
-                                                            <td>{$data['title']}</td>
+                                                            <if condition="$data['type'] eq $loginBackend">
+                                                                <td>{$data['username']}</td>
+                                                                <else />
+                                                                <td>{$data['a_uname']}</td>
+                                                            </if>
+                                                            <td>{$typeItems[$data['type']]}</td>
+                                                            <td>{$data['ip']}</td>
                                                             <td>{$data['create_time']|date='Y-m-d H:i:s',###}</td>
                                                         </tr>
                                                     </volist>

@@ -59,6 +59,17 @@ function storage_user_action($uid, $name, $type, $info)
     M('user_action')->add($data);
 }
 
+//登录日志记录
+function add_login_log($uid = 1, $type)
+{
+    $data['uid'] = $uid;
+    $data['ip'] = get_client_ip();
+    $data['type'] = $type;
+    $data['create_time'] = time();
+    $data['delete_time'] = 0;
+    M('login_log')->add($data);
+}
+
 // function rePicSize($ifile,$ofile,$width,$height){
 //     include_once 'ImageResize.class.php';
 //     $newimage = new ImageResize();

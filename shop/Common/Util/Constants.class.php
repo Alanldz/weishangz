@@ -263,4 +263,18 @@ class Constants
         return $items;
     }
 
+    /**
+     * 用户登录类型
+     */
+    const BACKEDND = 1; //总后台
+    const ANOTHER_BACKEND = 2; //仓库后台
+
+    public static function getLoginTypeItems($key = null)
+    {
+        $items = [
+            self::BACKEDND => '总后台',
+            self::ANOTHER_BACKEND => '仓库',
+        ];
+        return self::getItems($items, $key);
+    }
 }
