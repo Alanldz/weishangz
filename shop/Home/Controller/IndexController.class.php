@@ -23,6 +23,18 @@ class IndexController extends CommonController
             $show_status = '（E城E家）';
         }
         $bannerList = $this->get_banner();
+
+        $verify_is_show = 1;
+        if ($verifyInfo) {
+            if ($verifyInfo['status'] == Constants::VERIFY_STATUS_PASS) {
+                $verify_is_show = 0;
+            }
+        }
+
+        if($userInfo['level'] < Constants::USER_LEVEL_A_THREE){
+            $verify_is_show = 0;
+        }
+
         $this->assign([
             'userInfo' => $userInfo,
             'storeInfo' => $storeInfo,
@@ -30,6 +42,7 @@ class IndexController extends CommonController
             'bannerList' => $bannerList
         ]);
         $this->assign('show_status',$show_status);
+        $this->assign('verify_is_show',$verify_is_show);//是否展示申请e城e家
         $this->display();
     }
 

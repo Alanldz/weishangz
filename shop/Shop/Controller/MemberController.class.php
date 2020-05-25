@@ -77,11 +77,9 @@ class MemberController extends CommonController
             $verifyUrl = U('Member/verify');
         }
 
-        $verify_is_show = 1;
         if ($verifyInfo) {
             if ($verifyInfo['status'] == Constants::VERIFY_STATUS_PASS) {
                 $verifyResult = '（已通过审核）';
-                $verify_is_show = 0;
             } elseif ($verifyInfo['status'] == Constants::VERIFY_STATUS_NOT_PASS) {
                 $verifyResult = '（审核失败,请重新修改提交）';
             } else {
@@ -89,16 +87,11 @@ class MemberController extends CommonController
             }
         }
 
-        if($userInfo['level'] < Constants::USER_LEVEL_A_THREE){
-            $verify_is_show = 0;
-        }
-
         $verifyInfo['url'] = $verifyUrl;
         $verifyInfo['result'] = $verifyResult;
 
         $this->assign('userInfo', $userInfo);
         $this->assign("verifyInfo", $verifyInfo);
-        $this->assign("verify_is_show", $verify_is_show);
         $this->assign('methods', 'shopMine');
         $this->assign('wait_send_num', OrderModel::getOrderNumByWhere(['status' => 1]));
         $this->assign('wait_take_num', OrderModel::getOrderNumByWhere(['status' => 2]));
