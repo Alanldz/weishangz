@@ -35,6 +35,25 @@
 					<td><input id="pwd" name="a_passwd" type="text" style="width:400px;" value="<?php echo think_ucenter_decrypt($data['a_passwd'],C('PWD_KEY')); ?>" /></td>
 				</tr>
 				<tr>
+					<td>角色</td>
+					<td>
+						<if condition="$data.a_id eq 1">
+							超级管理员
+							<else/>
+							<select name="role_id" class="form-control lyui-select select" style="width:400px;">
+								<option value=''>请选择</option>
+								<volist name="role_list" id="role">
+									<eq name="$role.id" value="$data.role_id">
+										<option value='{$role.id}' selected>{$role.name}</option>
+										<else/>
+										<option value='{$role.id}'>{$role.name}</option>
+									</eq>
+								</volist>
+							</select>
+						</if>
+					</td>
+				</tr>
+				<tr>
 				    <td>真实姓名</td>
 				    <td><input name="a_true_name" type="text" style="width:400px;" value="{$data.a_true_name|default=''}" /></td>
 				    
@@ -75,6 +94,7 @@
 				
 				<div style="margin-left:20px;">
 					<input name="send" type="submit" value="提交" class="btn btn-primary" />
+					<button class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</button>
 				</div>
 			</div>
 		</div>

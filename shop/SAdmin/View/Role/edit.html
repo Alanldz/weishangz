@@ -1,0 +1,151 @@
+<extend name="Public:base" />
+<link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+<link rel="stylesheet" type="text/css" href="__ADMIN_CSS__/style.css">
+
+<block name="content">
+	<!-- 面包屑导航 -->
+	<div class="page-header">
+		<h1>
+			角色管理
+			<small>
+				<i class="icon-double-angle-right"></i>
+				{$crumbs}
+			</small>
+		</h1>
+	</div>
+
+	<!-- 主体内容区域 -->
+	<div class="builder formbuilder-box">
+		<div>
+			<ul class="nav-tabs nav">
+				<li class="active" ><a href="#tab1" data-toggle="tab" aria-expanded="true">角色信息</a></li>
+				<li >
+					<a href="#tab2" data-toggle="tab" aria-expanded="false">系统权限</a>
+				</li>
+			</ul>
+			<notempty name="info" >
+				<form action="{:U('edit')}" method="post" class="form-horizontal form form-builder">
+					<else />
+				<form action="{:U('add')}" method="post" class="form-horizontal form form-builder">
+			</notempty>
+			<div class="tab-content">
+				<!-- 卡片1 -->
+				<div id="tab1" class="tab-pane active" >
+					<div class="col-xs-12">
+
+						<div class="form-type-list">
+							<div class="form-group hidden item_id ">
+								<label class="left control-label">ID：</label>
+								<div class="right">
+									<input type="hidden" class="form-control input" name="id" value="{$info.id}">
+								</div>
+							</div>
+
+
+							<div class="form-group item_title ">
+								<label class="left control-label">角色名：</label>
+								<div class="right">
+									<input type="text" class="form-control input" name="name" value="{$info.name}" placeholder="角色名" >
+								</div>
+							</div>
+							<div class="form-group item_title ">
+								<label class="left control-label">排序：</label>
+								<div class="right">
+									<input type="text" class="form-control input" name="sort" value="{$info.sort}" placeholder="排序" >
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+				<!-- 卡片2 -->
+				<div id="tab2" class="tab-pane">
+					<div class="form-group"></div>
+					<div class="form-group">
+						<div class="auth">
+							<volist name="all_module_menu_list" id="vo1">
+								<?php $module_name = $key; ?>
+								<div class="{$module_name}">
+									<div class="cui-control cui-checkbox">
+										<label class="checkbox-label checkbox-inline">
+											<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo1['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo1.id}">
+											<span class="cui-control-indicator"></span>
+											<span> {$vo1.title}</span>
+										</label>
+										<div class="auth{$vo1.id}" style="padding-left: 25px;margin-top: 10px;">
+											<volist name="vo1._child" id="vo2">
+												<label class="checkbox-label checkbox-inline">
+													<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo2['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo2.id}">
+													<span class="cui-control-indicator"></span>
+													<span> {$vo2.title}</span>
+												</label>
+												<div class="auth{$vo2.id}" style="padding-left: 25px;margin-top: 10px;">
+													<foreach name="vo2._child" item="vo3">
+														<label class="checkbox-label checkbox-inline">
+															<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo3['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo3.id}">
+															<span class="cui-control-indicator"></span>
+															<span> {$vo3.title}</span>
+														</label>
+														<notempty name="vo3._child">
+															<div class="auth{$vo3.id}" style="padding-left: 25px;margin-top: 10px;margin-bottom: 10px;">
+																<volist name="vo3._child" id="vo4">
+																	<notempty name="vo4._child">
+																		<label class="checkbox-inline" style="display: block;margin-top: 10px;margin-left: 0px;">
+																			<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo4['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo4.id}">
+																			<span class="cui-control-indicator"></span>
+																			<span> {$vo4.title}</span>
+																		</label>
+																		<else />
+																		<label class="checkbox-inline">
+																			<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo4['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo4.id}">
+																			<span class="cui-control-indicator"></span>
+																			<span> {$vo4.title}</span>
+																		</label>
+																	</notempty>
+																	<notempty name="vo4._child">
+																		<div class="auth{$vo4.id}" style="padding-left: 25px;margin-top: 10px;margin-bottom: 10px;">
+																			<foreach name="vo4._child" item="vo5">
+																				<label class="checkbox-inline">
+																					<input type="checkbox" name="menu_auth[]" data-module-name="{$module_name}" <php>if(in_array($vo5['id'], $info['menu_auth'])) echo "checked";</php> value="{$vo5.id}">
+																					<span class="cui-control-indicator"></span>
+																					<span> {$vo5.title}</span>
+																				</label>
+																			</foreach>
+																		</div>
+																	</notempty>
+																</volist>
+															</div>
+														</notempty>
+													</foreach>
+												</div>
+											</volist>
+										</div>
+									</div>
+								</div>
+								<hr>
+							</volist>
+						</div>
+					</div>
+				</div>
+				<div class="form-group bottom_button_list">
+					<button class="btn btn-primary submit ajax-post" type="submit" target-form="form-builder">确定</button>
+					<button class="btn btn-danger return" onclick="javascript:history.back(-1);return false;">取消</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+	<script src="/Common/js/jquery/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.auth input[type="checkbox"]').on('change',function(){
+				//遍历选中当前权限的子权限
+				$('.'+$(this).attr('data-module-name')+' .auth'+$(this).val()).find('input').prop('checked',this.checked);
+			});
+		});
+	</script>
+</block>
+
+
+

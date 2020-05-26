@@ -36,6 +36,10 @@ class AdminUserController extends CommonController
         $this->crumbs = '新增';
         $this->action = U('AdminUser/add');
 
+        //获取角色,除了超级管理员
+        $map['id'] = array('neq',1);
+        $role = M('role','nc_')->where($map)->select();
+        $this->assign('role_list', $role);// 赋值数据集
         $this->display();
     }
 
@@ -50,7 +54,10 @@ class AdminUserController extends CommonController
         $this->crumbs = '编辑';
         $this->action = U('AdminUser/info');
         $this->data = M('Admin', 'nc_')->find(I('id'));
-
+        //获取角色,除了超级管理员
+        $map['id'] = array('neq',1);
+        $role = M('role','nc_')->where($map)->select();
+        $this->assign('role_list', $role);// 赋值数据集
         $this->display();
     }
 

@@ -10,7 +10,9 @@ class AdminUserModel
     public function show_admin_user_page()
     {
 
-        $sql = "select * from nc_admin ";
+        $sql = "select a.*,b.name from nc_admin a 
+                left join nc_role b on a.role_id = b.id
+                ";
 
         $count = count(M()->query($sql));
 
@@ -37,6 +39,8 @@ class AdminUserModel
             $error = "用户名已经存在！！";
         } elseif (empty($data['a_passwd'])) {
             $error = "密码不能为空！！";
+        }elseif (empty($data['role_id'])) {
+            $error = "请选择角色！！";
         }
 
         if ($error) {

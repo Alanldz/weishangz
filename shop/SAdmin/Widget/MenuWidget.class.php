@@ -12,15 +12,26 @@ class MenuWidget extends Controller
 
     function menu_show()
     {
-        $shopmall = ("107,109,121,128,106,108");
+        //查找该后台用户所有的权限
+        $uid = session('user_auth.uid');
+        $menu = M('Menu', 'nc_');
 
-        //隐藏所有分类SSSS
-        $menu = M('Menu', 'nc_')->order('sort_order')->select();
-        //所有分类EEEE
+        //超级管理员拥有所有权限
+        if($uid == 1) {
+            $menu = $menu->order('sort_order')->select();
+        }else{
+            $admin = M('admin','nc_')->find($uid);
+            $role = M('role','nc_')->find($admin['role_id']);
 
-        //只显示商城分类SSSS
-//		$menu=M('Menu')->where(array('id'=>array('IN',$shopmall)))->order('sort_order')->select();
-        //只显示商城分类EEEE
+            if($role){
+                $info = explode(',', trim($role['menu_auth'],','));
+                $where['id'] = array('in',$info);
+
+                $menu = $menu->where($where)->order('sort_order')->select();
+            }else{
+                $menu = [];
+            }
+        }
 
         $tree = list_to_tree($menu, 'id', 'pid', 'children', 0);
         $this->admin_menu = $tree;
