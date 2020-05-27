@@ -42,13 +42,15 @@
 							<else/>
 							<select name="role_id" class="form-control lyui-select select" style="width:400px;">
 								<option value=''>请选择</option>
-								<volist name="role_list" id="role">
-									<eq name="$role.id" value="$data.role_id">
-										<option value='{$role.id}' selected>{$role.name}</option>
-										<else/>
-										<option value='{$role.id}'>{$role.name}</option>
-									</eq>
-								</volist>
+								<php>
+									foreach($role_list as $r) {
+										if($data['role_id'] == $r['id']){
+											echo "<option value=".$r['id']." selected>".$r['name']."</option>";
+										}else{
+											echo "<option value=".$r['id'].">".$r['name']."</option>";
+										}
+									}
+								</php>
 							</select>
 						</if>
 					</td>

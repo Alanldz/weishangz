@@ -104,31 +104,11 @@ class RoleController extends CommonController
         return $menu_list_item;
     }
 
-
-    /**
-     * 设置一条或者多条数据的状态
-     * @author jry <598821125@qq.com>
-     */
-    public function setStatus($model = CONTROLLER_NAME, $script = false)
-    {
-        $ids = I('request.ids');
-        if (is_array($ids)) {
-            if (in_array('1', $ids)) {
-                $this->error('超级管理员组不允许操作');
-            }
-        } else {
-            if ($ids === '1') {
-                $this->error('超级管理员组不允许操作');
-            }
-        }
-        parent::setStatus($model);
-    }
-
     function del()
     {
         if (IS_POST) {
             $id = I('id');
-            if (M('Menu', 'nc_')->where('id=' . $id)->delete()) {
+            if (M('Role', 'nc_')->where(array('id'=>$id))->delete()) {
                 $this->ajaxReturn('删除成功');
                 die();
             }
