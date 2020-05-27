@@ -87,6 +87,7 @@ class RoleController extends CommonController
             $this->assign('all_module_menu_list', $all_module_menu_list);
             $info['menu_auth']=explode(',', trim($info['menu_auth'],','));
             $this->assign('info', $info);
+            $this->assign('crumbs','修改');
 
             $this->display('edit');
         }
