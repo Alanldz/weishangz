@@ -650,8 +650,8 @@ class UserController extends CommonController
 
             $image = new \Think\Image();
             $image->open('Public/NewHome/img/authorization.png');
-            $image->text($userInfo['username'],'simsun.ttc',14,'#000000',$namePosition);
-            $image->text($userInfo['level'],'simsun.ttc',21,'#FF0000',$levelPosition);
+            $image->text($userInfo['username'],'simsun.ttf',14,'#000000',$namePosition);
+            $image->text($userInfo['level'],'simsun.ttf',21,'#FF0000',$levelPosition);
             $image->text($date,'simsun.ttf',14,'#000000',$datePosition);
             $image->save($url);
 
