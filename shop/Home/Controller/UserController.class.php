@@ -2,6 +2,7 @@
 
 namespace Home\Controller;
 
+use Common\Util\Constants;
 use Home\Model\UserModel;
 use Lib\Image;
 
@@ -625,13 +626,37 @@ class UserController extends CommonController
      */
     public function myAuthorization()
     {
-//        $img = '/Public/NewHome/img/authorization.png';
-//        $image = new Image($img);
+        $user_id = session('userid');
+        $map['userid'] = $user_id;
 
+        $drPath = 'Uploads/authorization';
+        $imgUrl = 'authorization_' . $user_id . '.png';
+        $url = $drPath . '/' . $imgUrl;
 
+        if (!file_exists($url))
+        {
+            $userInfo = M('user')->where($map)
+                ->field('username,level,activation_time')
+                ->find();
 
+            $userInfo['level'] = Constants::getUserLevelItems($userInfo['level']);//用户等级
+            $beginDate = date('Y-m-d',$userInfo['activation_time']);
+            $endDate = date('Y-m-d',strtotime($beginDate."+ 3 year"));
+            $date = $beginDate.' 至 '.$endDate;//授权时间
+            //字体坐标
+            $namePosition = array(100,298);
+            $levelPosition = array(288,421);
+            $datePosition = array(138,510);
 
+            $image = new \Think\Image();
+            $image->open('Public/NewHome/img/authorization.png');
+            $image->text($userInfo['username'],'simsun.ttc',14,'#000000',$namePosition);
+            $image->text($userInfo['level'],'simsun.ttc',21,'#FF0000',$levelPosition);
+            $image->text($date,'simsun.ttc',14,'#000000',$datePosition);
+            $image->save($url);
+        }
 
+        $this->assign('img',$url);
         $this->display();
     }
 
